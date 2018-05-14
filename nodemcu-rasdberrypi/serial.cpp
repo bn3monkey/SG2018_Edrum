@@ -6,7 +6,7 @@ std::queue<char> ch_queue;
 //queue의 원자성을 보존하기 위한 mutex
 std::mutex queue_lock;
 
-int Serial_io::thread_getSerial(int fd)
+void Serial_io::thread_getSerial(int fd)
 {
     char ch;
     while(true)
