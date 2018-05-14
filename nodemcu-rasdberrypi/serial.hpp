@@ -39,7 +39,7 @@ public:
     }
     inline void finish()
     {
-        buffer[strlen(buffer)-1] = '\0';
+        buffer[top-1] = '\0';
     }
 
     inline int gettop() {return this->top;}
