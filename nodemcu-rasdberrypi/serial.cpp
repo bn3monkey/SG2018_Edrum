@@ -10,7 +10,7 @@ int Serial_io::getSerial()
         if(serialDataAvail(serial_fd))
         {
             ch = serialGetchar(serial_fd);
-            putchar(ch);
+            //putchar(ch);
             buff->push(ch);
         }
     }
@@ -21,5 +21,7 @@ int Serial_io::getSerial()
 int Serial_io::setSerial(char* tempbuf)
 {
     memcpy(tempbuf, buff->data(), buff->gettop());
+    //출력했으니 버퍼를 비워줌.
+    buff->refresh();
     return 1;
 }
