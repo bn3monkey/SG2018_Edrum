@@ -9,6 +9,7 @@ std::mutex queue_lock;
 void Serial_io::thread_getSerial(int fd)
 {
     char ch;
+    //serialGetchar blocking 함수.. character 받을 떄까지 대기한다. 
     while(true)
     {
         if(serialDataAvail(fd))
@@ -17,35 +18,42 @@ void Serial_io::thread_getSerial(int fd)
             queue_lock.lock();
             ch_queue.push(ch);
             queue_lock.unlock();
-        }
+       } 
     }
 }
 
 int Serial_io::getSerial()
 {
-    char ch;
+    bool exists;
+    char ch = 0;
     buff->refresh();
-    //serialGetchar blocking 함수.. character 받을 떄까지 대기한다. 
-    do
+    while(ch != 10)
     {
+	exists = false;
         queue_lock.lock();
-        ch = ch_queue.front();
-        ch_queue.pop();
+        if(!ch_queue.empty())
+	{
+		exists = true;
+		ch = ch_queue.front();
+        	ch_queue.pop();
+	}
         queue_lock.unlock();
         
-        buff->push(ch);
-            
-        //printf("%c(%d)",ch,ch);
-        
+	if(exists)
+	{
+        	buff->push(ch);
+         	//printf("%c(%d)\n",ch,ch);
+	}
     }
-    while(ch != '.');
     buff->finish();
+    //printf("blocking test : %s\n", buff->data());
     return 1;
 }
 
 int Serial_io::setSerial(char* tempbuf)
 {
-    memcpy(tempbuf, buff->data(), buff->gettop());
-    //출력했으니 버퍼를 비워줌.
+
+    //printf("blocking test : %s %d\n", buff->data(), buff->gettop());
+    memcpy(tempbuf, buff->data(), buff->gettop() + 1);
     return 1;
 }
