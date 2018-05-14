@@ -15,12 +15,12 @@ int Serial_io::getSerial()
         }
     }
     while(ch != '.');
+    buff->finish();
     return 1;
 }
 
 int Serial_io::setSerial(char* tempbuf)
 {
-    printf("%s %d\n", buff->data(), buff->gettop());
     memcpy(tempbuf, buff->data(), buff->gettop());
     //출력했으니 버퍼를 비워줌.
     buff->refresh();
