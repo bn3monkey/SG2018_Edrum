@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -static -W -Wall
+CFLAGS = -static -lwiringPi -W -Wall
 TARGET = edrum_raspberry
 CFILE = main.cpp serial.cpp
 
