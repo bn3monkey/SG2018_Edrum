@@ -1,6 +1,9 @@
-//#define __SERIAL__
+#define __SERIAL__
 #ifndef __SERIAL__
 
+
+#include <wiringPi.h>
+#include <wiringSerial.h>
 #include <cstdio>
 
 class Serial_buffer

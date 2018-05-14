@@ -1,8 +1,5 @@
+#include "serial.hpp"
 #include <cstdio>
-
-#include <wiringPi.h>
-#include <wiringSerial.h>
-
 
 typedef struct _note
 {
