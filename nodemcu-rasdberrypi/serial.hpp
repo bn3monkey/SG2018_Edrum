@@ -10,6 +10,8 @@
 #include <wiringPi.h>
 #include <wiringSerial.h>
 
+#include <thread>
+
 class Serial_buffer
 {
 private:
@@ -64,6 +66,10 @@ class Serial_io
     Serial_buffer* buff;
     int serial_fd;
 
+    std::thread pthread;
+    //Serial에서 지속적으로 문자열을 받는 Serial을 만든다.
+    static void thread_getSerial(int fd);
+
     public:
     Serial_io()
     {
@@ -79,12 +85,17 @@ class Serial_io
             fprintf (stdout, "Unable to start wiringPi : %s\n", strerror(errno)) ;
             exit(-1);
         }
+
+        pthread = std::thread(thread_getSerial, serial_fd);
     }
     ~Serial_io()
     {
+        pthread.join();
+
         if(buff != NULL)
             delete buff;
     }
+
 
     //Serial에서 Protocol을 완성하는 문자열을 받을 떄까지 낱개 문자를 받는다.
     int getSerial();
