@@ -15,24 +15,6 @@ typedef struct _note
 } note;
 
 
-//Serial에서 Protocol을 완성하는 문자열을 받을 떄까지 낱개 문자를 받는다.
-int getSerial(int fd)
-{
-    char ch;
-    buff.refresh();
-    //serialGetchar blocking 함수.. character 받을 떄까지 대기한다. 
-    do
-    {
-        ch = serialGetchar(fd)
-        switch(ch)
-        {
-            case -1 : break;
-            case default: buff(push); 
-        }
-    }
-    while(ch == '\0');
-}
-
 int main()
 {
 
