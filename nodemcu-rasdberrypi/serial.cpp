@@ -14,7 +14,7 @@ int Serial_io::getSerial()
             buff->push(ch);
         }
     }
-    while(ch == '\0');
+    while(ch != '\0');
     return 1;
 }
 
