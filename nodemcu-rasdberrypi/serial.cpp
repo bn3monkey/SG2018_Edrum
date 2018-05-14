@@ -17,8 +17,8 @@ int Serial_io::getSerial()
     return 1;
 }
 
-int Serial_io::setSerial(char** tempbuf)
+int Serial_io::setSerial(char* tempbuf)
 {
-    memcpy(*tempbuf, buff->data(), buff->gettop());
+    memcpy(tempbuf, buff->data(), buff->gettop());
     return 1;
 }
