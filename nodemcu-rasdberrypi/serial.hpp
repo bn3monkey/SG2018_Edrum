@@ -66,7 +66,7 @@ class Serial_io
         }
         if (wiringPiSetup() == -1)
         { 
-            fprintf (stdout, "Unable to start wiringPi : $s\n", strerror(errno)) ;
+            fprintf (stdout, "Unable to start wiringPi : %s\n", strerror(errno)) ;
             exit(-1);
         }
     }
