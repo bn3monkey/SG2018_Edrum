@@ -1,10 +1,10 @@
 CC = g++
-CFLAGS = -static -lwiringPi -W -Wall
+CFLAGS = -static -W -Wall
 TARGET = edrum_raspberry
 CFILE = main.cpp serial.cpp
 
 all : 
-	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) 
+	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) -lwiringPi
 
 clean:
 	sudo rm -f $(OBJS) $(TARGET)
