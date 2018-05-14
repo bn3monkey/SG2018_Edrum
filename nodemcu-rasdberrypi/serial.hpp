@@ -55,7 +55,7 @@ class Serial_io
     {
         buff = new Serial_buffer(100);
         //Serial port 연다.
-        if ((serial_fd = serialOpen ("/dev/ttyAMA0", 115200)) < 0)  // 두번째 인자값이 보레이트 설정
+        if ((serial_fd = serialOpen ("/dev/ttyACM0", 115200)) < 0)  // 두번째 인자값이 보레이트 설정
         {
             fprintf (stderr, "Unable to open serial device\n") ;                   
             exit(-1);
