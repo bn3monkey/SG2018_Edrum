@@ -16,7 +16,7 @@ int main()
 {
 
     Serial_io* io = new Serial_io();
-    char temp[100];
+    char temp[1000];
     while(true)
     {
         io->getSerial();
