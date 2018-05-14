@@ -4,12 +4,19 @@
 #define DRUM_THRESHOLD 20
 #define BUTTON_THRESHOLD 100
 
+//the qunatitiy of drum sensor signals.
 int drum1;
 int drum2;
 int button;
-bool pressed;
+
+//For serial message
 char buff[1000];
+
+//For switch press
+bool pressed;
 bool onoff;
+
+//For time checking
 unsigned long elapsed;
 
 void setup()
