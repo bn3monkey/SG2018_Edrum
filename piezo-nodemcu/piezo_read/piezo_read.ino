@@ -46,11 +46,11 @@ void loop()
       onoff = !onoff;
       if(onoff)
       {
-        sprintf(buff, "start 0 0");
+        sprintf(buff, "start 0 0.");
         elapsed = 0;
       }
       else
-        sprintf(buff, "end 0 0");
+        sprintf(buff, "end 0 0.");
       Serial.println(buff);
     }
   }
@@ -67,14 +67,14 @@ void loop()
   {
     if (drum1 >= DRUM_THRESHOLD)
     {
-      sprintf(buff, "DRUM1 %d %lu", drum1, elapsed);
+      sprintf(buff, "DRUM1 %d %lu.", drum1, elapsed);
       Serial.println(buff);
     }
 
 
     if (drum2 >= DRUM_THRESHOLD)
     {
-      sprintf(buff, "DRUM2 %d %lu", drum2, elapsed);
+      sprintf(buff, "DRUM2 %d %lu.", drum2, elapsed);
       Serial.println(buff);
     }
   }
