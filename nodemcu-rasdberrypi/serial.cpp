@@ -9,7 +9,7 @@ int Serial_io::getSerial()
     //serialGetchar blocking 함수.. character 받을 떄까지 대기한다. 
     do
     {
-        ch = serialGetchar(this->fd);
+        ch = serialGetchar(serial_fd);
         if(ch != -1)
             default: buff->push(ch);
     }
@@ -17,8 +17,8 @@ int Serial_io::getSerial()
     return 1;
 }
 
-int Serial_io::setSerial(char* tempbuf)
+int Serial_io::setSerial(char** tempbuf)
 {
-    memcpy(tempbuf, buff->data, buff->gettop());
+    memcpy(*tempbuf, buff->data, buff->gettop());
     return 1;
 }

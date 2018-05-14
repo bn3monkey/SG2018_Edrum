@@ -29,7 +29,7 @@ public:
         buffer[top++] = value;
     }
     inline int gettop() {return this->top;}
-    inline char*& data() {return this->buffer;}
+    inline char* data() {return this->buffer;}
 
     char& operator[](int index)
     {
@@ -75,6 +75,6 @@ class Serial_io
     //Serial에서 Protocol을 완성하는 문자열을 받을 떄까지 낱개 문자를 받는다.
     int getSerial();
     //Serial에서 받은 문자열을 parameter로 넘어온 버퍼에 저장한다.
-    int setSerial(char* tempbuf);
+    int setSerial(char** tempbuf);
 };
 #endif
