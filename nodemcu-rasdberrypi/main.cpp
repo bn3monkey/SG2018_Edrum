@@ -15,20 +15,7 @@ typedef struct _note
 int main()
 {
 
-    int serial_fd;
-    //Serial port 연다.
-    if ((serial_fd = serialOpen ("/dev/ttyAMA0", 115200)) < 0)  // 두번째 인자값이 보레이트 설정
-    {
-        fprintf (stderr, "Unable to open serial device\n") ;                   
-        return 1 ;
-    }
-    if (wiringPiSetup() == -1)
-    {
-        fprintf (stdout, "Unable to start wiringPi\n") ;
-        return 1 ;
-    }
-
-    Serial_io io;
+    Serial_io* io = new Serial_io();
     char temp[100];
     while(true)
     {
@@ -37,6 +24,6 @@ int main()
 
         printf("%s",temp);
     }
-
+    delete io;
     return 0;
 }

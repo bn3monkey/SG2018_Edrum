@@ -2,6 +2,9 @@
 #define __SERIAL__
 
 #include <cstdio>
+#include <cstdlib>
+#include <wiringPi.h>
+#include <wiringSerial.h>
 
 class Serial_buffer
 {
@@ -26,7 +29,7 @@ public:
         buffer[top++] = value;
     }
     inline int gettop() {return this->top;}
-    inline char*& data() {return this->data;}
+    inline char*& data() {return this->buffer;}
 
     char& operator[](int index)
     {
@@ -50,7 +53,7 @@ class Serial_io
     public:
     Serial_io()
     {
-        buff = new serial_buffer(100);
+        buff = new Serial_buffer(100);
         //Serial port 연다.
         if ((serial_fd = serialOpen ("/dev/ttyAMA0", 115200)) < 0)  // 두번째 인자값이 보레이트 설정
         {
