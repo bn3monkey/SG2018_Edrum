@@ -20,7 +20,7 @@ int main()
     while(true)
     {
         io->getSerial();
-        io->setSerial(&temp);
+        io->setSerial(temp);
 
         printf("%s",temp);
     }
