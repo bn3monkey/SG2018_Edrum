@@ -3,6 +3,10 @@
 
 #include <cstdio>
 #include <cstdlib>
+
+#include <string.h> //for errno
+#include <errno.h> //error output
+
 #include <wiringPi.h>
 #include <wiringSerial.h>
 
@@ -57,12 +61,12 @@ class Serial_io
         //Serial port 연다.
         if ((serial_fd = serialOpen ("/dev/ttyACM0", 115200)) < 0)  // 두번째 인자값이 보레이트 설정
         {
-            fprintf (stderr, "Unable to open serial device\n") ;                   
+            fprintf (stderr, "Unable to open serial device : %s\n",strerror(errno)) ;                   
             exit(-1);
         }
         if (wiringPiSetup() == -1)
-        {
-            fprintf (stdout, "Unable to start wiringPi\n") ;
+        { 
+            fprintf (stdout, "Unable to start wiringPi : $s\n", strerror(errno)) ;
             exit(-1);
         }
     }

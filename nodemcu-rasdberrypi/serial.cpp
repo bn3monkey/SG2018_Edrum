@@ -1,6 +1,4 @@
 #include "serial.hpp"
-#include <cstring>
-
 
 int Serial_io::getSerial()
 {
@@ -12,6 +10,7 @@ int Serial_io::getSerial()
         if(serialDataAvail(serial_fd))
         {
             ch = serialGetchar(serial_fd);
+            putchar(ch);
             buff->push(ch);
         }
     }
