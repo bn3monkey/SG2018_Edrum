@@ -49,10 +49,14 @@ int main()
         return 1 ;
     }
 
-
+    Serial_io io;
+    char temp[100];
     while(true)
     {
-        
+        io->getSerial();
+        io->setSerial(temp);
+
+        printf("%s",temp);
     }
 
 
