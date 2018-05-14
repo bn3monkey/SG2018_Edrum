@@ -23,6 +23,5 @@ int Serial_io::setSerial(char* tempbuf)
 {
     memcpy(tempbuf, buff->data(), buff->gettop());
     //출력했으니 버퍼를 비워줌.
-    buff->refresh();
     return 1;
 }
