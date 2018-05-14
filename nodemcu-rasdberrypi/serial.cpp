@@ -36,7 +36,7 @@ int Serial_io::getSerial()
         buff->push(ch);
             
         //printf("%c(%d)",ch,ch);
-        }
+        
     }
     while(ch != '.');
     buff->finish();
