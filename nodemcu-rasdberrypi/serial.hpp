@@ -23,6 +23,11 @@ public:
         buffer = new char[size];
         this->top = 0;
     }
+    ~Serial_buffer()
+    {
+        if(buffer != NULL)
+            delete buffer;
+    }
     inline void push(char value)
     {
         if(top == size)
