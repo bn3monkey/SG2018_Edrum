@@ -1,48 +1,77 @@
-#define DRUM1 D0
-#define DRUM2 D1
+#define DRUM1 A1
+#define DRUM2 A2
 #define BUTTON A0
-#define THRESHOLD 50
+#define DRUM_THRESHOLD 20
+#define BUTTON_THRESHOLD 100
 
-int val1;
-int val2;
-int val3;
+int drum1;
+int drum2;
+int button;
+bool pressed;
 char buff[1000];
+bool onoff;
+unsigned long elapsed;
 
 void setup()
 {
+  elapsed = 0;
+  pressed = false;
+  onoff = false;
   Serial.begin(115200);
 }
 
 void loop()
 {
-  val1 = 0;
-  val2 = 0;
-  val3 = 0;
-  val1 = analogRead(DRUM1);
-  val2 = analogRead(DRUM2);
-  val3 = analogRead(BUTTON);
+  drum1 = 0;
+  drum2 = 0;
+  button = 0;
+  drum1 = analogRead(DRUM1);
+  drum2 = analogRead(DRUM2);
+  button = analogRead(BUTTON);
 
-  
-  if (val1)
+  //pressed
+  if(button > BUTTON_THRESHOLD)
   {
-    sprintf(buff, "DRUM1 : %d:", val1);
-    Serial.println(buff);
+    //not pressed -> pressed
+    if(pressed == false)
+    {
+      pressed = true;
+      onoff = !onoff;
+      if(onoff)
+      {
+        sprintf(buff, "start 0 0");
+        elapsed = 0;
+      }
+      else
+        sprintf(buff, "end 0 0");
+      Serial.println(buff);
+    }
+  }
+  else
+  {
+    //pressed -> not pressed
+    if(pressed == true)
+    {
+      pressed = false;
+    }
   }
 
-
-  if (val2)
+  if(onoff)
   {
-    sprintf(buff, "DRUM2 : %d:", val2);
-    Serial.println(buff);
-  }  
-
-
-  
-    if(val3 > THRESHOLD)
+    if (drum1 >= DRUM_THRESHOLD)
     {
-      sprintf(buff, "BUTTON : %d:", val3);
+      sprintf(buff, "DRUM1 %d %lu", drum1, elapsed);
       Serial.println(buff);
-    } 
-  
+    }
+
+
+    if (drum2 >= DRUM_THRESHOLD)
+    {
+      sprintf(buff, "DRUM2 %d %lu", drum2, elapsed);
+      Serial.println(buff);
+    }
+  }
+
+  elapsed = elapsed + 1;
   delay(1);
 }
