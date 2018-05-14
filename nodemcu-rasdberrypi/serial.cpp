@@ -10,12 +10,11 @@ int Serial_io::getSerial()
         if(serialDataAvail(serial_fd))
         {
             ch = serialGetchar(serial_fd);
-            //putchar(ch);
             buff->push(ch);
-            printf("%c(%d)",ch,ch);
+            //printf("%c(%d)",ch,ch);
         }
     }
-    while(ch != '\0');
+    while(ch != '.');
     return 1;
 }
 
