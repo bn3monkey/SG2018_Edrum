@@ -21,7 +21,6 @@ int main()
     {
         io->getSerial();
         io->setSerial(temp);
-
         printf("%s",temp);
     }
     delete io;
