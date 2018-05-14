@@ -38,6 +38,5 @@ int main()
         printf("%s",temp);
     }
 
-
     return 0;
 }

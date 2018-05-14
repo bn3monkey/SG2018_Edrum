@@ -1,5 +1,7 @@
 #include "serial.hpp"
 #include <cstring>
+#include <wiringPi.h>
+#include <wiringSerial.h>
 
 int Serial_io::getSerial(int fd)
 {

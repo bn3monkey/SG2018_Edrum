@@ -1,9 +1,6 @@
-#define __SERIAL__
 #ifndef __SERIAL__
+#define __SERIAL__
 
-
-#include <wiringPi.h>
-#include <wiringSerial.h>
 #include <cstdio>
 
 class Serial_buffer
@@ -48,10 +45,23 @@ public:
 class Serial_io
 {
     Serial_buffer* buff;
+    int serial_fd;
+
     public:
     Serial_io()
     {
         buff = new serial_buffer(100);
+        //Serial port 연다.
+        if ((serial_fd = serialOpen ("/dev/ttyAMA0", 115200)) < 0)  // 두번째 인자값이 보레이트 설정
+        {
+            fprintf (stderr, "Unable to open serial device\n") ;                   
+            exit(-1);
+        }
+        if (wiringPiSetup() == -1)
+        {
+            fprintf (stdout, "Unable to start wiringPi\n") ;
+            exit(-1);
+        }
     }
     ~Serial_io()
     {
