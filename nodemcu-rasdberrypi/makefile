@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -W -Wall
+CFLAGS = -std=c++11 -W -Wall
 TARGET = edrum_raspberry
 CFILE = main.cpp serial.cpp
 
