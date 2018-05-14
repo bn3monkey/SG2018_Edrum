@@ -12,6 +12,7 @@ int Serial_io::getSerial()
             ch = serialGetchar(serial_fd);
             //putchar(ch);
             buff->push(ch);
+            printf("%c(%d)",ch,ch);
         }
     }
     while(ch != '\0');
