@@ -11,7 +11,7 @@ int Serial_io::getSerial()
     {
         ch = serialGetchar(serial_fd);
         if(ch != -1)
-            default: buff->push(ch);
+           buff->push(ch);
     }
     while(ch == '\0');
     return 1;
@@ -19,6 +19,6 @@ int Serial_io::getSerial()
 
 int Serial_io::setSerial(char** tempbuf)
 {
-    memcpy(*tempbuf, buff->data, buff->gettop());
+    memcpy(*tempbuf, buff->data(), buff->gettop());
     return 1;
 }
