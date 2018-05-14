@@ -37,6 +37,11 @@ public:
         }
         buffer[top++] = value;
     }
+    inline void finish()
+    {
+        buffer[strlen(buffer)-1] = '\0';
+    }
+
     inline int gettop() {return this->top;}
     inline char* data() {return this->buffer;}
 
