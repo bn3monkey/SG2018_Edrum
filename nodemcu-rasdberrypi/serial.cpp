@@ -11,7 +11,7 @@ int Serial_io::getSerial()
         {
             ch = serialGetchar(serial_fd);
             buff->push(ch);
-            //printf("%c(%d)",ch,ch);
+            printf("%c(%d)",ch,ch);
         }
     }
     while(ch != '.');
