@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
+#include <string.h>
 
 
 typedef struct _note
@@ -12,5 +14,5 @@ typedef struct _note
     int power;
 } note;
 
-bool makefile(note);
+bool makefile(char*);
 bool fexists(const char*);

@@ -1,45 +1,86 @@
 #include "file.h"
 using namespace std;
 
+#define MAX 500
+
 char fname[] = "drum_0.txt";
+char** node1;
+char** node2;
+int node1_cnt = 0;
+int node2_cnt = 0;
 ofstream fp;
 
-
-//test code
-/*
 void main(){
-	note a,b;
-	bool c;
-	a.drum=0;
-	b.drum=2;
-	b.msec=1231;
-	b.power=443;
-	c=makefile(a);
-	c=makefile(b);
-	return;
-}*/
+	
+	makefile("start 0 0");
+	makefile("drum1 24 3");
+	makefile("drum1 27 5");
+	makefile("drum1 30 7");
+	makefile("drum2 33 2");
+	makefile("drum2 36 4");
+	makefile("drum2 39 6");
+	makefile("end 0 0");
 
-//make file
-bool makefile(note note){
-	if(note.drum==0){ //start
+	return;
+}
+
+bool makefile(char* temp){
+	char drum[10];
+	int power;
+	unsigned long long int msec;
+	sscanf(temp,"%s %d %llu",drum,&power,&msec);
+
+	if(strcmp(drum,"start")==0){
+		node1=(char**)malloc(sizeof(char*)*MAX);
+		node2=(char**)malloc(sizeof(char*)*MAX);
+		node1[0]=(char*) malloc(sizeof(char)*MAX*30);
+		for( int i=1; i<MAX; i++){
+			node1[i] = node1[ i-1 ] + 30;
+		}
+		node2[0]=(char*) malloc(sizeof(char)*MAX*30); 
+		for( int i=1; i<MAX; i++){
+			node2[i] = node2[ i-1 ] + 30;
+		}
+
+		return true;
+	}
+
+	if(strcmp(drum,"drum1")==0){
+		int i;
+		i = sprintf(node1[node1_cnt],"%d ",power);
+		sprintf(node1[node1_cnt]+i,"%llu",msec);
+		node1_cnt++;
+
+		return true;
+	}
+
+	if(strcmp(drum,"drum2")==0){
+		int i;
+		i = sprintf(node2[node2_cnt],"%d ",power);
+		sprintf(node2[node2_cnt]+i,"%llu",msec);
+		node2_cnt++;
+
+		return true;
+	}
+
+	if(strcmp(drum,"end")==0){
 		while(fexists(fname)==true) //fname file exists
 			fname[5]=fname[5]++;
 		fp.open(fname);
-		return true;
-	}
-	
-	if(note.drum==1||note.drum==2){ //drum
-		fp<<note.drum; //drum종류 타격시간 타격세기 순으로 입력
-		fp<<" ";
-		fp<<note.msec;
-		fp<<" ";
-		fp<<note.power;
-		fp<<"\n";
-		return true;
-	}
-	
-	if(note.drum==3){ //end
-		fp.close();
+		fp<<"2"<<"\n";
+		fp<<"DRUM1 "<<node1_cnt<<"\n";
+		for(int i=0;i<node1_cnt;i++){
+			fp<<node1[i]<<"\n";
+		}
+		fp<<"DRUM2 "<<node2_cnt<<"\n";
+		for(int i=0;i<node2_cnt;i++){
+			fp<<node2[i]<<"\n";
+		}
+		free(node1[0]);
+		free(node2[0]);
+		free(node1);
+		free(node2);
+
 		return false;
 	}
 }
