@@ -1,7 +1,7 @@
 #include "file.h"
 using namespace std;
 
-#define MAX 500
+#define MAX 10000
 
 char fname[] = "drum_0.txt";
 char** node1;
