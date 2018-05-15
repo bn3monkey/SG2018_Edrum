@@ -32,16 +32,16 @@ public:
     }
     inline void push(char value)
     {
-        if(top == size)
+        if(this->top == size)
         {
             fprintf(stderr, "buffer full!\n");
             return;
         }
-        buffer[top++] = value;
+        buffer[(this->top)++] = value;
     }
     inline void finish()
     {
-        buffer[top-1] = '\0';
+        buffer[--(this->top)] = '\0';
     }
 
     inline int gettop() {return this->top;}
@@ -91,7 +91,8 @@ class Serial_io
     ~Serial_io()
     {
         pthread.join();
-
+	serialFlush(serial_fd);
+	serialClose(serial_fd);
         if(buff != NULL)
             delete buff;
     }

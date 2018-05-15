@@ -21,7 +21,7 @@ int main()
     {
         io->getSerial();
         io->setSerial(temp);
-        printf("%s",temp);
+        printf("%s\n",temp);
     }
     delete io;
     return 0;
