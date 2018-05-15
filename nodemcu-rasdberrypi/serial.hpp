@@ -12,6 +12,8 @@
 
 #include <thread>
 
+extern bool continue_flag;
+
 class Serial_buffer
 {
 private:
@@ -73,6 +75,7 @@ class Serial_io
     public:
     Serial_io()
     {
+	continue_flag = true;
         buff = new Serial_buffer(100);
         //Serial port 연다.
         if ((serial_fd = serialOpen ("/dev/ttyACM0", 115200)) < 0)  // 두번째 인자값이 보레이트 설정

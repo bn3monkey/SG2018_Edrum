@@ -6,11 +6,13 @@ std::queue<char> ch_queue;
 //queue의 원자성을 보존하기 위한 mutex
 std::mutex queue_lock;
 
+bool continue_flag;
+
 void Serial_io::thread_getSerial(int fd)
 {
     char ch;
     //serialGetchar blocking 함수.. character 받을 떄까지 대기한다. 
-    while(true)
+    while(continue_flag)
     {
         if(serialDataAvail(fd))
         {
