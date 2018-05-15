@@ -1,28 +1,22 @@
 #include "serial.hpp"
+#include "file.h"
 #include <cstdio>
-
-typedef struct _note
-{
-    // 시작 시간으로부터 찍힌 노트의 시간 (milli초 단위)
-    long long int msec;
-    // 연주한 악기의 종류
-    int drum;
-    // 악기 친 세기
-    int power;
-} note;
-
 
 int main()
 {
 
     Serial_io* io = new Serial_io();
+    printf("Start Program!\n");
     char temp[1000];
-    while(true)
+    while(continue_flag)
     {
         io->getSerial();
         io->setSerial(temp);
         printf("%s\n",temp);
+	if(!makefile(temp))
+		continue_flag = false;
     }
+    printf("End Program!\n");
     delete io;
     return 0;
 }
