@@ -3,4 +3,6 @@
 /wiringPi
 /nodemcu-rasdberrypi/.vscode/
 /edrum-server/edrum-venv
+/edrum-server/.vscode/
+
 
