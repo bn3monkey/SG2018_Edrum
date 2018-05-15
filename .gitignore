@@ -4,5 +4,6 @@
 /nodemcu-rasdberrypi/.vscode/
 /edrum-server/edrum-venv
 /edrum-server/.vscode/
+/edrum-server/edrum_server/settings.py
 
 
