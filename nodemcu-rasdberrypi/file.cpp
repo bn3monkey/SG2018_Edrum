@@ -66,6 +66,7 @@ bool makefile(char* temp){
 		free(node2[0]);
 		free(node1);
 		free(node2);
+		fp.close();
 
 		return false;
 	}
