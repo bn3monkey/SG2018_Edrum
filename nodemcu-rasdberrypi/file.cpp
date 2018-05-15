@@ -10,20 +10,6 @@ int node1_cnt = 0;
 int node2_cnt = 0;
 ofstream fp;
 
-void main(){
-	
-	makefile("start 0 0");
-	makefile("drum1 24 3");
-	makefile("drum1 27 5");
-	makefile("drum1 30 7");
-	makefile("drum2 33 2");
-	makefile("drum2 36 4");
-	makefile("drum2 39 6");
-	makefile("end 0 0");
-
-	return;
-}
-
 bool makefile(char* temp){
 	char drum[10];
 	int power;
