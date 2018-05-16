@@ -1,0 +1,135 @@
+void thread_method_Euler(int thread_id)
+{
+	int buffer_totalsize = NUM_PARTICLES_X * NUM_PARTICLES_Y;
+	int buffer_size = buffer_totalsize / thread_num;
+	int start = thread_id * buffer_size;
+	int end = thread_id * buffer_size + buffer_size;
+
+	int idx;
+
+	glm::vec4 Fs;
+	glm::vec4 Fg;
+	glm::vec4 Fd;
+	glm::vec4 Fsum;
+	glm::vec4 a;
+
+	glm::vec4 diff;
+	float distance;
+
+	for (int i = start; i < end; i++)
+	{
+		//계산하기 전 Fs는 Clear
+		Fs = glm::vec4(0);
+
+		/*********************** Fs 계산 ****************************/
+		idx = right(i);
+		if (idx  >= 0 && idx < buffer_totalsize)
+		{
+			//Fs에 결과값을 더해준다.
+			// diff = r 구하기
+			diff = pos_prev[idx] - pos_prev[i];
+			// distance = |r| 
+			distance = sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z);
+			// F = K *(|r| - R)*(r/|r|)
+			Fs += (SPRING_K * (distance - REST_LENGTH_HORIZ) / distance) * pos_prev[i];
+		}
+		idx = down(i);
+		if (idx >= 0 && idx < buffer_totalsize)
+		{
+			//Fs에 결과값을 더해준다.
+			// diff = r 구하기
+			diff = pos_prev[idx] - pos_prev[i];
+			// distance = |r| 
+			distance = sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z);
+			// F = K *(|r| - R)*(r/|r|)
+			Fs += (SPRING_K * (distance - REST_LENGTH_VERT) / distance) * pos_prev[i];
+		}
+
+		idx = left(i);
+		if (idx >= 0 && idx < buffer_totalsize)
+		{
+			//Fs에 결과값을 더해준다.
+			// diff = r 구하기
+			diff = pos_prev[idx] - pos_prev[i];
+			// distance = |r| 
+			distance = sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z);
+			// F = K *(|r| - R)*(r/|r|)
+			Fs += (SPRING_K * (distance - REST_LENGTH_HORIZ) / distance) * pos_prev[i];
+		}
+		idx = up(i);
+		if (idx >= 0 && idx <= buffer_totalsize)
+		{
+			//Fs에 결과값을 더해준다.
+			// diff = r 구하기
+			diff = pos_prev[idx] - pos_prev[i];
+			// distance = |r| 
+			distance = sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z);
+			// F = K *(|r| - R)*(r/|r|)
+			Fs += (SPRING_K * (distance - REST_LENGTH_VERT) / distance) * pos_prev[i];
+		}
+
+#ifdef EIGHTH_DIRECTION
+		idx = rightdown(i);
+		if (idx >= 0 && idx < buffer_totalsize)
+		{
+			//Fs에 결과값을 더해준다.
+			// diff = r 구하기
+			diff = pos_prev[idx] - pos_prev[i];
+			// distance = |r| 
+			distance = sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z);
+			// F = K *(|r| - R)*(r/|r|)
+			Fs += (SPRING_K * (distance - REST_LENGTH_DIAG) / distance) * pos_prev[i];
+		}
+		idx = leftdown(i);
+		if (idx >= 0 && idx < buffer_totalsize)
+		{
+			//Fs에 결과값을 더해준다.
+			// diff = r 구하기
+			diff = pos_prev[idx] - pos_prev[i];
+			// distance = |r| 
+			distance = sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z);
+			// F = K *(|r| - R)*(r/|r|)
+			Fs += (SPRING_K * (distance - REST_LENGTH_DIAG) / distance) * pos_prev[i];
+		}
+		idx = leftup(i);
+		if (idx >= 0 && idx < buffer_totalsize)
+		{
+			//Fs에 결과값을 더해준다.
+			// diff = r 구하기
+			diff = pos_prev[idx] - pos_prev[i];
+			// distance = |r| 
+			distance = sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z);
+			// F = K *(|r| - R)*(r/|r|)
+			Fs += (SPRING_K * (distance - REST_LENGTH_DIAG) / distance) * pos_prev[i];
+		}
+		idx = rightup(i);
+		if (idx >= 0 && idx < buffer_totalsize)
+		{
+			//Fs에 결과값을 더해준다.
+			// diff = r 구하기
+			diff = pos_prev[idx] - pos_prev[i];
+			// distance = |r| 
+			distance = sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z);
+			// F = K *(|r| - R)*(r/|r|)
+			Fs += (SPRING_K * (distance - REST_LENGTH_DIAG) / distance) * pos_prev[i];
+		}
+#endif
+
+		/*********************** Fg 계산 ****************************/
+		Fg = PARTICLE_MASS * Gravity;
+
+		/*********************** Fd 계산 ****************************/
+		Fd = -DAMPING_CONST * vel_prev[i];
+
+		/*********************** Fsum 계산 ****************************/
+		Fsum = Fs + Fg + Fd;
+		
+		/*********************** 가속도 계산 ****************************/
+		a = Fsum * PARTICLE_INV_MASS;
+
+		/*********************** First Order 계산 ****************************/
+		vel_next[i] = vel_prev[i] + a * DELTA_T;
+		pos_next[i] = pos_prev[i] + vel_next[i] * DELTA_T;
+
+	}
+}
