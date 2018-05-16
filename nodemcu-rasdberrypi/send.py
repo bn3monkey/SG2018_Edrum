@@ -13,7 +13,6 @@ m = MultipartEncoder(
 
 r = requests.post(URL, data=m, headers = {'Content-Type' : m.content_type})
 
-print(r.request)
 print(r.status_code)
-print(r.json)
 print(r.text)
+
