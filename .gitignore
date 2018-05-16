@@ -7,5 +7,6 @@
 /edrum-server/edrum_server/__pycache__/
 /edrum-server/edrum_server/settings.py
 /edrum-server/edrum_server/edrum_server_app/migrations/
+/edrum-server/edrum_server/edrum_server_app/__pycahce__
 
 
