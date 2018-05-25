@@ -1,16 +1,20 @@
+#include "drum_signal.hpp"
+
 #define DRUM1 A1
 #define DRUM2 A2
 #define BUTTON A0
-#define DRUM_THRESHOLD 20
+#define DRUM_THRESHOLD 0
 #define BUTTON_THRESHOLD 100
 
 //the qunatitiy of drum sensor signals.
-int drum1[3] = {0};
-int drum2[3] = {0};
+#define NUM_DRUM 2
+
+drum_signal drum[NUM_DRUM];
+
 int button;
 
 //For serial message
-char buff[1000];
+char buf[1000];
 
 //For switch press
 bool pressed;
@@ -19,13 +23,9 @@ bool onoff;
 //For time checking
 unsigned long elapsed;
 
+
 void setup()
 {
-  for(int i=0;i<3;i++)
-  {
-    drum1[i] = 0;
-    drum2[i] = 0;
-  }
   elapsed = 0;
   pressed = false;
   onoff = false;
@@ -33,12 +33,14 @@ void setup()
 }
 
 void loop()
-{
-  drum1[2] = 0;
-  drum2[2] = 0;
+{  
   button = 0;
-  drum1[2] = analogRead(DRUM1);
-  drum2[2] = analogRead(DRUM2);
+
+  for(int i=0;i<NUM_DRUM;i++)
+    drum[i].prev = drum[i].now;
+  drum[0].now = analogRead(DRUM1);
+  drum[1].now = analogRead(DRUM2);
+  
   button = analogRead(BUTTON);
 
   //pressed
@@ -51,12 +53,12 @@ void loop()
       onoff = !onoff;
       if(onoff)
       {
-        sprintf(buff, "start 0 0\n");
+        sprintf(buf, "start 0 0\n");
         elapsed = 0;
       }
       else
-        sprintf(buff, "end 0 0\n");
-      Serial.print(buff);
+        sprintf(buf, "end 0 0\n");
+      Serial.print(buf);
     }
   }
   else
@@ -70,32 +72,26 @@ void loop()
 
   if(onoff)
   {
-    if (drum1 >= DRUM_THRESHOLD)
+    for(int i=0;i<NUM_DRUM;i++)
     {
-      if(drum1[0] <= drum1[1] && drum1[1] > drum1[2])
+      //input start
+      bool v_check = noise_check(&drum[i]);
+      
+      if(drum[i].now > DRUM_THRESHOLD && drum[i].prev <= DRUM_THRESHOLD)
       {
-        sprintf(buff, "DRUM1 %d %lu\n", drum1[1], elapsed);
-        Serial.print(buff);
+        if(drum[i].maxima < drum[i].now)
+          drum[i].maxima = drum[i].now;
       }
-    }
-
-
-    if (drum2 >= DRUM_THRESHOLD)
-    {
-      if(drum2[0] <= drum2[1] && drum2[1] > drum2[2])
+      //input end
+      if(drum[i].now <= DRUM_THRESHOLD && drum[i].prev > DRUM_THRESHOLD)
       {
-        sprintf(buff, "DRUM2 %d %lu\n", drum2[1], elapsed);
-        Serial.print(buff);
+        sprintf(buf,"DRUM%d %d %lu",i,drum[i].maxima,elapsed);
+        Serial.println(buf);
+        drum[i].maxima = DRUM_THRESHOLD;
       }
     }
   }
 
-  /*
-  drum1[0] = drum1[1];
-  drum1[1] = drum1[2];
-  drum2[0] = drum2[1];
-  drum2[1] = drum2[2];
-`*/
   elapsed = elapsed + 1;
   delay(1);
 }
