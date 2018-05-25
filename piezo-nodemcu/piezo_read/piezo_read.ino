@@ -9,7 +9,7 @@
 //the qunatitiy of drum sensor signals.
 #define NUM_DRUM 2
 
-drum_signal drum[NUM_DRUM];
+Drum_signal drum[NUM_DRUM];
 
 int button;
 
