@@ -26,6 +26,8 @@ unsigned long elapsed;
 
 void setup()
 {
+  for(int i=0; i< NUM_DRUM; i++)
+    drum[i] = Drum_signal(DRUM_THRESHOLD);
   elapsed = 0;
   pressed = false;
   onoff = false;
@@ -36,10 +38,8 @@ void loop()
 {  
   button = 0;
 
-  for(int i=0;i<NUM_DRUM;i++)
-    drum[i].prev = drum[i].now;
-  drum[0].now = analogRead(DRUM1);
-  drum[1].now = analogRead(DRUM2);
+  drum[0].set(analogRead(DRUM1));
+  drum[1].set(analogRead(DRUM2));
   
   button = analogRead(BUTTON);
 
@@ -74,20 +74,19 @@ void loop()
   {
     for(int i=0;i<NUM_DRUM;i++)
     {
-      //input start
-      bool v_check = noise_check(&drum[i]);
-      
-      if(drum[i].now > DRUM_THRESHOLD && drum[i].prev <= DRUM_THRESHOLD)
+      if(drum[i].signal_on() || drum[i].signal_doing())
       {
-        if(drum[i].maxima < drum[i].now)
-          drum[i].maxima = drum[i].now;
+        //sprintf(buf,"SIG : %d",drum[i].recent_get());
+        //Serial.println(buf);
+        drum[i].setMax();
       }
-      //input end
-      if(drum[i].now <= DRUM_THRESHOLD && drum[i].prev > DRUM_THRESHOLD)
+
+      if(drum[i].signal_off())
       {
-        sprintf(buf,"DRUM%d %d %lu",i,drum[i].maxima,elapsed);
+        //drum[i].debug(buf);
+        //Serial.println(buf);
+        sprintf(buf, "DRUM%d %d %lu",i+1,drum[i].get(),elapsed);
         Serial.println(buf);
-        drum[i].maxima = DRUM_THRESHOLD;
       }
     }
   }
