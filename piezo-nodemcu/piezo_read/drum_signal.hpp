@@ -1,15 +1,17 @@
-#define INPUT_BUF_LENGTH 21
+#include <arduino.h>
+#define INPUT_BUF_LENGTH 31
 class Drum_signal
 {
+    int pin;
     int DRUM_THRESHOLD;
     int input_buf[INPUT_BUF_LENGTH];
     int max;
     bool sensing;
 
 public:
-    Drum_signal(int _DRUM_THRESHOLD = 0)
+    Drum_signal(int _pin = 0, int _DRUM_THRESHOLD = 0) : pin(_pin),  DRUM_THRESHOLD(_DRUM_THRESHOLD) 
     {
-        DRUM_THRESHOLD = _DRUM_THRESHOLD;
+       pinMode(pin, INPUT);
         for(int i=0;i<INPUT_BUF_LENGTH;i++)
             this->input_buf[i] = _DRUM_THRESHOLD;
         this->max = _DRUM_THRESHOLD;
@@ -17,7 +19,7 @@ public:
     }
 
     // Analog input을 얻는다.
-    void set(int input);
+    void set();
     // 가장 최근의 input과 max 값을 비교하여 갱신한다.
     void setMax();
 

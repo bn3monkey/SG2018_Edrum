@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 // Analog input을 얻는다.
-void Drum_signal::set(int input)
+void Drum_signal::set()
 {
-    int i;
+    int i, input;
+    input = analogRead(this->pin);
     for(i=0;i<INPUT_BUF_LENGTH-1;i++)
         this->input_buf[i] = this->input_buf[i+1];
     this->input_buf[i] = input;
