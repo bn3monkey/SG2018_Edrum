@@ -4,15 +4,15 @@ using namespace std;
 #define LINE_MAX 16
 #define NOTE_MAX 10000
 
-char fname[] = "drum_0.txt";
 char** node1;
 char** node2;
 int node1_cnt = 0;
 int node2_cnt = 0;
 ofstream fp;
 
-bool makefile(char* temp){
+bool makefile(char* temp, char* filename){
 	char drum[10];
+	int fileindex = 0;
 	int power;
 	unsigned long long int msec;
 	sscanf(temp,"%s %d %llu",drum,&power,&msec);
@@ -47,9 +47,16 @@ bool makefile(char* temp){
 	}
 
 	if(strcmp(drum,"end")==0){
-		while(fexists(fname)==true) //fname file exists
-			fname[5]=fname[5]+1;
-		fp.open(fname);
+		int trial = 10000;
+		while(trial--)
+		{
+			sprintf(filename, "drum_%d.txt", fileindex);
+			if(fexists(filename)==true) //fname file exists
+				fileindex +=1;
+			else
+				break;
+		}
+		fp.open(filename);
 		fp<<"2"<<"\n";
 		fp<<"DRUM1 "<<node1_cnt<<"\n";
 		for(int i=0;i<node1_cnt;i++){

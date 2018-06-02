@@ -14,5 +14,5 @@ typedef struct _note
     int power;
 } note;
 
-bool makefile(char*);
+bool makefile(char*, char *);
 bool fexists(const char*);
