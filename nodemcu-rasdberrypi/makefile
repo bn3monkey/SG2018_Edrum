@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -std=gnu++11 -pthread -W -Wall
 TARGET = edrum_raspberry
-CFILE = main.cpp serial.cpp file.cpp
+CFILE = main.cpp serial.cpp record.cpp
 
 all : 
 	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) -lwiringPi

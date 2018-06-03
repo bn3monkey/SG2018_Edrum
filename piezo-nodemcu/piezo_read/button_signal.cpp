@@ -12,6 +12,14 @@ int Button_signal::read()
     {
         this->signal = p_play;
     }
+    else if(SELECT_FILEDOWN <= this->signal && this->signal < SELECT_FILEDOWN + 100)
+    {
+        this->signal = p_filedown;
+    }
+    else if(SELECT_FILEUP <= this->signal && this->signal < SELECT_FILEUP + 100)
+    {
+        this->signal = p_fileup;
+    }
     else
     {
         this->signal = p_idle;
@@ -46,6 +54,14 @@ int Button_signal::read()
             this->status = idle;
             break;
         
+        case file_up:
+            this->status = idle;
+            break;
+        
+        case file_down:
+            this->status = idle;
+            break;
+
         case idle :
             if(this->prev_signal == p_idle)
             {
@@ -54,6 +70,8 @@ int Button_signal::read()
                     case p_idle : this->status = idle; break;
                     case p_record : this->status = record_start; break;
                     case p_play : this->status = play_start; break;
+                    case p_fileup : this->status = file_up; break;
+                    case p_filedown : this->status = file_down; break;
                 }
             }
             break;
@@ -74,5 +92,7 @@ void Button_signal::set(unsigned long* elapsed)
         case record_end: Serial.write("record_end 0 0\n");  break;
         case play_start : Serial.write("play_start 0 0\n"); *elapsed = 0; break;
         case play_end: Serial.write("play_end 0 0\n"); break;
+        case file_up : Serial.write("file_up\n"); break;
+        case file_down : Serial.write("file_down\n"); break;
     }
 }

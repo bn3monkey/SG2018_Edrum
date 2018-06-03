@@ -1,12 +1,16 @@
 #include <arduino.h>
 #define RECORD_THRESHOLD 300
 #define PLAY_THRESHOLD 400
+#define SELECT_FILEDOWN 500
+#define SELECT_FILEUP 600
 
 enum signal_status
 {
     p_idle,
     p_record,
     p_play,
+    p_fileup,
+    p_filedown,
 };
 enum status_identifier
 {
@@ -17,6 +21,8 @@ enum status_identifier
     play_start,
     playing,
     play_end,
+    file_up,
+    file_down,
 };
 
 
