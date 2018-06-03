@@ -87,7 +87,5 @@ bool fexists(const char *filename){
 bool makefilename(int num, char* filename)
 {
 	sprintf(filename, "drum_%d.txt", num);
-	if(fexists(filename))
-		return false;
-	return true;
+	return fexists(filename);
 }
