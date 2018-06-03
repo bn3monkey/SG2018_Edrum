@@ -4,7 +4,6 @@
 int Button_signal::read()
 {
    this->signal = analogRead(this->pin);
-
     if(RECORD_THRESHOLD <= this->signal &&  this->signal < RECORD_THRESHOLD + 100)
     {
         this->signal = p_record;
@@ -13,11 +12,11 @@ int Button_signal::read()
     {
         this->signal = p_play;
     }
-    else if(SELECT_FILEDOWN <= this->signal && this->signal < SELECT_FILEDOWN + 100)
+    else if(FILEDOWN_THRESHOLD <= this->signal && this->signal < FILEDOWN_THRESHOLD + 100)
     {
         this->signal = p_filedown;
     }
-    else if(SELECT_FILEUP <= this->signal && this->signal < SELECT_FILEUP + 100)
+    else if(FILEUP_THRESHOLD <= this->signal && this->signal < FILEUP_THRESHOLD + 100)
     {
         this->signal = p_fileup;
     }
