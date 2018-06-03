@@ -36,10 +36,10 @@ int main()
     while(continue_flag)
     {
         io->readSerial();
-        io->setSerial(temp);
+        io->setSerial(&temp);
         logSerial(temp);
 
-	    if(!makefile(temp,filename))
+	    if(!makefile(&temp,filename))
 	    {
 	    	sprintf(cmd, "python3 send.py %s", filename);
 		    system(cmd);

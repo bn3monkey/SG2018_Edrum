@@ -110,4 +110,27 @@ class Serial_io
     //Serial에서 문자열을 보낸다.
     int writeSerial(char* buf);
 };
+
+inline void logSerial(note pnote)
+{
+    switch(pnote.drum)
+    {
+        case cmd_idle : printf("IDLE "); break;
+        case cmd_recordstart : printf("RECORD_START "); break;
+        case cmd_recordend : printf("RECORD_END "); break;
+        case cmd_playstart : printf("PLAY_START "); break;
+        case cmd_playend : printf("PLAY_END "); break;
+        case cmd_fileup : printf("FILE_UP "); break;
+        case cmd_filedown : printf("FILE_DOWN "); break;
+
+        case cmd_drum1 : printf("DRUM1 "); break;
+        case cmd_drum2 : printf("DRUM2 "); break;
+
+        case cmd_led1 : printf("LED1 "); break;
+        case cmd_led2 : printf("LED2 "); break;
+    }
+    printf("%d %llu", pnote.power, pnote.msec);
+}
+
+
 #endif
