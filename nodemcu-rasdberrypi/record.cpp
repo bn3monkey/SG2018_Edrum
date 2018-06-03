@@ -13,6 +13,24 @@ int node2_cnt = 0;
 ofstream fp;
 bool recording = false;
 
+static void deallocation()
+{
+	for(int i=0;i<NOTE_MAX;i++)
+	{
+		if(node1[i] != NULL)
+			free(node1[i]);
+	}
+	for(int i=0;i<NOTE_MAX;i++)
+	{
+		if(node2[i] != NULL)
+			free(node2[i]);
+	}
+	if(node1 != NULL)
+		free(node1);
+	if(node2 != NULL)
+		free(node2);
+}
+
 bool makefile(note* temp, char* filename)
 {
 	int fileindex = 0;
@@ -21,12 +39,32 @@ bool makefile(note* temp, char* filename)
 		node1_cnt = 0;
 		node2_cnt = 0;
 		node1=(char**)malloc(sizeof(char*)*NOTE_MAX);
+		if(node1 == NULL)
+		{
+			fprintf(stderr, "node1 allocation ERROR!\n");
+			deallocation();
+		}
 		node2=(char**)malloc(sizeof(char*)*NOTE_MAX);
+		if(node2 == NULL)
+		{
+			fprintf(stderr, "node2 allocation ERROR!\n");
+			deallocation();
+		}
 		for( int i=0; i<NOTE_MAX; i++){
 			node1[i] = (char *)malloc(sizeof(char)*LINE_MAX);
+			if(node1[i])
+			{
+				fprintf(stderr, "node1[%d] allocation ERROR!\n", i);
+				deallocation();
+			}
 		}
 		for( int i=0; i<NOTE_MAX; i++){
 			node2[i] =  (char *)malloc(sizeof(char)*LINE_MAX);
+			if(node2[i])
+			{
+				fprintf(stderr, "node2[%d] allocation ERROR!\n", i);
+				deallocation();
+			}
 		}
 		recording = true;
 
@@ -61,21 +99,19 @@ bool makefile(note* temp, char* filename)
 		fp<<"DRUM1 "<<node1_cnt<<"\n";
 		for(int i=0;i<node1_cnt;i++){
 			fp<<node1[i]<<"\n";
-			free(node1[i]);
 		}
 		fp<<"DRUM2 "<<node2_cnt<<"\n";
 		for(int i=0;i<node2_cnt;i++){
 			fp<<node2[i]<<"\n";
-			free(node2[i]);
 		}
-		free(node1);
-		free(node2);
+		deallocation();
 		fp.close();
 		recording = true;
 		return false;
 	}
 
 	return true;
+
 }
 
 //file exist check
