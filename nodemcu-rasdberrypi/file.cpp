@@ -17,7 +17,7 @@ bool makefile(char* temp, char* filename){
 	unsigned long long int msec;
 	sscanf(temp,"%s %d %llu",drum,&power,&msec);
 
-	if(strcmp(drum,"start")==0){
+	if(strcmp(drum,"record_start")==0){
 		node1_cnt = 0;
 		node2_cnt = 0;
 		node1=(char**)malloc(sizeof(char*)*NOTE_MAX);
@@ -46,7 +46,7 @@ bool makefile(char* temp, char* filename){
 		return true;
 	}
 
-	if(strcmp(drum,"end")==0){
+	if(strcmp(drum,"record_end")==0){
 		int trial = 10000;
 		while(trial--)
 		{

@@ -94,8 +94,8 @@ class Serial_io
     ~Serial_io()
     {
         pthread.join();
-	serialFlush(serial_fd);
-	serialClose(serial_fd);
+	    serialFlush(serial_fd);
+	    serialClose(serial_fd);
         if(buff != NULL)
             delete buff;
     }

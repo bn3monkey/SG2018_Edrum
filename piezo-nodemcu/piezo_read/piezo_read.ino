@@ -1,3 +1,4 @@
+#include "button_signal.hpp"
 #include "drum_signal.hpp"
 #include "led_signal.hpp"
 
@@ -13,84 +14,43 @@
 #define GREEN2 6
 #define BLUE2 3
 
-#define DRUM_THRESHOLD 5
-#define BUTTON_THRESHOLD 100
-
 //the qunatitiy of drum sensor signals.
 #define NUM_DRUM 2
 
 Drum_signal drum[NUM_DRUM];
 LED_signal led[NUM_DRUM];
-
-int button;
+Button_signal button;
 
 //For serial message
 char buf[1000];
 
 //For switch press
-bool pressed;
-bool onoff;
+int status;
 
 //For time checking
 unsigned long elapsed;
 
-int val;
-
 void setup()
 {
-  drum[0] = Drum_signal(A1, DRUM_THRESHOLD);
-  drum[1] = Drum_signal(A2, DRUM_THRESHOLD);  
+  drum[0] = Drum_signal(A1);
+  drum[1] = Drum_signal(A2);  
   led[0] = LED_signal(RED1, GREEN1, BLUE1);
   led[1] = LED_signal(RED2, GREEN2, BLUE2);
-  
-  elapsed = 0;
-  pressed = false;
-  onoff = false;
+  button = Button_signal(BUTTON);
 
-  
-  
-  val = 0;
+  elapsed = 0;
   
   Serial.begin(115200);
 }
 
 void loop()
 {  
-  button = 0;
-
   drum[0].set();
   drum[1].set();
+  status = button.read(&elapsed);
   
-  button = analogRead(BUTTON);
 
-  //pressed
-  if(button > BUTTON_THRESHOLD)
-  {
-    //not pressed -> pressed
-    if(pressed == false)
-    {
-      pressed = true;
-      onoff = !onoff;
-      if(onoff)
-      {
-        sprintf(buf, "start 0 0\n");
-        elapsed = 0;
-      }
-      else
-        sprintf(buf, "end 0 0\n");
-      Serial.print(buf);
-    }
-  }
-  else
-  {
-    //pressed -> not pressed
-    if(pressed == true)
-    {
-      pressed = false;
-    }
-  }
-
-  if(onoff)
+  if(status == recording)
   {
     for(int i=0;i<NUM_DRUM;i++)
     {
@@ -110,22 +70,6 @@ void loop()
       }
     }
   }
-
-
-  switch(elapsed % 3000)
-  {
-    case 0 : led[0].write(val, 0, 0); led[1].write(val, 0, 0);
-            Serial.print("RED ");
-            Serial.println(val, DEC); break;
-    case 1000 : led[0].write(0, val, 0); led[1].write(0, val, 0);
-            Serial.print("GREEN ");
-            Serial.println(val, DEC); break;
-    case 2000: led[0].write(0, 0, val); led[1].write(0, 0, val);
-            Serial.print("BLUE ");
-            Serial.println(val, DEC); val += 1; break;
-  }
-  if(val> 255)
-    val = 0;
 
 
   elapsed = elapsed + 1;

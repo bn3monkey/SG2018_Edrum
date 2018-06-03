@@ -1,20 +1,21 @@
 #include <arduino.h>
+#define DRUM_THRESHOLD 80
 #define INPUT_BUF_LENGTH 31
+
 class Drum_signal
 {
     int pin;
-    int DRUM_THRESHOLD;
     int input_buf[INPUT_BUF_LENGTH];
     int max;
     bool sensing;
 
 public:
-    Drum_signal(int _pin = 0, int _DRUM_THRESHOLD = 0) : pin(_pin),  DRUM_THRESHOLD(_DRUM_THRESHOLD) 
+    Drum_signal(int _pin = 0) : pin(_pin)
     {
        pinMode(pin, INPUT);
         for(int i=0;i<INPUT_BUF_LENGTH;i++)
-            this->input_buf[i] = _DRUM_THRESHOLD;
-        this->max = _DRUM_THRESHOLD;
+            this->input_buf[i] = DRUM_THRESHOLD;
+        this->max = DRUM_THRESHOLD;
         sensing = false;
     }
 

@@ -15,11 +15,11 @@ int main()
         io->getSerial();
         io->setSerial(temp);
         printf("%s\n",temp);
-	if(!makefile(temp,filename))
-	{
-		sprintf(cmd, "python3 send.py %s", filename);
-		system(cmd);
-	}		
+	    if(!makefile(temp,filename))
+	    {
+	    	sprintf(cmd, "python3 send.py %s", filename);
+		    system(cmd);
+	    }		
 		//continue_flag = false;
     }
     printf("End Program!\n");
