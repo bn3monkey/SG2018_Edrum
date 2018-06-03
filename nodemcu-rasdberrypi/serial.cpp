@@ -30,7 +30,7 @@ int Serial_io::readSerial()
     bool exists;
     char ch = 0;
     buff->refresh();
-    while(ch != 10)
+    while(ch != '\n')
     {
 	    exists = false;
         queue_lock.lock();
@@ -45,11 +45,11 @@ int Serial_io::readSerial()
 	    if(exists)
 	    {
         	buff->push(ch);
-         	//printf("%c(%d)\n",ch,ch);
+         	printf("%c(%d)\n",ch,ch);
 	    }
     }
     buff->finish();
-    printf("blocking test : %s\n", buff->data());
+    //printf("blocking test : %s\n", buff->data());
     return 1;
 }
 
