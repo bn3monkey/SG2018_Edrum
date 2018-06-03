@@ -4,6 +4,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include "serial_protocol.h"
+
 void logSerial(note pnote)
 {
     switch(pnote.drum)

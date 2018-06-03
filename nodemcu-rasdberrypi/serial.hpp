@@ -111,6 +111,8 @@ class Serial_io
     int writeSerial(char* buf);
 };
 
+#include "serial_protocol.h"
+
 inline void logSerial(note pnote)
 {
     switch(pnote.drum)
