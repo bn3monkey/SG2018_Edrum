@@ -1,4 +1,6 @@
 #include "record.h"
+#include "serial_protocol.h"
+
 using namespace std;
 
 #define LINE_MAX 16
@@ -11,15 +13,11 @@ int node2_cnt = 0;
 ofstream fp;
 bool recording = false;
 
-bool makefile(char* temp, char* filename)
+bool makefile(note* temp, char* filename)
 {
-	char drum[20];
 	int fileindex = 0;
-	int power;
-	unsigned long long int msec;
-	sscanf(temp,"%s %d %llu",drum,&power,&msec);
-
-	if(!recording && strcmp(drum,"record_start")==0){
+	
+	if(!recording && temp->drum == cmd_recordstart){
 		node1_cnt = 0;
 		node2_cnt = 0;
 		node1=(char**)malloc(sizeof(char*)*NOTE_MAX);
@@ -35,21 +33,21 @@ bool makefile(char* temp, char* filename)
 		return true;
 	}
 
-	if(recording && strcmp(drum,"DRUM1")==0){
-		sprintf(node1[node1_cnt],"%d %llu",power,msec);
+	if(recording && temp->drum == cmd_drum1){
+		sprintf(node1[node1_cnt],"%d %llu",temp->power,temp->msec);
 		node1_cnt++;
 
 		return true;
 	}
 
-	if(recording && strcmp(drum,"DRUM2")==0){
-		sprintf(node2[node2_cnt],"%d %llu",power,msec);
+	if(recording && temp->drum == cmd_drum2){
+		sprintf(node2[node2_cnt],"%d %llu",temp->power,temp->msec);
 		node2_cnt++;
 
 		return true;
 	}
 
-	if(recording && strcmp(drum,"record_end")==0){
+	if(recording && temp->drum == cmd_recordend){
 		int trial = 10000;
 		while(trial--)
 		{

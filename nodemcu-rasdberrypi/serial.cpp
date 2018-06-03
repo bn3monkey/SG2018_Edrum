@@ -53,11 +53,11 @@ int Serial_io::readSerial()
     return 1;
 }
 
-int Serial_io::setSerial(char* tempbuf)
+int Serial_io::setSerial(note* pnote)
 {
 
     //printf("blocking test : %s %d\n", buff->data(), buff->gettop());
-    memcpy(tempbuf, buff->data(), buff->gettop() + 1);
+    sscanf(buff->data(), "%d %d %llu", &(pnote->drum), &(pnote->power), &(pnote->msec));
     return 1;
 }
 

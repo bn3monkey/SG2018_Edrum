@@ -12,6 +12,8 @@
 
 #include <thread>
 
+#include "note.h"
+
 extern bool continue_flag;
 
 class Serial_buffer
@@ -103,8 +105,8 @@ class Serial_io
 
     //Serial에서 Protocol을 완성하는 문자열을 받을 떄까지 낱개 문자를 받는다.
     int readSerial();
-    //Serial에서 받은 문자열을 parameter로 넘어온 버퍼에 저장한다.
-    int setSerial(char* tempbuf);
+    //Serial에서 받은 문자열을 parameter로 넘어온 note 정보에 저장한다.
+    int setSerial(note* pnote);
     //Serial에서 문자열을 보낸다.
     int writeSerial(char* buf);
 };
