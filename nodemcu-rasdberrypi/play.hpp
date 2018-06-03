@@ -20,10 +20,10 @@ class Serial_play
         }
 
         //Serial에서 들어온 문자열 명령에 따라서 필요한 함수들을 수행한다.
-        void play(char* temp, char* buf);
+        void play(note* temp, char* buf);
 
         //현재 참조하고 있는 파일의 번호를 올린다.
         void fileup(char* buf);       
         //현재 참조하고 있는 파일의 번호를 내린다.
         void filedown(char* buf);
-}
+};

@@ -1,13 +1,8 @@
 #include "play.hpp"
 
-void Serial_play::play(char* temp, char* buf)
+void Serial_play::play(note* temp, char* buf)
 {
-    char drum[10];
-    int power;
-	unsigned long long int msec;
-	sscanf(temp,"%s %d %llu",drum,&power,&msec);
 
-    if(!playing && strcmp(drum,"record_start")==0)
 }
 
 void Serial_play::fileup(char* buf)

@@ -91,7 +91,7 @@ class Serial_io
             exit(-1);
         }
 
-        pthread = std::thread(thread_getSerial, serial_fd);
+        pthread = std::thread(thread_readSerial, serial_fd);
     }
     ~Serial_io()
     {
