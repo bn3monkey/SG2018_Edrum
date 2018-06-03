@@ -65,9 +65,11 @@ int Serial_io::setSerial(note* pnote)
 int Serial_io::writeSerial(char* buf)
 {
     serialPuts(this->serial_fd, buf);
+    return 1;
 }
 
 int Serial_io::cleanSerial()
 {
     this->buff->refresh();
+    return 1;
 }
