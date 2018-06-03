@@ -32,8 +32,8 @@ unsigned long elapsed;
 
 void setup()
 {
-  drum[0] = Drum_signal(A1, DRUM_THRESHOLD);
-  drum[1] = Drum_signal(A2, DRUM_THRESHOLD);  
+  drum[0] = Drum_signal(A1);
+  drum[1] = Drum_signal(A2);  
   led[0] = LED_signal(RED1, GREEN1, BLUE1);
   led[1] = LED_signal(RED2, GREEN2, BLUE2);
   button = Button_signal(BUTTON);
@@ -48,7 +48,7 @@ void loop()
   drum[0].set();
   drum[1].set();
   status = button.read();
-
+  button.set(&elapsed);
 
   if(status == recording || status == playing)
   {

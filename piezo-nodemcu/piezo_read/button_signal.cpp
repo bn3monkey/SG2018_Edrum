@@ -1,6 +1,6 @@
 #include "button_signal.hpp"
 
-int Button_signal::read(unsigned long* elapsed)
+int Button_signal::read()
 {
    this->signal = analogRead(this->pin);
 
@@ -17,38 +17,48 @@ int Button_signal::read(unsigned long* elapsed)
         this->signal = p_idle;
     }
 
-    
-    if(this->status == recording)
+
+    switch(this->status)
     {
-        if(this->prev_signal == p_idle && this->signal == p_record)
-        {   
-            Serial.println("record_end 0 0");
-            this->status = record_end;
-        }
-    }
-    else if(this->status == playing)
-    {
-        if(this->prev_signal == p_idle && this->signal == p_play)
-        {
-            Serial.println("play_end 0 0");
-            this->status = play_end;
-        }
-    }
-    else // (this->status == idle)
-    {
-        if(this->prev_signal == p_idle)
-        {
-            switch(this->signal)
+        case record_start : 
+            this->status = recording;
+            break;
+
+        case recording :
+            if(this->prev_signal == p_idle && this->signal == p_record)
+                this->status = record_end;
+            break;
+
+        case record_end :
+            this->status = idle;
+            break;
+
+        case play_start :
+            this->status = playing;
+            break;
+
+        case playing :
+            if(this->prev_signal == p_idle && this->signal == p_play)
+                this->status = play_end;
+            break;
+
+        case play_end:
+            this->status = idle;
+            break;
+        
+        case idle :
+            if(this->prev_signal == p_idle)
             {
-                case p_idle : this->status = idle; break;
-                case p_record : this->status = recording; 
-                                Serial.println("record_start 0 0");
-                                *elapsed = 0; break;
-                case p_play : this->status = playing; 
-                                Serial.println("play_start 0 0");
-                                *elapsed = 0;break;
+                switch(this->signal)
+                {
+                    case p_idle : this->status = idle; break;
+                    case p_record : this->status = record_start; break;
+                    case p_play : this->status = play_start; break;
+                }
             }
-        }
+            break;
+
+        
     }
 
     this->prev_signal = this->signal;
@@ -56,3 +66,13 @@ int Button_signal::read(unsigned long* elapsed)
     return this->status;
 }
 
+void Button_signal::set(unsigned long* elapsed)
+{
+    switch(this->status)
+    {
+        case record_start : Serial.write("record_start 0 0\n"); *elapsed = 0; break;
+        case record_end: Serial.write("record_end 0 0\n");  break;
+        case play_start : Serial.write("play_start 0 0\n"); *elapsed = 0; break;
+        case play_end: Serial.write("play_end 0 0\n"); break;
+    }
+}

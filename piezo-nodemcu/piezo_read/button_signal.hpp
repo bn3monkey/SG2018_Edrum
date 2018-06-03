@@ -11,8 +11,10 @@ enum signal_status
 enum status_identifier
 {
     idle,
+    record_start,
     recording,
     record_end,
+    play_start,
     playing,
     play_end,
 };
@@ -35,6 +37,7 @@ class Button_signal
         }
 
         //Signal을 읽어와서 현재 상태를 얻어온다.
-        //현재 상태를 Serial로 보내고, 필요할 경우 elapsed를 초기화한다.
-        int read(unsigned long* elpased);
+        int read();
+        // read에서 얻어온 현재 상태를 이용해, 현재 상태에서 필요한 부분을 세팅한다.
+        void set(unsigned long* elapsed);
 };
