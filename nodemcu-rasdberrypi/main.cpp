@@ -8,7 +8,6 @@
 
 void logSerial(note pnote)
 {
-    printf("CMD : ");
     switch(pnote.drum)
     {
         case cmd_idle : printf("IDLE "); break;
@@ -44,6 +43,7 @@ int main()
 
 	    if(!makefile(&temp,filename))
 	    {
+            io->cleanSerial();
 	    	sprintf(cmd, "python3 send.py %s", filename);
 		    system(cmd);
 	    }

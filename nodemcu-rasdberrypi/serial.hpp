@@ -109,8 +109,9 @@ class Serial_io
     int setSerial(note* pnote);
     //Serial에서 문자열을 보낸다.
     int writeSerial(char* buf);
+
+    //Serial에서 받아온 버퍼를 비운다.
+    int cleanSerial();
 };
-
-
 
 #endif
