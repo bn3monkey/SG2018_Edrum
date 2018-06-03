@@ -1,9 +1,17 @@
 #include <arduino.h>
 #include "serial_protocol.h"
 #define RECORD_THRESHOLD 300
+
+#define RASDBERRY
+#ifdef RASDBERRY
+#define PLAY_THRESHOLD 500
+#define FILEDOWN_THRESHOLD 600
+#define FILEUP_THRESHOLD 700
+#else
 #define PLAY_THRESHOLD 400
 #define FILEDOWN_THRESHOLD 500
 #define FILEUP_THRESHOLD 600
+#endif
 
 enum signal_status
 {
