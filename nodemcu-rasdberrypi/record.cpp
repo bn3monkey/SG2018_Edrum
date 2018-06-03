@@ -75,7 +75,7 @@ bool makefile(note* temp, char* filename)
 		}
 		deallocation();
 		fp.close();
-		recording = true;
+		recording = false;
 		return false;
 	}
 
