@@ -6,7 +6,7 @@
 
 void logSerial(note pnote)
 {
-    case(pnote.drum)
+    switch(pnote.drum)
     {
         case cmd_idle : printf("IDLE "); break;
         case cmd_recordstart : printf("RECORD_START "); break;
