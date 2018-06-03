@@ -27,20 +27,24 @@ void logSerial(note pnote)
     printf("%d %llu\n", pnote.power, pnote.msec);
 }
 
+char cmd[512];
+
 int main()
 {
 
     Serial_io* io = new Serial_io();
+    Serial_play* play = new Serial_play();
     printf("Start Program!\n");
     note temp;
-    char cmd[100];
     char filename[50];
     while(continue_flag)
     {
         io->readSerial();
         io->setSerial(&temp);
         logSerial(temp);
-
+	
+        play->play(&temp, cmd);
+	
 	    if(!makefile(&temp,filename))
 	    {
             	io->cleanSerial();
@@ -52,5 +56,6 @@ int main()
     }
     printf("End Program!\n");
     delete io;
+    delete play;
     return 0;
 }
