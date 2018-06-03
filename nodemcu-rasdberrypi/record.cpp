@@ -11,8 +11,9 @@ int node2_cnt = 0;
 ofstream fp;
 bool recording = false;
 
-bool makefile(char* temp, char* filename){
-	char drum[10];
+bool makefile(char* temp, char* filename)
+{
+	char drum[20];
 	int fileindex = 0;
 	int power;
 	unsigned long long int msec;
@@ -52,8 +53,7 @@ bool makefile(char* temp, char* filename){
 		int trial = 10000;
 		while(trial--)
 		{
-			sprintf(filename, "drum_%d.txt", fileindex);
-			if(fexists(filename)==true) //fname file exists
+			if(makefilename(fileindex, filename)) //fname file exists
 				fileindex +=1;
 			else
 				break;
@@ -84,4 +84,12 @@ bool makefile(char* temp, char* filename){
 bool fexists(const char *filename){
 	ifstream ifile(filename);
 	return (bool)(ifile);
+}
+//make filename
+bool makefilename(int num, char* filename)
+{
+	sprintf(filename, "drum_%d.txt", num);
+	if(fexists(filename))
+		return false;
+	return true;
 }

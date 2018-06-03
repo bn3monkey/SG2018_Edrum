@@ -70,12 +70,12 @@ class Serial_io
 
     std::thread pthread;
     //Serial에서 지속적으로 문자열을 받는 Serial을 만든다.
-    static void thread_getSerial(int fd);
+    static void thread_readSerial(int fd);
 
     public:
     Serial_io()
     {
-	continue_flag = true;
+	    continue_flag = true;
         buff = new Serial_buffer(100);
         //Serial port 연다.
         if ((serial_fd = serialOpen ("/dev/ttyACM0", 115200)) < 0)  // 두번째 인자값이 보레이트 설정
@@ -102,8 +102,10 @@ class Serial_io
 
 
     //Serial에서 Protocol을 완성하는 문자열을 받을 떄까지 낱개 문자를 받는다.
-    int getSerial();
+    int readSerial();
     //Serial에서 받은 문자열을 parameter로 넘어온 버퍼에 저장한다.
     int setSerial(char* tempbuf);
+    //Serial에서 문자열을 보낸다.
+    int writeSerial(char* buf);
 };
 #endif

@@ -1,4 +1,5 @@
 #include <arduino.h>
+#include "serial_protocol.h"
 #define RECORD_THRESHOLD 300
 #define PLAY_THRESHOLD 400
 #define SELECT_FILEDOWN 500

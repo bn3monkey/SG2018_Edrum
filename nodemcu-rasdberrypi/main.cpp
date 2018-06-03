@@ -1,5 +1,7 @@
 #include "serial.hpp"
-#include "record.h"
+#include "play.hpp"
+
+
 #include <cstdio>
 #include <cstdlib>
 int main()
@@ -16,6 +18,7 @@ int main()
         io->setSerial(temp);
         printf("%s\n",temp);
 
+        if()
 	    if(!makefile(temp,filename))
 	    {
 	    	sprintf(cmd, "python3 send.py %s", filename);

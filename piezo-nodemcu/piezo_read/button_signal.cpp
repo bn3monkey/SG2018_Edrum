@@ -1,4 +1,5 @@
 #include "button_signal.hpp"
+#include "serial_protocol.h"
 
 int Button_signal::read()
 {
@@ -88,11 +89,11 @@ void Button_signal::set(unsigned long* elapsed)
 {
     switch(this->status)
     {
-        case record_start : Serial.write("record_start 0 0\n"); *elapsed = 0; break;
-        case record_end: Serial.write("record_end 0 0\n");  break;
-        case play_start : Serial.write("play_start 0 0\n"); *elapsed = 0; break;
-        case play_end: Serial.write("play_end 0 0\n"); break;
-        case file_up : Serial.write("file_up\n"); break;
-        case file_down : Serial.write("file_down\n"); break;
+        case record_start : Serial.print(cmd_recordstart ,DEC); Serial.write(" 0 0\n"); *elapsed = 0; break;
+        case record_end: Serial.print(cmd_recordend ,DEC); Serial.write(" 0 0\n");  break;
+        case play_start : Serial.print(cmd_playstart ,DEC); Serial.write(" 0 0\n"); *elapsed = 0; break;
+        case play_end: Serial.print(cmd_playend ,DEC); Serial.write(" 0 0\n"); break;
+        case file_up : Serial.print(cmd_fileup ,DEC); Serial.write(" 0 0\n"); break;
+        case file_down :  Serial.print(cmd_filedown ,DEC); Serial.write(" 0 0\n"); break;
     }
 }

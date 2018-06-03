@@ -8,10 +8,11 @@ std::mutex queue_lock;
 
 bool continue_flag;
 
-void Serial_io::thread_getSerial(int fd)
+void Serial_io::thread_readSerial(int fd)
 {
     char ch;
     //serialGetchar blocking 함수.. character 받을 떄까지 대기한다. 
+    //wiringSerial Device driver를 건드려서 non-blocking으로 바꾸었다.
     while(continue_flag)
     {
         if(serialDataAvail(fd))
@@ -24,7 +25,7 @@ void Serial_io::thread_getSerial(int fd)
     }
 }
 
-int Serial_io::getSerial()
+int Serial_io::readSerial()
 {
     bool exists;
     char ch = 0;
@@ -58,4 +59,9 @@ int Serial_io::setSerial(char* tempbuf)
     //printf("blocking test : %s %d\n", buff->data(), buff->gettop());
     memcpy(tempbuf, buff->data(), buff->gettop() + 1);
     return 1;
+}
+
+int Serial_io::writeSerial(char* buf)
+{
+    serialPuts(this->serial_fd, buf);
 }

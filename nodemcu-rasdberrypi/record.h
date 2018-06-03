@@ -6,13 +6,14 @@
 
 typedef struct _note
 {
-    // ½ÃÀÛ ½Ã°£À¸·ÎºÎÅÍ ÂïÈù ³ëÆ®ÀÇ ½Ã°£ (milliÃÊ ´ÜÀ§)
+    // ì‹œì‘ ì‹œê°„ìœ¼ë¡œë¶€í„° ì°íŒ ë…¸íŠ¸ì˜ ì‹œê°„ (milliì´ˆ ë‹¨ìœ„)
     long long int msec;
-    // ¿¬ÁÖÇÑ ¾Ç±âÀÇ Á¾·ù
+    // ì—°ì£¼í•œ ì•…ê¸°ì˜ ì¢…ë¥˜
     int drum;
-    // ¾Ç±â Ä£ ¼¼±â
+    // ì•…ê¸°ì˜ ì„¸ê¸°
     int power;
 } note;
 
 bool makefile(char*, char *);
 bool fexists(const char*);
+bool makefilename(int ,char *);

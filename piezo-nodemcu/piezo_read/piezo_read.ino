@@ -65,7 +65,7 @@ void loop()
       {
         //drum[i].debug(buf);
         //Serial.println(buf);
-        sprintf(buf, "DRUM%d %d %lu",i+1,drum[i].get(),elapsed);
+        sprintf(buf, "%d %d %lu",0x10 * (i+1),drum[i].get(),elapsed);
         Serial.println(buf);
       }
     }

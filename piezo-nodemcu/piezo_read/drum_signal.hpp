@@ -1,4 +1,5 @@
 #include <arduino.h>
+#include "serial_protocol.h"
 #define DRUM_THRESHOLD 80
 #define INPUT_BUF_LENGTH 31
 
