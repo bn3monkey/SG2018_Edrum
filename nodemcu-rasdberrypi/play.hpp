@@ -17,6 +17,15 @@ class Serial_play
             current_filenum = 0;
             playable = makefilename(current_filenum, current_filename);
             playing = false;
+
+            if(playable)
+            {
+                printf("File can be opend : %s\n", current_filename);
+            }
+            else
+            {
+                printf("File cannot be opend : %s\n", current_filename);
+            }
         }
 
         //Serial에서 들어온 문자열 명령에 따라서 필요한 함수들을 수행한다.

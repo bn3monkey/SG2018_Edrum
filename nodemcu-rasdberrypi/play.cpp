@@ -37,6 +37,8 @@ void Serial_play::fileup(char* buf)
 
 void Serial_play::filedown(char* buf)
 {
+    if(--current_filenum < 0)
+        current_filenum = 0;
     playable = makefilename(--current_filenum, current_filename);
     if(playable)
     {
