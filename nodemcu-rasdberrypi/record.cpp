@@ -3,32 +3,21 @@
 
 using namespace std;
 
-#define LINE_MAX 16
 #define NOTE_MAX 10000
 
-char** node1;
-char** node2;
-int node1_cnt = 0;
-int node2_cnt = 0;
+note* drum1;
+note* drum2;
+int drum1_cnt = 0;
+int drum2_cnt = 0;
 ofstream fp;
 bool recording = false;
 
 static void deallocation()
 {
-	for(int i=0;i<NOTE_MAX;i++)
-	{
-		if(node1[i] != NULL)
-			free(node1[i]);
-	}
-	for(int i=0;i<NOTE_MAX;i++)
-	{
-		if(node2[i] != NULL)
-			free(node2[i]);
-	}
-	if(node1 != NULL)
-		free(node1);
-	if(node2 != NULL)
-		free(node2);
+	if(drum1 != NULL)
+		delete drum1;
+	if(drum2 != NULL)
+		delete drum2;
 }
 
 bool makefile(note* temp, char* filename)
@@ -36,52 +25,32 @@ bool makefile(note* temp, char* filename)
 	int fileindex = 0;
 	
 	if(!recording && temp->drum == cmd_recordstart){
-		node1_cnt = 0;
-		node2_cnt = 0;
-		node1=(char**)malloc(sizeof(char*)*NOTE_MAX);
-		if(node1 == NULL)
+		drum1_cnt = 0;
+		drum2_cnt = 0;
+		drum1 = new note[NOTE_MAX];
+		if(drum1 == NULL)
 		{
-			fprintf(stderr, "node1 allocation ERROR!\n");
+			fprintf(stderr, "DRUM1 NODE ALLOCATION ERROR!\n");
+		}
+		drum2 = new note[NOTE_MAX];
+		if(drum2 == NULL)
+		{
+			fprintf(stderr, "DRUM2 NODE ALLOCATION ERROR!\n");
 			deallocation();
 		}
-		node2=(char**)malloc(sizeof(char*)*NOTE_MAX);
-		if(node2 == NULL)
-		{
-			fprintf(stderr, "node2 allocation ERROR!\n");
-			deallocation();
-		}
-		for( int i=0; i<NOTE_MAX; i++){
-			node1[i] = (char *)malloc(sizeof(char)*LINE_MAX);
-			if(node1[i])
-			{
-				fprintf(stderr, "node1[%d] allocation ERROR!\n", i);
-				deallocation();
-			}
-		}
-		for( int i=0; i<NOTE_MAX; i++){
-			node2[i] =  (char *)malloc(sizeof(char)*LINE_MAX);
-			if(node2[i])
-			{
-				fprintf(stderr, "node2[%d] allocation ERROR!\n", i);
-				deallocation();
-			}
-		}
+
 		recording = true;
 
 		return true;
 	}
 
 	if(recording && temp->drum == cmd_drum1){
-		sprintf(node1[node1_cnt],"%d %llu",temp->power,temp->msec);
-		node1_cnt++;
-
+		drum1[drum1_cnt++] = *temp;
 		return true;
 	}
 
 	if(recording && temp->drum == cmd_drum2){
-		sprintf(node2[node2_cnt],"%d %llu",temp->power,temp->msec);
-		node2_cnt++;
-
+		drum2[drum2_cnt++] = *temp;
 		return true;
 	}
 
@@ -96,13 +65,13 @@ bool makefile(note* temp, char* filename)
 		}
 		fp.open(filename);
 		fp<<"2"<<"\n";
-		fp<<"DRUM1 "<<node1_cnt<<"\n";
-		for(int i=0;i<node1_cnt;i++){
-			fp<<node1[i]<<"\n";
+		fp<<"DRUM1 "<<drum1_cnt<<"\n";
+		for(int i=0;i<drum1_cnt;i++){
+			fp<<drum1[i].power<<" "<<drum1[i].msec<<endl;
 		}
-		fp<<"DRUM2 "<<node2_cnt<<"\n";
-		for(int i=0;i<node2_cnt;i++){
-			fp<<node2[i]<<"\n";
+		fp<<"DRUM2 "<<drum2_cnt<<"\n";
+		for(int i=0;i<drum2_cnt;i++){
+			fp<<drum2[i].power<<" "<<drum2[i].msec<<endl;
 		}
 		deallocation();
 		fp.close();
