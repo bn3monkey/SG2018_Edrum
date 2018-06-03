@@ -24,7 +24,7 @@ void logSerial(note pnote)
         case cmd_led1 : printf("LED1 "); break;
         case cmd_led2 : printf("LED2 "); break;
     }
-    printf("%d %llu", pnote.power, pnote.msec);
+    printf("%d %llu\n", pnote.power, pnote.msec);
 }
 
 int main()

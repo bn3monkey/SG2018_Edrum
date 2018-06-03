@@ -32,21 +32,21 @@ int Serial_io::readSerial()
     buff->refresh();
     while(ch != 10)
     {
-	exists = false;
+	    exists = false;
         queue_lock.lock();
         if(!ch_queue.empty())
-	{
-		exists = true;
-		ch = ch_queue.front();
+	    {
+		    exists = true;
+		    ch = ch_queue.front();
         	ch_queue.pop();
-	}
+	    }
         queue_lock.unlock();
         
-	if(exists)
-	{
+	    if(exists)
+	    {
         	buff->push(ch);
          	//printf("%c(%d)\n",ch,ch);
-	}
+	    }
     }
     buff->finish();
     //printf("blocking test : %s\n", buff->data());
@@ -58,6 +58,7 @@ int Serial_io::setSerial(note* pnote)
 
     //printf("blocking test : %s %d\n", buff->data(), buff->gettop());
     sscanf(buff->data(), "%d %d %llu", &(pnote->drum), &(pnote->power), &(pnote->msec));
+
     return 1;
 }
 
