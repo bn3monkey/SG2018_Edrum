@@ -1,8 +1,23 @@
 #include "play.hpp"
-
+#include "serial_protocol.h"
 void Serial_play::play(note* temp, char* buf)
 {
+    if(!playing && temp->drum == cmd_playstart)
+    {
+        // nono
+    }
+    else if(!playing && temp->drum == cmd_fileup)
+    {
+        this->fileup(buf);
+    }
+    else if(!playing && temp->drum == cmd_filedown)
+    {
+         this->filedown(buf);
+    }
+    else if(playing && temp->drum == cmd_playend)
+    {
 
+    }
 }
 
 void Serial_play::fileup(char* buf)
