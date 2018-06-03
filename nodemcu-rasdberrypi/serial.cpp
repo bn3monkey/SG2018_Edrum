@@ -18,6 +18,8 @@ void Serial_io::thread_readSerial(int fd)
         if(serialDataAvail(fd))
         {
             ch = serialGetchar(fd);
+	    if(ch < 10 || ch > 127)
+		continue;
             queue_lock.lock();
             ch_queue.push(ch);
             queue_lock.unlock();
@@ -45,7 +47,7 @@ int Serial_io::readSerial()
 	    if(exists)
 	    {
         	buff->push(ch);
-         	printf("%c(%d)\n",ch,ch);
+         	//printf("%c(%d)\n",ch,ch);
 	    }
     }
     buff->finish();
