@@ -17,6 +17,8 @@ void logSerial(note pnote)
         case cmd_playend : printf("PLAY_END "); break;
         case cmd_fileup : printf("FILE_UP "); break;
         case cmd_filedown : printf("FILE_DOWN "); break;
+        case cmd_download : printf("DOWNLOAD "); break;
+        case cmd_refresh : printf("REFRESH "); break;
 
         case cmd_drum1 : printf("DRUM1 "); break;
         case cmd_drum2 : printf("DRUM2 "); break;
@@ -48,23 +50,16 @@ int main()
         switch(play->play(&temp))
         {
             case cmd_playstart :
-                note* nqueue;
-                int length1, length2;
                 
-                nqueue = play->getnote(0, &length1);
-                for(int i=0;i<length1;i++)
-                    io->writeNote(nqueue[i]);
+                io->writeNote( play->getnote(0));
+                io->writeNote( play->getnote(0));
                 sprintf(cmd, "-1\n");
                 io->writeSerial(cmd);
 
-                nqueue = play->getnote(1, &length2);
-                for(int i=0;i<length2;i++)
-                    io->writeNote(nqueue[i]);
+                io->writeNote( play->getnote(0));
+                io->writeNote( play->getnote(0));
                 sprintf(cmd, "-1\n");
                 io->writeSerial(cmd);
-
-                for(int i=0;i<length1 + length2 + 4;i++)
-                    io->readSerial();
 
                 break;
         }

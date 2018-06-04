@@ -59,12 +59,14 @@ void Serial_play::file_initialize()
     }
     for(int i=0;i<drum_cnt[0];i++)
     {
+        drum[0][i].drum = cmd_led1;
         fp >> drum[0][i].power >> drum[0][i].msec;
     }
+    drum_index[0] = 0;
 
     printf("drum1 file : %d\n",drum_cnt[0]);
     for(int i=0;i<drum_cnt[0];i++)
-        printf("%d %llu\n",drum[0][i].power, drum[0][i].msec);
+        printf("%d %d %llu\n",drum[0][i].drum, drum[0][i].power, drum[0][i].msec);
 
     //두번쨰 드럼
     fp >> temp >> drum_cnt[1];
@@ -76,12 +78,14 @@ void Serial_play::file_initialize()
     }
     for(int i=0;i<drum_cnt[1];i++)
     {
+        drum[1][i].drum = cmd_led2;
         fp >> drum[1][i].power >> drum[1][i].msec;
     }
+    drum_index[1] = 0;
 
     printf("drum2 file : %d\n",drum_cnt[1]);
     for(int i=0;i<drum_cnt[1];i++)
-        printf("%d %llu\n",drum[1][i].power, drum[1][i].msec);
+        printf("%d %d %llu\n",drum[1][i].drum, drum[1][i].power, drum[1][i].msec);
 
     fp.close();
 }
@@ -114,8 +118,20 @@ void Serial_play::filedown()
     }
 }
 
-note* Serial_play::getnote(int number, int* length)
+note Serial_play::getnote(int number)
 {
-    *length = this->drum_cnt[number];
-    return this->drum[number];
+    int index = this->drum_index[number];
+    if(index < this->drum_cnt[number])
+    {
+        this->drum_index[number]++;
+        return this->drum[number][index];
+    }
+    else
+    {
+        note temp;
+        temp.drum = 0x100*(number+1);
+        temp.power = -1;
+        temp.msec = 0;
+        return temp;
+    }
 }

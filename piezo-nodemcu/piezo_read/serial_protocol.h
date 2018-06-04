@@ -13,6 +13,8 @@ enum serial_command
     cmd_playend = 0x4,
     cmd_fileup = 0x5,
     cmd_filedown = 0x6,
+    cmd_download = 0x7,
+    cmd_refresh = 0x8,
 
     cmd_drum1 = 0x10,
     cmd_drum2 = 0x20,
@@ -20,6 +22,7 @@ enum serial_command
     cmd_led1 = 0x100,
     cmd_led2 = 0x200,
 
+    cmd_allocerror = 0x1000,
 };
 
 #endif

@@ -72,7 +72,7 @@ int Serial_io::writeSerial(char* buf)
 int Serial_io::writeNote(note note)
 {
     static char buf[20];
-    sprintf(buf,"%d %llu",note.power, note.msec);
+    sprintf(buf,"%d %d %llu",note.drum, note.power, note.msec);
     return writeSerial(buf);
 }
 

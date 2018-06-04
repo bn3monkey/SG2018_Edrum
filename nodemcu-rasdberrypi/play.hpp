@@ -13,9 +13,10 @@ class Serial_play
     //현재 채점 중인지 여부
     bool playing;
 
-    //현재 참조하고 있는 파일에서 가져온 노트 배열.
+    //현재 참조하고 있는 파일에서 가져온 노트 배열. queue로서 관리한다.
     note* drum[2];
     int drum_cnt[2];
+    int drum_index[2];
 
     //현재 참조하고 있는 파일 스트림
     std::ifstream fp;
@@ -51,8 +52,8 @@ class Serial_play
         //Serial에서 들어온 문자열 명령에 따라서 필요한 함수들을 수행한다.
         int play(note* temp);
 
-        //Serial 출력에 필요한 note 배열의 주소를 return하고
-        //그 길이를 parameter로 넘겨준다.
-        note* getnote(int number, int* length);
+        //Serial 출력에 필요한 note를 하나 내보내고 다음 note에 대기한다.
+        //note queue가 비었으면 (power : -1, msec : 0)로 세팅된 note를 리턴한다. 
+        note getnote(int number);
         
 };
