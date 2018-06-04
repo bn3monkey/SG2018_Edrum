@@ -6,13 +6,13 @@ bool note_queue::download()
     note temp;
     if(Serial.readBytesUntil('\n', buffer, 50)==0)
         return false;
-    sscanf(buffer, "%d %d %lu" ,&(temp.drum) &(temp.power), &(temp.time));
+    sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
     if(Serial.readBytesUntil('\n', buffer, 50)==0)
         return false;
-    sscanf(buffer, "%d %d %lu" ,&(temp.drum) &(temp.power), &(temp.time));
+    sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
     if(Serial.readBytesUntil('\n', buffer, 50)==0)
         return false;
-    sscanf(buffer, "%d %d %lu" ,&(temp.drum) &(temp.power), &(temp.time));
+    sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
     if(temp.power == -1)
         return true;
     return false;
@@ -24,14 +24,14 @@ bool note_queue::refresh()
     note temp;
     if(Serial.readBytesUntil('\n', buffer, 50)==0)
         return false;
-    sscanf(buffer, "%d %d %lu" ,&(temp.drum) &(temp.power), &(temp.time));
+    sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
     if(Serial.readBytesUntil('\n', buffer, 50)==0)
         return false;
-    sscanf(buffer, "%d %d %lu" ,&(temp.drum) &(temp.power), &(temp.time));
+    sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
     if(temp.power == -1)
     {
         this->now = this->next;
-        this->next = this->temp;
+        this->next = temp;
         return true;
     }
     return false;

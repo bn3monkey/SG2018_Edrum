@@ -39,8 +39,8 @@ void setup()
   led[1] = LED_signal(RED2, GREEN2, BLUE2);
   button = Button_signal(BUTTON);
 
-  nqueue[0] = note_queue();
-  nqueue[1] = note_queue();
+  nqueue[0] = note_queue(0);
+  nqueue[1] = note_queue(1);
 
   elapsed = 0;
   

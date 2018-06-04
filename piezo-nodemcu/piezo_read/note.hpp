@@ -17,8 +17,11 @@ class note_queue
     note next;
     
     public:
-    note_queue(int _led_number) : led_number(_led_number)
+    note_queue(int _led_number = 0) : led_number(_led_number)
     {
+        next.drum = now.drum = 0x100 * led_number;
+        next.power = now.power = -1;
+        next.time = now.time = 0;
         
     }
     ~note_queue()
