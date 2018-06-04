@@ -13,8 +13,10 @@ enum serial_command
     cmd_playend = 0x4,
     cmd_fileup = 0x5,
     cmd_filedown = 0x6,
-    cmd_download = 0x7,
-    cmd_refresh = 0x8,
+    cmd_downloadreq = 0x7,
+    cmd_downloadres = 0x8,
+    cmd_refreshreq = 0x9,
+    cmd_refreshres = 0xA,
 
     cmd_drum1 = 0x10,
     cmd_drum2 = 0x20,
