@@ -51,7 +51,7 @@ void Serial_play::file_initialize(char* buf)
     }
     for(int i=0;i<drum1_cnt;i++)
     {
-        fp >> &(drum1[i].power) >> &(drum1[i].msec);
+        fp >> drum1[i].power >> drum1[i].msec;
     }
 
     printf("drum1 file\n");
@@ -68,7 +68,7 @@ void Serial_play::file_initialize(char* buf)
     }
     for(int i=0;i<drum2_cnt;i++)
     {
-        fp >> &(drum2[i].power) >> &(drum2[i].msec);
+        fp >> drum2[i].power >> drum2[i].msec;
     }
 
     printf("drum2 file\n");
