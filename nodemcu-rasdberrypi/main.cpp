@@ -45,7 +45,7 @@ int main()
         io->setSerial(&temp);
         //logSerial(temp);
 	
-        switch(play->play(&temp, cmd))
+        switch(play->play(&temp))
         {
             case cmd_playstart :
                 note* nqueue;
@@ -54,12 +54,14 @@ int main()
                 nqueue = play->getnote(0, &length);
                 for(int i=0;i<length;i++)
                     io->writeNote(nqueue[i]);
-                io->writeNote("-1\n");
+                sprintf(cmd, "-1\n");
+                io->writeNote(cmd);
 
                 nqueue = play->getnote(1, &length);
                 for(int i=0;i<length;i++)
                     io->writeNote(nqueue[i]);
-                io->writeNote("-1\n");
+                sprintf(cmd, "-1\n");
+                io->writeNote(cmd);
 
 
                 break;
