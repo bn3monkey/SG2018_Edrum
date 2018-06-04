@@ -31,6 +31,7 @@ int Serial_play::play(note* temp)
     {
         return cmd_playend;
     }
+    return cmd_idle;
 }
 
 void Serial_play::file_initialize()
