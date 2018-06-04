@@ -69,6 +69,12 @@ int Serial_io::writeSerial(char* buf)
     serialPuts(this->serial_fd, buf);
     return 1;
 }
+int Serial_io::writeNote(note note)
+{
+    static char buf[20];
+    sprintf(buf,"%d %llu",note.power, note.msec);
+    return writeSerial(buf);
+}
 
 int Serial_io::cleanSerial()
 {

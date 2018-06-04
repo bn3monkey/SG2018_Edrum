@@ -14,10 +14,8 @@ class Serial_play
     bool playing;
 
     //현재 참조하고 있는 파일에서 가져온 노트 배열.
-    note* drum1;
-    int drum1_cnt;
-    note* drum2;
-    int drum2_cnt;
+    note* drum[2];
+    int drum_cnt[2];
 
     //현재 참조하고 있는 파일 스트림
     std::ifstream fp;
@@ -27,11 +25,11 @@ class Serial_play
 
     //현재 참고하고 있는 파일을 자료구조에 저장하고 
     //일부 LED 정보를 buffer에 복사한다.
-    void file_initialize(char* buf);
+    void file_initialize();
     //현재 참조하고 있는 파일의 번호를 올린다.
-    void fileup(char* buf);       
+    void fileup();       
     //현재 참조하고 있는 파일의 번호를 내린다.
-    void filedown(char* buf);
+    void filedown();
 
     public:
         Serial_play()
@@ -51,7 +49,10 @@ class Serial_play
         }
 
         //Serial에서 들어온 문자열 명령에 따라서 필요한 함수들을 수행한다.
-        void play(note* temp, char* buf);
+        int play(note* temp);
 
+        //Serial 출력에 필요한 note 배열의 주소를 return하고
+        //그 길이를 parameter로 넘겨준다.
+        note* getnote(int number, int* length);
         
 };

@@ -27,6 +27,8 @@ void logSerial(note pnote)
     printf("%d %llu\n", pnote.power, pnote.msec);
 }
 
+
+
 char cmd[512];
 
 int main()
@@ -43,7 +45,25 @@ int main()
         io->setSerial(&temp);
         //logSerial(temp);
 	
-        play->play(&temp, cmd);
+        switch(play->play(&temp, cmd))
+        {
+            case cmd_playstart :
+                note* nqueue;
+                int length;
+                
+                nqueue = play->getnote(0, &length);
+                for(int i=0;i<length;i++)
+                    io->writeNote(nqueue[i]);
+                io->writeNote("-1\n");
+
+                nqueue = play->getnote(1, &length);
+                for(int i=0;i<length;i++)
+                    io->writeNote(nqueue[i]);
+                io->writeNote("-1\n");
+
+
+                break;
+        }
 	
 	    if(!makefile(&temp,filename))
 	    {

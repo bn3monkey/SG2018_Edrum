@@ -4,33 +4,36 @@ using namespace std;
 
 void Serial_play::deallocation()
 {
-    if(drum1 != NULL)
-        delete drum1;
-    if(drum2 != NULL)
-        delete drum2;
+    if(drum[0] != NULL)
+        delete drum[0];
+    if(drum[1] != NULL)
+        delete drum[1];
 }
 
-void Serial_play::play(note* temp, char* buf)
+int Serial_play::play(note* temp)
 {
     if(!playing && temp->drum == cmd_playstart)
     {
-        file_initialize(buf);
+        file_initialize();
+        return cmd_playstart;
     }
     else if(!playing && temp->drum == cmd_fileup)
     {
-        this->fileup(buf);
+        this->fileup();
+        return cmd_fileup;
     }
     else if(!playing && temp->drum == cmd_filedown)
     {
-         this->filedown(buf);
+         this->filedown();
+         return cmd_filedown;
     }
     else if(playing && temp->drum == cmd_playend)
     {
-
+        return cmd_playend;
     }
 }
 
-void Serial_play::file_initialize(char* buf)
+void Serial_play::file_initialize()
 {
     char temp[10];
     int num;
@@ -46,58 +49,56 @@ void Serial_play::file_initialize(char* buf)
     fp >> num;
 	
     //첫번쨰 드럼
-    fp >> temp >> drum1_cnt;
-    drum1 = new note[drum1_cnt];
-    if(drum1 == NULL)
+    fp >> temp >> drum_cnt[0];
+    drum[0] = new note[drum_cnt[0]];
+    if(drum[0] == NULL)
     {
         fprintf(stderr, "PLAY DRUM1 ALLOCATION ERROR!\n");
         return;
     }
-    for(int i=0;i<drum1_cnt;i++)
+    for(int i=0;i<drum_cnt[0];i++)
     {
-        fp >> drum1[i].power >> drum1[i].msec;
+        fp >> drum[0][i].power >> drum[0][i].msec;
     }
 
-    printf("drum1 file : %d\n",drum1_cnt);
-    for(int i=0;i<drum1_cnt;i++)
-        printf("%d %llu\n",drum1[i].power, drum1[i].msec);
+    printf("drum1 file : %d\n",drum_cnt[0]);
+    for(int i=0;i<drum_cnt[0];i++)
+        printf("%d %llu\n",drum[0][i].power, drum[0][i].msec);
 
     //두번쨰 드럼
-    fp >> temp >> drum2_cnt;
-    drum2 = new note[drum2_cnt];
-    if(drum2 == NULL)
+    fp >> temp >> drum_cnt[1];
+    drum[1] = new note[drum_cnt[1]];
+    if(drum[1] == NULL)
     {
         fprintf(stderr, "PLAY DRUM2 ALLOCATION ERROR!\n");
         return;
     }
-    for(int i=0;i<drum2_cnt;i++)
+    for(int i=0;i<drum_cnt[1];i++)
     {
-        fp >> drum2[i].power >> drum2[i].msec;
+        fp >> drum[1][i].power >> drum[1][i].msec;
     }
 
-    printf("drum2 file : %d\n",drum2_cnt);
-    for(int i=0;i<drum2_cnt;i++)
-        printf("%d %llu\n",drum2[i].power, drum2[i].msec);
+    printf("drum2 file : %d\n",drum_cnt[1]);
+    for(int i=0;i<drum_cnt[1];i++)
+        printf("%d %llu\n",drum[1][i].power, drum[1][i].msec);
 
     fp.close();
 }
 
-void Serial_play::fileup(char* buf)
+void Serial_play::fileup()
 {
     playable = makefilename(++current_filenum, current_filename);
     if(playable)
     {
         printf("File can be opend : %s\n", current_filename);
-        sprintf(buf, "OK");
     }
     else
     {
         printf("File cannot be opend : %s\n", current_filename);
-        sprintf(buf, "NO");
     }
 }
 
-void Serial_play::filedown(char* buf)
+void Serial_play::filedown()
 {
     if(--current_filenum < 0)
         current_filenum = 0;
@@ -105,11 +106,15 @@ void Serial_play::filedown(char* buf)
     if(playable)
     {
         printf("File can be opend : %s\n", current_filename);
-        sprintf(buf, "OK");
     }
     else
     {
         printf("File cannot be opend : %s\n", current_filename);
-        sprintf(buf, "NO");
     }
+}
+
+note* Serial_play::getnote(int number, int* length)
+{
+    *length = this->drum_cnt[number];
+    return this->drum[number];
 }
