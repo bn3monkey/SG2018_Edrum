@@ -59,7 +59,7 @@ void Serial_play::file_initialize()
     for(int i=0;i<drum_cnt[0];i++)
     {
         drum[0][i].drum = cmd_led1;
-        fscanf(fp,"%d %d ",&(drum[0][i].power),&(drum[0][i].msec));
+        fscanf(fp,"%d %llu ",&(drum[0][i].power),&(drum[0][i].msec));
     }
     drum_index[0] = 0;
 
@@ -78,7 +78,7 @@ void Serial_play::file_initialize()
     for(int i=0;i<drum_cnt[1];i++)
     {
        drum[1][i].drum = cmd_led2;
-       fscanf(fp,"%d %d ",&(drum[0][i].power),&(drum[0][i].msec));
+       fscanf(fp,"%d %llu ",&(drum[0][i].power),&(drum[0][i].msec));
     }
     drum_index[1] = 0;
 
