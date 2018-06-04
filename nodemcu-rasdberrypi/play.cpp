@@ -54,12 +54,12 @@ void Serial_play::file_initialize(char* buf)
         fp >> drum1[i].power >> drum1[i].msec;
     }
 
-    printf("drum1 file\n");
+    printf("drum1 file : %d\n",drum1_cnt);
     for(int i=0;i<drum1_cnt;i++)
         printf("%d %llu",drum1[i].power, drum1[i].msec);
 
     //두번쨰 드럼
-     fp >> temp >> drum2_cnt;
+    fp >> temp >> drum2_cnt;
     drum2 = new note[drum2_cnt];
     if(drum2 == NULL)
     {
@@ -71,9 +71,11 @@ void Serial_play::file_initialize(char* buf)
         fp >> drum2[i].power >> drum2[i].msec;
     }
 
-    printf("drum2 file\n");
+    printf("drum2 file : %d\n",drum2_cnt);
     for(int i=0;i<drum2_cnt;i++)
         printf("%d %llu",drum2[i].power, drum2[i].msec);
+
+    fp.close();
 }
 
 void Serial_play::fileup(char* buf)

@@ -1,17 +1,8 @@
 #include <arduino.h>
-#include "serial_protocol.h"
 #define RECORD_THRESHOLD 300
-
-#define RASDBERRY
-#ifdef RASDBERRY
-#define PLAY_THRESHOLD 500
-#define FILEDOWN_THRESHOLD 600
-#define FILEUP_THRESHOLD 700
-#else
 #define PLAY_THRESHOLD 400
-#define FILEDOWN_THRESHOLD 500
-#define FILEUP_THRESHOLD 600
-#endif
+#define SELECT_FILEDOWN 500
+#define SELECT_FILEUP 600
 
 enum signal_status
 {
@@ -40,6 +31,8 @@ class Button_signal
     int pin;
     int status;
 
+    //Debug를 위한 analogRead power 담기
+    int power;
     int prev_signal;
     int signal;
 

@@ -3,20 +3,21 @@
 
 int Button_signal::read()
 {
-   this->signal = analogRead(this->pin);
-    if(RECORD_THRESHOLD <= this->signal &&  this->signal < RECORD_THRESHOLD + 100)
+   this->power = analogRead(this->pin);
+   
+    if(RECORD_THRESHOLD <= this->power &&  this->power < RECORD_THRESHOLD + 100)
     {
         this->signal = p_record;
     }
-    else if(PLAY_THRESHOLD <= this->signal && this->signal < PLAY_THRESHOLD + 100)
+    else if(PLAY_THRESHOLD <= this->power && this->power < PLAY_THRESHOLD + 100)
     {
         this->signal = p_play;
     }
-    else if(FILEDOWN_THRESHOLD <= this->signal && this->signal < FILEDOWN_THRESHOLD + 100)
+    else if(FILEDOWN_THRESHOLD <= this->power && this->power < FILEDOWN_THRESHOLD + 100)
     {
         this->signal = p_filedown;
     }
-    else if(FILEUP_THRESHOLD <= this->signal && this->signal < FILEUP_THRESHOLD + 100)
+    else if(FILEUP_THRESHOLD <= this->power && this->power < FILEUP_THRESHOLD + 100)
     {
         this->signal = p_fileup;
     }
@@ -88,11 +89,14 @@ void Button_signal::set(unsigned long* elapsed)
 {
     switch(this->status)
     {
-        case record_start : Serial.print(cmd_recordstart ,DEC); Serial.write(" 0 0\n"); *elapsed = 0; break;
-        case record_end: Serial.print(cmd_recordend ,DEC); Serial.write(" 0 0\n");  break;
-        case play_start : Serial.print(cmd_playstart ,DEC); Serial.write(" 0 0\n"); *elapsed = 0; break;
-        case play_end: Serial.print(cmd_playend ,DEC); Serial.write(" 0 0\n"); break;
-        case file_up : Serial.print(cmd_fileup ,DEC); Serial.write(" 0 0\n"); break;
-        case file_down :  Serial.print(cmd_filedown ,DEC); Serial.write(" 0 0\n"); break;
+        case record_start : Serial.print(cmd_recordstart ,DEC); *elapsed = 0; break;
+        case record_end: Serial.print(cmd_recordend ,DEC); break;
+        case play_start : Serial.print(cmd_playstart ,DEC); *elapsed = 0; break;
+        case play_end: Serial.print(cmd_playend ,DEC); break;
+        case file_up : Serial.print(cmd_fileup ,DEC); break;
+        case file_down :  Serial.print(cmd_filedown ,DEC); break;
     }
+    Serial.write(" ");
+    Serial.print(this->power, DEC);
+    Serial.write(" 0\n");
 }
