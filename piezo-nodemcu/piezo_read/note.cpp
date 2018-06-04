@@ -25,6 +25,7 @@ bool note_queue::download_debug()
         Serial.print(this->queue[i].time,DEC);
         Serial.write("\n");
     }
+    Serial.println("--download Debug END--");
 }
 
 note note_queue::front()
