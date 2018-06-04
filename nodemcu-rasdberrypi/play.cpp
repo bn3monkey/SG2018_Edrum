@@ -33,6 +33,8 @@ void Serial_play::play(note* temp, char* buf)
 void Serial_play::file_initialize(char* buf)
 {
     char temp[10];
+    int num;
+
     if(!playable)
     {
         printf("File cannot be opend : %s\n", current_filename);
@@ -41,6 +43,8 @@ void Serial_play::file_initialize(char* buf)
 
     fp.open(current_filename);
 
+    fp >> num;
+	
     //첫번쨰 드럼
     fp >> temp >> drum1_cnt;
     drum1 = new note[drum1_cnt];
@@ -56,7 +60,7 @@ void Serial_play::file_initialize(char* buf)
 
     printf("drum1 file : %d\n",drum1_cnt);
     for(int i=0;i<drum1_cnt;i++)
-        printf("%d %llu",drum1[i].power, drum1[i].msec);
+        printf("%d %llu\n",drum1[i].power, drum1[i].msec);
 
     //두번쨰 드럼
     fp >> temp >> drum2_cnt;
@@ -73,7 +77,7 @@ void Serial_play::file_initialize(char* buf)
 
     printf("drum2 file : %d\n",drum2_cnt);
     for(int i=0;i<drum2_cnt;i++)
-        printf("%d %llu",drum2[i].power, drum2[i].msec);
+        printf("%d %llu\n",drum2[i].power, drum2[i].msec);
 
     fp.close();
 }
