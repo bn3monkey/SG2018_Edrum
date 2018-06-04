@@ -1,4 +1,6 @@
 #include <arduino.h>
+#include "note.hpp"
+
 #define RECORD_THRESHOLD 300
 #define PLAY_THRESHOLD 400
 #define FILEDOWN_THRESHOLD 500
@@ -47,5 +49,5 @@ class Button_signal
         //Signal을 읽어와서 현재 상태를 얻어온다.
         int read();
         // read에서 얻어온 현재 상태를 이용해, 현재 상태에서 필요한 부분을 세팅한다.
-        void set(unsigned long* elapsed);
+        void set(unsigned long* elapsed, note_queue* q);
 };

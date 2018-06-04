@@ -85,28 +85,31 @@ int Button_signal::read()
     return this->status;
 }
 
-void Button_signal::set(unsigned long* elapsed)
+static void cmd_send(int command, int power, int chrono)
+{
+  Serial.print(command ,DEC);
+  Serial.write(" ");
+  Serial.print(power, DEC);
+  Serial.write(" ");
+  Serial.println(chrono, DEC);
+}
+void Button_signal::set(unsigned long* elapsed, note_queue* q)
 {
     switch(this->status)
     {
-        case record_start : Serial.print(cmd_recordstart ,DEC); *elapsed = 0; break;
-        case record_end : Serial.print(cmd_recordend ,DEC); break;
-        case play_start : Serial.print(cmd_playstart ,DEC); *elapsed = 0; break;
-        case play_end : Serial.print(cmd_playend ,DEC); break;
-        case file_up : Serial.print(cmd_fileup ,DEC); break;
-        case file_down :  Serial.print(cmd_filedown ,DEC); break;
+        case record_start :cmd_send(cmd_recordstart, this->power, 0); *elapsed = 0; break;
+        case record_end : cmd_send(cmd_recordend, this->power, 0);break;
+        case play_start : cmd_send(cmd_playstart, this->power, 0); *elapsed = 0; 
+        
+                        while(q[0].download());
+                        q[0].download_debug();
+                        while(q[1].download());
+                        q[1].download_debug();
+        
+                        break;
+        case play_end : cmd_send(cmd_playend, this->power, 0); break;
+        case file_up : cmd_send(cmd_fileup, this->power, 0); break;
+        case file_down : cmd_send(cmd_filedown, this->power, 0); break;
     }
-    switch(this->status)
-    {
-      case record_start :
-      case record_end :
-      case play_start :
-      case play_end :
-      case file_up :
-      case file_down :
-      Serial.write(" ");
-      Serial.print(this->power, DEC);
-      Serial.write(" 0\n");
-      break;
-    }
+   
 }
