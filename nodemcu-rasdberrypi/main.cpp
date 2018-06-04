@@ -41,7 +41,7 @@ int main()
     {
         io->readSerial();
         io->setSerial(&temp);
-        logSerial(temp);
+        //logSerial(temp);
 	
         play->play(&temp, cmd);
 	
