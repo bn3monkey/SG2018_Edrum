@@ -49,20 +49,22 @@ int main()
         {
             case cmd_playstart :
                 note* nqueue;
-                int length;
+                int length1, length2;
                 
-                nqueue = play->getnote(0, &length);
-                for(int i=0;i<length;i++)
+                nqueue = play->getnote(0, &length1);
+                for(int i=0;i<length1;i++)
                     io->writeNote(nqueue[i]);
                 sprintf(cmd, "-1\n");
                 io->writeSerial(cmd);
 
-                nqueue = play->getnote(1, &length);
-                for(int i=0;i<length;i++)
+                nqueue = play->getnote(1, &length2);
+                for(int i=0;i<length2;i++)
                     io->writeNote(nqueue[i]);
                 sprintf(cmd, "-1\n");
                 io->writeSerial(cmd);
 
+                for(int i=0;i<length1 + length2 + 4;i++)
+                    io->readSerial();
 
                 break;
         }
