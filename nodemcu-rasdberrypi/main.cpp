@@ -47,9 +47,9 @@ int main()
 	
 	    if(!makefile(&temp,filename))
 	    {
-            	io->cleanSerial();
+            io->cleanSerial();
 	    	sprintf(cmd, "python3 send.py %s", filename);
-		system(cmd);
+		    system(cmd);
 	    }
         		
 		//continue_flag = false;
