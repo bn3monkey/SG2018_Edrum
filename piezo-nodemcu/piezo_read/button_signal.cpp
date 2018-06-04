@@ -101,11 +101,11 @@ void Button_signal::set(unsigned long* elapsed, note_queue* q)
         case record_end : cmd_send(cmd_recordend, this->power, 0);break;
         case play_start : cmd_send(cmd_playstart, this->power, 0); *elapsed = 0; 
         
-                        q[0].download(5);
-                        q[1].download(5);
+                        q[0].download(1);
+                        q[1].download(1);
                         
-                        q[0].download_debug();
-                        q[1].download_debug();
+                        //q[0].download_debug();
+                        //q[1].download_debug();
         
                         break;
         case play_end : cmd_send(cmd_playend, this->power, 0); break;

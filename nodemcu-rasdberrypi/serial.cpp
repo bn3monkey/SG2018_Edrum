@@ -51,7 +51,7 @@ int Serial_io::readSerial()
 	    }
     }
     buff->finish();
-    printf("blocking test : %s\n", buff->data());
+    //printf("blocking test : %s\n", buff->data());
     return 1;
 }
 
