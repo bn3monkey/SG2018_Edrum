@@ -54,18 +54,18 @@ bool note_queue::refresh(int refresh)
 
 bool note_queue::download_debug()
 {
-    Serial.println("--download Debug--");
+    Serial.println("7 0 0");
     Serial.print( this->now.drum,DEC);
     Serial.write(" ");
     Serial.print( this->now.power,DEC);
     Serial.write(" ");
     Serial.print(this->now.time,DEC);
-    Serial.write(" ");
+    Serial.write("\n");
     Serial.print( this->next.drum,DEC);
     Serial.write(" ");
     Serial.print( this->next.power,DEC);
     Serial.write(" ");
     Serial.print(this->next.time,DEC);
     Serial.write("\n");
-    Serial.println("--download Debug END--");
+    Serial.println("8 0 0");
 }

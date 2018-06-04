@@ -104,10 +104,8 @@ void Button_signal::set(unsigned long* elapsed, note_queue* q)
                         q[0].download(1);
                         q[1].download(1);
                         
-                        Serial.println("8 0 0");
-
-                        //q[0].download_debug();
-                        //q[1].download_debug();
+                        q[0].download_debug();
+                        q[1].download_debug();
         
                         break;
         case play_end : cmd_send(cmd_playend, this->power, 0); break;
