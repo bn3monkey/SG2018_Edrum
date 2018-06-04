@@ -55,13 +55,13 @@ int main()
                 for(int i=0;i<length;i++)
                     io->writeNote(nqueue[i]);
                 sprintf(cmd, "-1\n");
-                io->writeNote(cmd);
+                io->writeSerial(cmd);
 
                 nqueue = play->getnote(1, &length);
                 for(int i=0;i<length;i++)
                     io->writeNote(nqueue[i]);
                 sprintf(cmd, "-1\n");
-                io->writeNote(cmd);
+                io->writeSerial(cmd);
 
 
                 break;

@@ -2,7 +2,6 @@
 #include "note.hpp"
 
 #define RECORD_THRESHOLD 300
-
 #define PLAY_THRESHOLD 450
 #define FILEDOWN_THRESHOLD 550
 #define FILEUP_THRESHOLD 650
