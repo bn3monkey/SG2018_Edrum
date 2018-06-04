@@ -90,13 +90,23 @@ void Button_signal::set(unsigned long* elapsed)
     switch(this->status)
     {
         case record_start : Serial.print(cmd_recordstart ,DEC); *elapsed = 0; break;
-        case record_end: Serial.print(cmd_recordend ,DEC); break;
+        case record_end : Serial.print(cmd_recordend ,DEC); break;
         case play_start : Serial.print(cmd_playstart ,DEC); *elapsed = 0; break;
-        case play_end: Serial.print(cmd_playend ,DEC); break;
+        case play_end : Serial.print(cmd_playend ,DEC); break;
         case file_up : Serial.print(cmd_fileup ,DEC); break;
         case file_down :  Serial.print(cmd_filedown ,DEC); break;
     }
-    Serial.write(" ");
-    Serial.print(this->power, DEC);
-    Serial.write(" 0\n");
+    switch(this->status)
+    {
+      case record_start :
+      case record_end :
+      case play_start :
+      case play_end :
+      case file_up :
+      case file_down :
+      Serial.write(" ");
+      Serial.print(this->power, DEC);
+      Serial.write(" 0\n");
+      break;
+    }
 }

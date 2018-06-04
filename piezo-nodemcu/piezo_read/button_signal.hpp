@@ -1,8 +1,8 @@
 #include <arduino.h>
 #define RECORD_THRESHOLD 300
 #define PLAY_THRESHOLD 400
-#define SELECT_FILEDOWN 500
-#define SELECT_FILEUP 600
+#define FILEDOWN_THRESHOLD 500
+#define FILEUP_THRESHOLD 600
 
 enum signal_status
 {
