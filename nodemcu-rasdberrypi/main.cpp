@@ -17,10 +17,12 @@ void logSerial(note pnote)
         case cmd_playend : printf("PLAY_END "); break;
         case cmd_fileup : printf("FILE_UP "); break;
         case cmd_filedown : printf("FILE_DOWN "); break;
-        case cmd_download : printf("DOWNLOAD "); break;
-        case cmd_refresh : printf("REFRESH "); break;
-
-        case cmd_drum1 : printf("DRUM1 "); break;
+        case cmd_downloadreq : printf("DOWNLOAD_REQUSET "); break;
+        case cmd_downloadres : printf("DOWNLOAD_RESPOND "); break;
+        case cmd_refreshreq : printf("REFRESH_REQUSET "); break;
+        case cmd_refreshres : printf("REFRESH_RESPOND "); break;
+        
+	case cmd_drum1 : printf("DRUM1 "); break;
         case cmd_drum2 : printf("DRUM2 "); break;
 
         case cmd_led1 : printf("LED1 "); break;

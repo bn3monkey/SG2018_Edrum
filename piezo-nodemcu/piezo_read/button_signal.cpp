@@ -104,7 +104,7 @@ void Button_signal::set(unsigned long* elapsed, note_queue* q)
                         q[0].download(1);
                         q[1].download(1);
                         
-                        Serial.pritnln("8 0 0");
+                        Serial.println("8 0 0");
 
                         //q[0].download_debug();
                         //q[1].download_debug();
