@@ -2,9 +2,9 @@
 #include "note.hpp"
 
 #define RECORD_THRESHOLD 300
-#define PLAY_THRESHOLD 400
-#define FILEDOWN_THRESHOLD 500
-#define FILEUP_THRESHOLD 600
+#define PLAY_THRESHOLD 450
+#define FILEDOWN_THRESHOLD 550
+#define FILEUP_THRESHOLD 650
 
 enum signal_status
 {

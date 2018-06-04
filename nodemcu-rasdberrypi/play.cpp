@@ -103,7 +103,7 @@ void Serial_play::filedown()
 {
     if(--current_filenum < 0)
         current_filenum = 0;
-    playable = makefilename(--current_filenum, current_filename);
+    playable = makefilename(current_filenum, current_filename);
     if(playable)
     {
         printf("File can be opend : %s\n", current_filename);
