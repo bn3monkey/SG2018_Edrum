@@ -71,8 +71,8 @@ int Serial_io::writeSerial(char* buf)
 }
 int Serial_io::writeNote(note note)
 {
-    static char buf[20];
-    sprintf(buf,"%d %d %llu",note.drum, note.power, note.msec);
+    char buf[30];
+    sprintf(buf,"%d %d %llu\n",note.drum, note.power, note.msec);
     return writeSerial(buf);
 }
 

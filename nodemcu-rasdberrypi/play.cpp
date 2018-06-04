@@ -46,10 +46,10 @@ void Serial_play::file_initialize()
 
     fp = fopen(current_filename, "r");
 
-    fscanf(fp,"%d",&num);
+    fscanf(fp,"%d ",&num);
 	
     //첫번쨰 드럼
-    fscanf(fp,"%s %d",temp,&(drum_cnt[0]));
+    fscanf(fp,"%s %d ",temp,&(drum_cnt[0]));
     drum[0] = new note[drum_cnt[0]];
     if(drum[0] == NULL)
     {
@@ -68,7 +68,7 @@ void Serial_play::file_initialize()
         printf("%d %d %llu\n",drum[0][i].drum, drum[0][i].power, drum[0][i].msec);
 
     //두번쨰 드럼
-    fscanf(fp,"%s %d",temp,&(drum_cnt[1]));
+    fscanf(fp,"%s %d ",temp,&(drum_cnt[1]));
     drum[1] = new note[drum_cnt[1]];
     if(drum[1] == NULL)
     {
@@ -78,7 +78,7 @@ void Serial_play::file_initialize()
     for(int i=0;i<drum_cnt[1];i++)
     {
        drum[1][i].drum = cmd_led2;
-       fscanf(fp,"%d %llu ",&(drum[0][i].power),&(drum[0][i].msec));
+       fscanf(fp,"%d %llu ",&(drum[1][i].power),&(drum[1][i].msec));
     }
     drum_index[1] = 0;
 
