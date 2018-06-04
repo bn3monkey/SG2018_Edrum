@@ -9,5 +9,6 @@
 /edrum-server/edrum_server/edrum_server_app/migrations/
 /edrum-server/edrum_server/edrum_server_app/__pycache__
 *.txt
+*.json
 
 
