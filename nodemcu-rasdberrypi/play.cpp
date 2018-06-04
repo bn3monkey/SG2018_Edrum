@@ -1,6 +1,5 @@
 #include "play.hpp"
 #include "serial_protocol.h"
-using namespace std;
 
 void Serial_play::deallocation()
 {
@@ -45,12 +44,12 @@ void Serial_play::file_initialize()
         return;
     }
 
-    fp.open(current_filename);
+    fp = fopen(current_filename, "r");
 
-    fp >> num;
+    fscanf(fp,"%d",&num);
 	
     //첫번쨰 드럼
-    fp >> temp >> drum_cnt[0];
+    fscanf(fp,"%s %d",temp,&(drum_cnt[0]));
     drum[0] = new note[drum_cnt[0]];
     if(drum[0] == NULL)
     {
@@ -60,7 +59,7 @@ void Serial_play::file_initialize()
     for(int i=0;i<drum_cnt[0];i++)
     {
         drum[0][i].drum = cmd_led1;
-        fp >> drum[0][i].power >> drum[0][i].msec;
+        fscanf(fp,"%d %d ",&(drum[0][i].power),&(drum[0][i].msec));
     }
     drum_index[0] = 0;
 
@@ -69,7 +68,7 @@ void Serial_play::file_initialize()
         printf("%d %d %llu\n",drum[0][i].drum, drum[0][i].power, drum[0][i].msec);
 
     //두번쨰 드럼
-    fp >> temp >> drum_cnt[1];
+    fscanf(fp,"%s %d",temp,&(drum_cnt[1]));
     drum[1] = new note[drum_cnt[1]];
     if(drum[1] == NULL)
     {
@@ -78,8 +77,8 @@ void Serial_play::file_initialize()
     }
     for(int i=0;i<drum_cnt[1];i++)
     {
-        drum[1][i].drum = cmd_led2;
-        fp >> drum[1][i].power >> drum[1][i].msec;
+       drum[1][i].drum = cmd_led2;
+       fscanf(fp,"%d %d ",&(drum[0][i].power),&(drum[0][i].msec));
     }
     drum_index[1] = 0;
 
@@ -87,7 +86,7 @@ void Serial_play::file_initialize()
     for(int i=0;i<drum_cnt[1];i++)
         printf("%d %d %llu\n",drum[1][i].drum, drum[1][i].power, drum[1][i].msec);
 
-    fp.close();
+    fclose(fp);
 }
 
 void Serial_play::fileup()

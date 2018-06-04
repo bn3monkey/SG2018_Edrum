@@ -30,9 +30,11 @@ class note_queue
     }
 
     // play start 시 note_queue에 있는 정보를 두 개 받는다.
-    bool download();
+    //trial은 라즈베리파이와의 접속시도다.
+    bool download(int trial);
     // playing 시 note_queue에 있는 정보를 하나 받는다.
-    bool refresh();
+    // trial은 라즈베리파이와의 접속시도다.
+    bool refresh(int trial);
 
     //제대로 받아왔는지 출력.
     bool download_debug();

@@ -56,8 +56,8 @@ int main()
                 sprintf(cmd, "-1\n");
                 io->writeSerial(cmd);
 
-                io->writeNote( play->getnote(0));
-                io->writeNote( play->getnote(0));
+                io->writeNote( play->getnote(1));
+                io->writeNote( play->getnote(1));
                 sprintf(cmd, "-1\n");
                 io->writeSerial(cmd);
 

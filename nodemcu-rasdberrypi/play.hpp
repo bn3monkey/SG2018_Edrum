@@ -1,5 +1,5 @@
 #include "record.h"
-#include <fstream>
+#include <stdio.h>
 
 class Serial_play
 {
@@ -19,7 +19,7 @@ class Serial_play
     int drum_index[2];
 
     //현재 참조하고 있는 파일 스트림
-    std::ifstream fp;
+    FILE* fp;
     
     //노트 배열 할당 해제
     void deallocation();
