@@ -1,5 +1,6 @@
 #include "play.hpp"
 #include "serial_protocol.h"
+using namespace std;
 
 void Serial_play::deallocation()
 {
