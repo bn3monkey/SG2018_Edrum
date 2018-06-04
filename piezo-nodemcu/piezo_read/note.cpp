@@ -1,21 +1,25 @@
 #include "note.hpp"
+#include <string.h>
 
 bool note_queue::download(int refresh)
 {
     static char buffer[50];
     note temp;
 
+    memset(buffer, 0, 50);
     while(Serial.readBytesUntil('\n', buffer, 50)==0 && refresh--);
     if(refresh <= 0)
         return false;
     sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
     this->now = temp;
     
+    memset(buffer, 0, 50);
     if(Serial.readBytesUntil('\n', buffer, 50)==0)
         return false;
     sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
     this->next = temp;
     
+    memset(buffer, 0, 50);
     if(Serial.readBytesUntil('\n', buffer, 50)==0)
         return false;
     sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
@@ -28,11 +32,14 @@ bool note_queue::refresh(int refresh)
 {
     static char buffer[50];
     note temp;
+
+    memset(buffer, 0, 50);
     while(Serial.readBytesUntil('\n', buffer, 50)==0 && refresh--);
     if(refresh <= 0)
         return false;
     sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
     
+    memset(buffer, 0, 50);
     if(Serial.readBytesUntil('\n', buffer, 50)==0)
         return false;
     sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
