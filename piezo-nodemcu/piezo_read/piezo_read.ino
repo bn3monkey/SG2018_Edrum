@@ -120,7 +120,13 @@ void loop()
           //4(2-2일 경우). 현재 친거랑 비교해서 채점해서 Serial로 메시지 보냄
         }
       }
+
     }
+    int allplay = 0;
+    for(;allplay<NUM_DRUM;allplay++)
+      if(!nqueue[allplay].finish()) break;
+    if(allplay == NUM_DRUM)
+      status = play_end;
   }
 
 

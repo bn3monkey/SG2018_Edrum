@@ -49,6 +49,9 @@ class note_queue
     // trial은 라즈베리파이와의 접속시도다.
     bool refresh(int trial);
 
+    //해당 LED의 노트를 전부 출력했으면 true, 아니면 false
+    bool finish();
+
     //제대로 받아왔는지 출력.
     bool download_debug();
     bool refresh_debug();
