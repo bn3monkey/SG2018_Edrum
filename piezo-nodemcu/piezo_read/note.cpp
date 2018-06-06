@@ -60,8 +60,15 @@ bool note_queue::refresh(int trial)
 #define IN_SCORE(score, gap) ((score) - HALF_TIME_INTERVAL <= (gap) && (gap) < (score) + HALF_TIME_INTERVAL)
 int note_queue::note_sync(unsigned long elapsed)
 {
-    unsigned long gap = now.time - elapsed;
+    int gap;
+    
+    if(now.time > elapsed)
+      gap = (int)(now.time - elapsed);
+    else
+      gap = -(int)(elapsed - now.time);
 
+    //Serial.println(gap,DEC);
+    
     if(gap < passaway)
         return passaway;
     else if(IN_SCORE(excellent, gap))

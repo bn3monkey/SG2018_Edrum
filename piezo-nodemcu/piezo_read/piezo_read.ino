@@ -54,7 +54,10 @@ void setup()
 }
 
 void loop()
-{  
+{ 
+  //For button input test 
+  //Serial.println(analogRead(BUTTON), DEC);
+  
   drum[0].set();
   drum[1].set();
   status = button.read();
@@ -82,11 +85,12 @@ void loop()
       }
     }
 
-    if(status == recording)
+    if(status == playing)
     {
       for(int i=0;i<NUM_DRUM;i++)
       {
-        static int score = nqueue[i].note_sync(elapsed);
+        int score = nqueue[i].note_sync(elapsed);
+        
         //1. 현재 가장 가까운 노트 확인
         if(score < passaway)
         {
@@ -101,12 +105,12 @@ void loop()
           //3(2-2일 경우). 시각에 따라서 불이 들어옴
           switch(score)
           {
-            case verybad : break;
+            case verybad : led[i].write(0, 0, 0); break;
             case bad : led[i].write(0, 1, 0); break;
-            case good : led[i].write(0, 3, 0); break;
-            case nice : led[i].write(0, 5, 0); break;
-            case excellent : led[i].write(0, 7, 0); break;
-            case passaway :  led[i].write(0, 9, 0); break;
+            case good : led[i].write(0, 20, 0); break;
+            case nice : led[i].write(0, 40, 0); break;
+            case excellent : led[i].write(0, 60, 0); break;
+            case passaway :  led[i].write(0, 0, 0); break;
           }
 
           //4(2-2일 경우). 현재 친거랑 비교해서 채점해서 Serial로 메시지 보냄

@@ -3,7 +3,7 @@
 
 #include <arduino.h>
 
-#define TIME_INTERVAL 100
+#define TIME_INTERVAL 200
 #define HALF_TIME_INTERVAL (TIME_INTERVAL/2)
 enum score_timing
 {
@@ -33,7 +33,8 @@ class note_queue
     {
         next.drum = now.drum = 0x100 * (led_number + 1);
         next.power = now.power = -1;
-        next.time = now.time = 0;
+        next.time = 6000;
+        now.time = 3000; //for debugging
         
     }
     ~note_queue()
