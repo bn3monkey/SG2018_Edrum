@@ -8,12 +8,12 @@
 enum score_timing
 {
     passaway = -50, //-50
-    excellent = 0 * TIME_INTERVEL, //-50 < x < 50
-    nice = 1 * TIME_INTERVEL, // 50 < x < 150
-    good = 2 * TIME_INTERVEL, // 150 < x 250
-    bad = 3 * TIME_INTERVEL, // 250 < x < 350
+    excellent = 0 * TIME_INTERVAL, //-50 < x < 50
+    nice = 1 * TIME_INTERVAL, // 50 < x < 150
+    good = 2 * TIME_INTERVAL, // 150 < x 250
+    bad = 3 * TIME_INTERVAL, // 250 < x < 350
     verybad = 4 * TIME_INTERVAL
-}
+};
 
 struct note
 {
@@ -50,6 +50,7 @@ class note_queue
 
     //제대로 받아왔는지 출력.
     bool download_debug();
+    bool refresh_debug();
 
     // 현재 시간과 note에 저장된 시간을 비교하여 얼마나 싱크가 맞는지 결과값을
     // 리턴한다. 

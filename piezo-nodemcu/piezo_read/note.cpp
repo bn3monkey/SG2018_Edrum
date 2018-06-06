@@ -10,8 +10,8 @@ bool note_queue::download(int trial)
     cmd_send(cmd_downloadreq, 0, 0);
     
     memset(buffer, 0, 50);
-    while(Serial.readBytesUntil('\n', buffer, 50)==0 && refresh--);
-    if(refresh <= 0)
+    while(Serial.readBytesUntil('\n', buffer, 50)==0 && trial--);
+    if(trial <= 0)
         return false;
     sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
     this->now = temp;
@@ -39,8 +39,8 @@ bool note_queue::refresh(int trial)
     cmd_send(cmd_refreshreq, 0, 0);
 
     memset(buffer, 0, 50);
-    while(Serial.readBytesUntil('\n', buffer, 50)==0 && refresh--);
-    if(refresh <= 0)
+    while(Serial.readBytesUntil('\n', buffer, 50)==0 && trial--);
+    if(trial <= 0)
         return false;
     sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
     

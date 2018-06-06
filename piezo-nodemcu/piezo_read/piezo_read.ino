@@ -45,8 +45,8 @@ void setup()
   nqueue[0] = note_queue(0);
   nqueue[1] = note_queue(1);
 
-  hittime[0] = false;
-  hittime[1] = false;
+  hit_time[0] = false;
+  hit_time[1] = false;
 
   elapsed = 0;
   
@@ -78,7 +78,7 @@ void loop()
         //Serial.println(buf);
         sprintf(buf, "%d %d %lu",0x10 * (i+1),drum[i].get(),elapsed);
         Serial.println(buf);
-        hittime[i] = true;
+        hit_time[i] = true;
       }
     }
 
@@ -117,8 +117,8 @@ void loop()
 
 
   elapsed = elapsed + 1;
-  hittime[0] = false;
-  hittime[1] = false;
+  hit_time[0] = false;
+  hit_time[1] = false;
 
   delay(1);
 }
