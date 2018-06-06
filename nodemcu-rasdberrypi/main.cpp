@@ -35,10 +35,10 @@ void logSerial(note pnote)
         case cmd_led2 : printf("LED2 "); break;
     }
     if(pnote.drum != cmd_scoring)
-        printf("%d");
+        printf("%d", pnote.power);
     else
     {
-        switch(cmd_scoring)
+        switch(pnote.power)
         {
             case excellent : printf("excellent"); break;
             case nice : printf("nice"); break;
@@ -47,7 +47,7 @@ void logSerial(note pnote)
             case verybad : printf("verybad"); break;
         }
     }
-    printf(" %llu\n", pnote.power, pnote.msec);
+    printf(" %llu\n", pnote.msec);
 }
 
 
