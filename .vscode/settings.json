@@ -11,6 +11,7 @@
         "deque": "cpp",
         "list": "cpp",
         "queue": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "xiosbase": "cpp"
     }
 }

@@ -31,6 +31,9 @@ int status;
 //For time checking
 unsigned long elapsed;
 
+// when hit_time is determined, these value are true.
+bool hit_time[NUM_DRUM];
+
 void setup()
 {
   drum[0] = Drum_signal(A1);
@@ -41,6 +44,9 @@ void setup()
 
   nqueue[0] = note_queue(0);
   nqueue[1] = note_queue(1);
+
+  hittime[0] = false;
+  hittime[1] = false;
 
   elapsed = 0;
   
@@ -54,10 +60,11 @@ void loop()
   status = button.read();
   button.set(&elapsed, nqueue);
 
-  if(status == recording || status == playing)
+  if(status == playing || status == recording)
   {
     for(int i=0;i<NUM_DRUM;i++)
     {
+
       if(drum[i].signal_on() || drum[i].signal_doing())
       {
         //sprintf(buf,"SIG : %d",drum[i].recent_get());
@@ -71,11 +78,44 @@ void loop()
         //Serial.println(buf);
         sprintf(buf, "%d %d %lu",0x10 * (i+1),drum[i].get(),elapsed);
         Serial.println(buf);
+        hittime[i] = true;
+      }
+    }
+
+    if(status == recording)
+    {
+      for(int i=0;i<NUM_DRUM;i++)
+      {
+        static int score = nqueue[i].note_sync(elapsed);
+        //1. 현재 가장 가까운 노트 확인
+        if(score < passaway)
+        {
+          //2-1. 지났으면 현재 노트를 새 노트로 변경
+          nqueue[i].refresh(1);
+        }
+        //2-2. 지나지 않았으면, 현재 시각이랑 간격 확인
+        else
+        {
+          //3(2-2일 경우). 시각에 따라서 불이 들어옴
+          switch(score)
+          {
+            case verybad : break;
+            case bad : led[i].write(0, 1, 0); break;
+            case good : led[i].write(0, 3, 0); break;
+            case nice : led[i].write(0, 5, 0); break;
+            case excellent : led[i].write(0, 7, 0); break;
+            case passaway :  led[i].write(0, 9, 0); break;
+          }
+
+          //4(2-2일 경우). 현재 친거랑 비교해서 채점해서 Serial로 메시지 보냄
+        }
       }
     }
   }
 
 
   elapsed = elapsed + 1;
+  hittime[0] = false;
+  hittime[1] = false;
   delay(1);
 }

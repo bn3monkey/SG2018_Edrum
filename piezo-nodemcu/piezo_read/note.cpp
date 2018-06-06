@@ -1,7 +1,7 @@
 #include "note.hpp"
 #include <string.h>
 
-bool note_queue::download(int refresh)
+bool note_queue::download(int trial)
 {
     static char buffer[50];
     note temp;
@@ -28,7 +28,7 @@ bool note_queue::download(int refresh)
     return false;
 }
 
-bool note_queue::refresh(int refresh)
+bool note_queue::refresh(int trial)
 {
     static char buffer[50];
     note temp;
@@ -51,6 +51,26 @@ bool note_queue::refresh(int refresh)
     }
     return false;
 }
+
+#define IN_SCORE(score, gap) ((score) - HALF_TIME_INTERVAL <= (gap) && (gap) < (score) + HALF_TIME_INTERVAL)
+int note_queue::note_sync(unsigned long elapsed)
+{
+    unsigned long gap = now.time - elapsed;
+
+    if(gap < passaway)
+        return passaway;
+    else if(IN_SCORE(excellent, gap))
+        return excellent;
+    else if(IN_SCORE(nice, gap))
+        return nice;
+    else if(IN_SCORE(good, gap))
+        return good;
+    else if(IN_SCORE(bad, gap))
+        return bad;
+    else
+        return verybad;
+}
+
 
 bool note_queue::download_debug()
 {
