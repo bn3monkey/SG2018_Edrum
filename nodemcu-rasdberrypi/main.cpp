@@ -52,7 +52,7 @@ int main()
         switch(play->play(&temp))
         {
             case cmd_downloadreq :
-                
+		printf("please download\n");                
                 io->writeNote( play->getnote(temp.power));
                 io->writeNote( play->getnote(temp.power));
                 sprintf(cmd, "-1\n");
@@ -61,6 +61,7 @@ int main()
                 break;
             
             case cmd_refreshreq :
+		printf("please refresh\n");
                 io->writeNote( play->getnote(temp.power));
                 sprintf(cmd, "-1\n");
                 io->writeSerial(cmd);

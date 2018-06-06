@@ -14,6 +14,7 @@ int Serial_play::play(note* temp)
     if(!playing && temp->drum == cmd_playstart)
     {
         file_initialize();
+	playing =  true;
         return cmd_playstart;
     }
     else if(!playing && temp->drum == cmd_fileup)
@@ -28,6 +29,7 @@ int Serial_play::play(note* temp)
     }
     else if(playing && temp->drum == cmd_playend)
     {
+	playing = false;
         return cmd_playend;
     }
     else if(playing && temp->drum == cmd_downloadreq)
