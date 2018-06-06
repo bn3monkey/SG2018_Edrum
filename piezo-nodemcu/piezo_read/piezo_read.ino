@@ -92,9 +92,10 @@ void loop()
         int score = nqueue[i].note_sync(elapsed);
         
         //1. 현재 가장 가까운 노트 확인
-        if(score < passaway)
+        if(score == passaway)
         {
           //2-1. 지났으면 현재 노트를 새 노트로 변경
+          led[i].write(0, 0, 0);
           cmd_send(cmd_downloadreq, 0, 0);
           nqueue[i].refresh(1);
           nqueue[i].refresh_debug();
@@ -110,7 +111,6 @@ void loop()
             case good : led[i].write(0, 20, 0); break;
             case nice : led[i].write(0, 40, 0); break;
             case excellent : led[i].write(0, 60, 0); break;
-            case passaway :  led[i].write(0, 0, 0); break;
           }
 
           //4(2-2일 경우). 현재 친거랑 비교해서 채점해서 Serial로 메시지 보냄
