@@ -168,12 +168,13 @@ void Serial_play::score_in(note temp)
 }
 void Serial_play::print_endscore()
 {
-    int basis;
+    int basis = 0;
     int whole_score = this->score.whole_score;
     for(int i=0;i<this->drum_num;i++)
     {
-        basis = 6 * drum_cnt[i];
+        basis += 6 * drum_cnt[i];
     }
+    printf("\n----------end score----------\n");
     printf("very bad : %d\n", this->score.verybad);
     printf("bad : %d\n", this->score.bad);
     printf("good : %d\n", this->score.good);
@@ -196,4 +197,5 @@ void Serial_play::print_endscore()
         printf("D\n");
     else
         printf("F\n");
+    printf("----------end score----------\n");
 }
