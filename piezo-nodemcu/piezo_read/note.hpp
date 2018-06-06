@@ -31,7 +31,7 @@ class note_queue
     public:
     note_queue(int _led_number = 0) : led_number(_led_number)
     {
-        next.drum = now.drum = 0x100 * led_number;
+        next.drum = now.drum = 0x100 * (led_number + 1);
         next.power = now.power = -1;
         next.time = now.time = 0;
         
