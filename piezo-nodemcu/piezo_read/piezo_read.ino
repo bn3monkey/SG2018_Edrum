@@ -32,7 +32,8 @@ int status;
 unsigned long elapsed;
 
 // when hit_time is determined, these value are true.
-bool hit_time[NUM_DRUM];
+#define HIT_TIMELAP 50
+int hit_time[NUM_DRUM];
 
 void setup()
 {
@@ -82,7 +83,7 @@ void loop()
         //Serial.println(buf);
         sprintf(buf, "%d %d %lu",0x10 * (i+1),drum[i].get(),elapsed);
         Serial.println(buf);
-        hit_time[i] = true;
+        hit_time[i] = HIT_TIMELAP;
       }
     }
 
@@ -117,21 +118,36 @@ void loop()
         else
         {
           //3(2-2일 경우). 시각에 따라서 불이 들어옴
-          switch(score)
+          if(!hit_time[i])
           {
-            case verybad : led[i].write(0, 0, 0); break;
-            case bad : led[i].write(0, 1, 0); break;
-            case good : led[i].write(0, 20, 0); break;
-            case nice : led[i].write(0, 40, 0); break;
-            case excellent : led[i].write(0, 60, 0); break;
+            switch(score)
+            {
+              case verybad : led[i].write(0, 0, 0); break;
+              case bad : led[i].write(0, 1, 0); break;
+              case good : led[i].write(20, 20, 0); break;
+              case nice : led[i].write(25, 50, 0); break;
+              case excellent : led[i].write(0, 60, 0); break;
+            }
           }
-
           //4(2-2일 경우). 현재 친거랑 비교해서 채점해서 Serial로 메시지 보냄
+          else if(hit_time[i] == HIT_TIMELAP)
+          {
+            switch(score)
+            {
+              case verybad : led[i].write(1, 0, 0); break;
+              case bad : led[i].write(60, 0, 0); break;
+              case good : led[i].write(20, 0, 20); break;
+              case nice : led[i].write(0, 0, 40); break;
+              case excellent : led[i].write(0, 0, 60); break;
+            }
+          }
         }
       }
 
       if(allplay == NUM_DRUM)
       {
+        led[0].write(0, 0, 0);
+        led[0].write(0, 0, 0);
         status = play_end;
         cmd_send(cmd_playend, 0, 0);
       }
@@ -140,8 +156,9 @@ void loop()
 
 
   elapsed = elapsed + 1;
-  hit_time[0] = false;
-  hit_time[1] = false;
-
+  if(hit_time[0]>0)
+    hit_time[0]--;
+  if(hit_time[1]>0)
+    hit_time[1]--;
   delay(1);
 }
