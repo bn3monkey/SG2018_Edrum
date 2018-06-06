@@ -48,6 +48,7 @@ void setup()
   hit_time[0] = false;
   hit_time[1] = false;
 
+  status = idle;
   elapsed = 0;
   
   Serial.begin(115200);
@@ -60,8 +61,8 @@ void loop()
   
   drum[0].set();
   drum[1].set();
-  status = button.read();
-  button.set(&elapsed, nqueue);
+  button.read(&status);
+  button.set(&status, &elapsed, nqueue);
 
   if(status == playing || status == recording)
   {
@@ -96,8 +97,11 @@ void loop()
         {
           //2-1. 지났으면 현재 노트를 새 노트로 변경
           led[i].write(0, 0, 0);
-          cmd_send(cmd_downloadreq, 0, 0);
-          nqueue[i].refresh(1);
+          if(!nqueue[i].refresh(1))
+          {
+            status = play_end;
+            break;
+          }
           nqueue[i].refresh_debug();
         }
         //2-2. 지나지 않았으면, 현재 시각이랑 간격 확인

@@ -1,7 +1,7 @@
 #include "button_signal.hpp"
 #include "serial_protocol.h"
 
-int Button_signal::read()
+int Button_signal::read(int* status)
 {
    this->power = analogRead(this->pin);
    
@@ -27,40 +27,40 @@ int Button_signal::read()
     }
 
 
-    switch(this->status)
+    switch(*status)
     {
         case record_start : 
-            this->status = recording;
+            *status = recording;
             break;
 
         case recording :
             if(this->prev_signal == p_idle && this->signal == p_record)
-                this->status = record_end;
+                *status = record_end;
             break;
 
         case record_end :
-            this->status = idle;
+            *status = idle;
             break;
 
         case play_start :
-            this->status = playing;
+            *status = playing;
             break;
 
         case playing :
             if(this->prev_signal == p_idle && this->signal == p_play)
-                this->status = play_end;
+                *status = play_end;
             break;
 
         case play_end:
-            this->status = idle;
+            *status = idle;
             break;
         
         case file_up:
-            this->status = idle;
+            *status = idle;
             break;
         
         case file_down:
-            this->status = idle;
+            *status = idle;
             break;
 
         case idle :
@@ -68,11 +68,11 @@ int Button_signal::read()
             {
                 switch(this->signal)
                 {
-                    case p_idle : this->status = idle; break;
-                    case p_record : this->status = record_start; break;
-                    case p_play : this->status = play_start; break;
-                    case p_fileup : this->status = file_up; break;
-                    case p_filedown : this->status = file_down; break;
+                    case p_idle : *status = idle; break;
+                    case p_record : *status = record_start; break;
+                    case p_play : *status = play_start; break;
+                    case p_fileup : *status = file_up; break;
+                    case p_filedown : *status = file_down; break;
                 }
             }
             break;
@@ -82,20 +82,30 @@ int Button_signal::read()
 
     this->prev_signal = this->signal;
 
-    return this->status;
+    return *status;
 }
 
 
-void Button_signal::set(unsigned long* elapsed, note_queue* q)
+void Button_signal::set(int* status, unsigned long* elapsed, note_queue* q)
 {
-    switch(this->status)
+    switch(*status)
     {
         case record_start :cmd_send(cmd_recordstart, this->power, 0); *elapsed = 0; break;
         case record_end : cmd_send(cmd_recordend, this->power, 0);break;
         case play_start : cmd_send(cmd_playstart, this->power, 0); *elapsed = 0; 
         
-                        q[0].download(1);
-                        q[1].download(1);
+                        if(!q[0].download(1))
+                        {
+                            *status = play_end;
+                            cmd_send(cmd_downloadfail, 0, 0);
+                            return;
+                        }
+                        if(!q[1].download(1))
+                        {
+                            *status = play_end;
+                            cmd_send(cmd_downloadfail, 0, 0);
+                            return;
+                        }
                         
                         q[0].download_debug();
                         q[1].download_debug();

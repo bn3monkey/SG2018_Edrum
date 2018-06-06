@@ -26,7 +26,7 @@ bool note_queue::download(int trial)
     if(Serial.readBytesUntil('\n', buffer, 50)==0)
         return false;
     sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
-    if(temp.power == -1)
+    if(temp.drum == cmd_downloadsuc && temp.power == -1 && temp.time == 0)
         return true;
     return false;
 }
@@ -34,7 +34,7 @@ bool note_queue::download(int trial)
 bool note_queue::refresh(int trial)
 {
     static char buffer[50];
-    note temp;
+    note temp, endmsg;
 
     cmd_send(cmd_refreshreq, led_number, 0);
 
@@ -47,13 +47,15 @@ bool note_queue::refresh(int trial)
     memset(buffer, 0, 50);
     if(Serial.readBytesUntil('\n', buffer, 50)==0)
         return false;
-    sscanf(buffer, "%d %d %lu" ,&(temp.drum), &(temp.power), &(temp.time));
-    if(temp.power == -1)
+    sscanf(buffer, "%d %d %lu" ,&(endmsg.drum), &(endmsg.power), &(endmsg.time));
+    
+    this->now = this->next;
+    if(endmsg.drum == cmd_refreshsuc && endmsg.power == -1 && endmsg.time == 0)
     {
-        this->now = this->next;
         this->next = temp;
         return true;
     }
+    this->next.time = this->next.time += 3000;
     return false;
 }
 

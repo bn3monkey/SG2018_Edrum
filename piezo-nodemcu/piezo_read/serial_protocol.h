@@ -18,6 +18,11 @@ enum serial_command
     cmd_refreshreq = 0x9,
     cmd_refreshres = 0xA,
 
+    cmd_downloadsuc = 0xB,
+    cmd_downloadfail = 0xC,
+    cmd_refreshsuc = 0xB,
+    cmd_refreshfail = 0xC,
+
     cmd_drum1 = 0x10,
     cmd_drum2 = 0x20,
 

@@ -31,7 +31,6 @@ enum status_identifier
 class Button_signal
 {
     int pin;
-    int status;
 
     //Debug를 위한 analogRead power 담기
     int power;
@@ -42,12 +41,11 @@ class Button_signal
         Button_signal(int _pin = 0) : pin(_pin)
         {
             pinMode(pin, INPUT);
-            this->status = idle;
             this->prev_signal = this->signal = p_idle;
         }
 
         //Signal을 읽어와서 현재 상태를 얻어온다.
-        int read();
+        int read(int* status);
         // read에서 얻어온 현재 상태를 이용해, 현재 상태에서 필요한 부분을 세팅한다.
-        void set(unsigned long* elapsed, note_queue* q);
+        void set(int* status, unsigned long* elapsed, note_queue* q);
 };
