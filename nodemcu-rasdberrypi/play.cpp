@@ -30,6 +30,14 @@ int Serial_play::play(note* temp)
     {
         return cmd_playend;
     }
+    else if(playing && temp->drum == cmd_downloadreq)
+    {
+        return cmd_downloadreq;
+    }
+    else if(playing && temp->drum == cmd_refreshreq)
+    {
+        return cmd_refreshreq;
+    }
     return cmd_idle;
 }
 
