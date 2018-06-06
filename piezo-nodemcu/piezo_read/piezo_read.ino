@@ -158,9 +158,9 @@ void loop()
       {
         led[0].write(0, 0, 0);
         led[0].write(0, 0, 0);
+        cmd_send(cmd_endscore, 0 ,0);
         status = play_end;
         cmd_send(cmd_playend, 0, 0);
-        cmd_send(cmd_endscore, 0 ,0);
       }
     }
   }

@@ -22,11 +22,11 @@ void logSerial(note pnote)
         case cmd_refreshreq : printf("REFRESH_REQUSET "); break;
         case cmd_refreshres : printf("REFRESH_RESPOND "); break;
        
-        case cmd_downloadsuc : printf("DOWNLOAD SUCCESS"); break;
-        case cmd_downloadfail : printf("DOWNLOAD FAIL"); break;
-        case cmd_refreshsuc : printf("REFRESH SUCCESS"); break;
-        case cmd_refreshfail : printf("REFRESH FAIL"); break;
-        case cmd_scoring : printf("SCORE"); break;
+        case cmd_downloadsuc : printf("DOWNLOAD SUCCESS "); break;
+        case cmd_downloadfail : printf("DOWNLOAD FAIL "); break;
+        case cmd_refreshsuc : printf("REFRESH SUCCESS "); break;
+        case cmd_refreshfail : printf("REFRESH FAIL "); break;
+        case cmd_scoring : printf("SCORE "); break;
         
 	    case cmd_drum1 : printf("DRUM1 "); break;
         case cmd_drum2 : printf("DRUM2 "); break;
