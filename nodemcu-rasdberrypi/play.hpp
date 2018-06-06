@@ -13,7 +13,30 @@ class Serial_play
     //현재 채점 중인지 여부
     bool playing;
 
+    //총점
+    struct _score
+    {
+        int excellent;
+        int nice;
+        int good;
+        int bad;
+        int verybad;
+        int whole_score;
+
+        _score()
+        {
+            excellent = 0;
+            nice = 0;
+            good = 0;
+            bad = 0;
+            verybad = 0;
+            whole_score = 0;
+        }
+    } score;
+    
+
     //현재 참조하고 있는 파일에서 가져온 노트 배열. queue로서 관리한다.
+    int drum_num;
     note* drum[2];
     int drum_cnt[2];
     int drum_index[2];
@@ -31,6 +54,10 @@ class Serial_play
     void fileup();       
     //현재 참조하고 있는 파일의 번호를 내린다.
     void filedown();
+    // 현재 받아온 스코어의 정보를 받는다.
+    void score_in(note temp);
+    // 총점을 출력한다.
+    void print_endscore();
 
     public:
         Serial_play()

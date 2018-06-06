@@ -3,18 +3,6 @@
 
 #include <arduino.h>
 
-#define TIME_INTERVAL 200
-#define HALF_TIME_INTERVAL (TIME_INTERVAL/2)
-enum score_timing
-{
-    passaway = -50, //-50
-    excellent = 0 * TIME_INTERVAL, //-50 < x < 50
-    nice = 1 * TIME_INTERVAL, // 50 < x < 150
-    good = 2 * TIME_INTERVAL, // 150 < x 250
-    bad = 3 * TIME_INTERVAL, // 250 < x < 350
-    verybad = 4 * TIME_INTERVAL
-};
-
 struct note
 {
     int drum;

@@ -13,6 +13,7 @@
         "queue": "cpp",
         "iosfwd": "cpp",
         "xiosbase": "cpp",
-        "xlocale": "cpp"
+        "xlocale": "cpp",
+        "ratio": "cpp"
     }
 }

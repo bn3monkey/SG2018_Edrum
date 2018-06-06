@@ -4,6 +4,20 @@
 #ifndef __SERIAL_PROTOCOL__
 #define __SERIAL_PROTOCOL__
 
+//드럼을 치는 타이밍과 LED가 켜지는 타이밍의 일치 정도에 따른 점수
+#define TIME_INTERVAL 200
+#define HALF_TIME_INTERVAL (TIME_INTERVAL/2)
+enum score_timing
+{
+    passaway = -50, //-50
+    excellent = 0 * TIME_INTERVAL, //-50 < x < 50
+    nice = 1 * TIME_INTERVAL, // 50 < x < 150
+    good = 2 * TIME_INTERVAL, // 150 < x 250
+    bad = 3 * TIME_INTERVAL, // 250 < x < 350
+    verybad = 4 * TIME_INTERVAL
+};
+
+//Protocol에서 drum 부분이 의미하는 것(이 명령의 종류를 통해 아두이노에서 처리)
 enum serial_command
 {
     cmd_idle = 0x0,
@@ -20,9 +34,12 @@ enum serial_command
 
     cmd_downloadsuc = 0xB,
     cmd_downloadfail = 0xC,
-    cmd_refreshsuc = 0xB,
-    cmd_refreshfail = 0xC,
+    cmd_refreshsuc = 0xD,
+    cmd_refreshfail = 0xE,
 
+    cmd_scoring = 0xF,
+    cmd_endscore = 0xFF,
+    
     cmd_drum1 = 0x10,
     cmd_drum2 = 0x20,
 
@@ -31,5 +48,7 @@ enum serial_command
 
     cmd_allocerror = 0x1000,
 };
+
+//cmd_send를 통해 raspberry pi로 정보 전송 
 void cmd_send(int command, int power, int chrono);
 #endif

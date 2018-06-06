@@ -21,6 +21,12 @@ void logSerial(note pnote)
         case cmd_downloadres : printf("DOWNLOAD_RESPOND "); break;
         case cmd_refreshreq : printf("REFRESH_REQUSET "); break;
         case cmd_refreshres : printf("REFRESH_RESPOND "); break;
+       
+        case cmd_downloadsuc : printf("DOWNLOAD SUCCESS"); break;
+        case cmd_downloadfail : printf("DOWNLOAD FAIL"); break;
+        case cmd_refreshsuc : printf("REFRESH SUCCESS"); break;
+        case cmd_refreshfail : printf("REFRESH FAIL"); break;
+        case cmd_scoring : printf("SCORE"); break;
         
 	    case cmd_drum1 : printf("DRUM1 "); break;
         case cmd_drum2 : printf("DRUM2 "); break;
@@ -28,7 +34,20 @@ void logSerial(note pnote)
         case cmd_led1 : printf("LED1 "); break;
         case cmd_led2 : printf("LED2 "); break;
     }
-    printf("%d %llu\n", pnote.power, pnote.msec);
+    if(pnote.drum != cmd_scoring)
+        printf("%d");
+    else
+    {
+        switch(cmd_scoring)
+        {
+            case excellent : printf("excellent"); break;
+            case nice : printf("nice"); break;
+            case good : printf("good"); break;
+            case bad : printf("bad"); break;
+            case verybad : printf("verybad"); break;
+        }
+    }
+    printf(" %llu\n", pnote.power, pnote.msec);
 }
 
 

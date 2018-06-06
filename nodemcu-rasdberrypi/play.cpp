@@ -15,6 +15,7 @@ int Serial_play::play(note* temp)
     {
         file_initialize();
 	    playing =  true;
+        score = _score();
         return cmd_playstart;
     }
     else if(!playing && temp->drum == cmd_fileup)
@@ -40,13 +41,22 @@ int Serial_play::play(note* temp)
     {
         return cmd_refreshreq;
     }
+    else if(playing && temp->drum == cmd_scoring)
+    {
+        score_in(*temp);
+        return cmd_scoring;
+    }
+    else if(playing && temp->drum == cmd_endscore)
+    {
+        print_endscore();
+        return cmd_endscore;
+    }
     return cmd_idle;
 }
 
 void Serial_play::file_initialize()
 {
     char temp[10];
-    int num;
 
     if(!playable)
     {
@@ -56,7 +66,7 @@ void Serial_play::file_initialize()
 
     fp = fopen(current_filename, "r");
 
-    fscanf(fp,"%d ",&num);
+    fscanf(fp,"%d ",&drum_num);
 	
     //첫번쨰 드럼
     fscanf(fp,"%s %d ",temp,&(drum_cnt[0]));
@@ -143,4 +153,47 @@ note Serial_play::getnote(int number)
         temp.msec = 0;
         return temp;
     }
+}
+
+void Serial_play::score_in(note temp)
+{
+    switch(temp.power)
+    {
+        case excellent : this->score.excellent++; this->score.whole_score += 6;
+        case nice: this->score.nice++; this->score.whole_score += 3;
+        case good: this->score.good++; this->score.whole_score += 1;
+        case bad: this->score.bad++; this->score.whole_score += 0;
+        case verybad: this->score.verybad++; this->score.whole_score += -2;
+    }
+}
+void Serial_play::print_endscore()
+{
+    int basis;
+    int whole_score = this->score.whole_score;
+    for(int i=0;i<this->drum_num;i++)
+    {
+        basis = 6 * drum_cnt[i];
+    }
+    printf("very bad : %d\n", this->score.verybad);
+    printf("bad : %d\n", this->score.bad);
+    printf("good : %d\n", this->score.good);
+    printf("nice : %d\n", this->score.nice);
+    printf("excellent : %d\n", this->score.excellent);
+
+    if(basis * 0.95 <= whole_score)
+        printf("SSS\n");
+    else if(basis * 0.9 <= whole_score)
+        printf("SS\n");
+    else if(basis * 0.85 <= whole_score)
+        printf("S\n");
+    else if(basis * 0.8 <= whole_score)
+        printf("A\n");
+    else if(basis * 0.7 <= whole_score)
+        printf("B\n");
+    else if(basis * 0.5 <= whole_score)
+        printf("C\n");
+    else if(basis * 0.2 <= whole_score)
+        printf("D\n");
+    else
+        printf("F\n");
 }

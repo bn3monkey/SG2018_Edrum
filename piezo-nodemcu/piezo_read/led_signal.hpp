@@ -17,7 +17,7 @@ class LED_signal
             pinMode(_blue, OUTPUT);
         }
         
-        void read();
+        // LED를 RGB 값으로 출력한다.
         void write(int red, int green, int blue);
 
 

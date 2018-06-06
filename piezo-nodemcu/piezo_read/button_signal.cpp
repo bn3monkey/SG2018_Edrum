@@ -3,8 +3,10 @@
 
 int Button_signal::read(int* status)
 {
+    //1. 버튼에서 신호를 받아온다.
    this->power = analogRead(this->pin);
    
+    //2. 현재 어떤 버튼이 눌렸는지 분류한다.
     if(RECORD_THRESHOLD <= this->power &&  this->power < RECORD_THRESHOLD + 100)
     {
         this->signal = p_record;
@@ -27,6 +29,7 @@ int Button_signal::read(int* status)
     }
 
 
+    //버튼에 따른/혹은 따르지 않은 상태 정보를 바꿔준다.
     switch(*status)
     {
         case record_start : 
@@ -88,12 +91,13 @@ int Button_signal::read(int* status)
 
 void Button_signal::set(int* status, unsigned long* elapsed, note_queue* q)
 {
+    //현재 상태에 따라서, 필요한 부분을 세팅해준다.
     switch(*status)
     {
         case record_start :cmd_send(cmd_recordstart, this->power, 0); *elapsed = 0; break;
         case record_end : cmd_send(cmd_recordend, this->power, 0);break;
         case play_start : cmd_send(cmd_playstart, this->power, 0); *elapsed = 0; 
-        
+                        //자동 채점 기능을 수행했을 경우, 외부에서 파일을 받아온다.
                         if(!q[0].download(1))
                         {
                             *status = play_end;
