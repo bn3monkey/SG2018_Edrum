@@ -22,7 +22,7 @@ void logSerial(note pnote)
         case cmd_refreshreq : printf("REFRESH_REQUSET "); break;
         case cmd_refreshres : printf("REFRESH_RESPOND "); break;
         
-	case cmd_drum1 : printf("DRUM1 "); break;
+	    case cmd_drum1 : printf("DRUM1 "); break;
         case cmd_drum2 : printf("DRUM2 "); break;
 
         case cmd_led1 : printf("LED1 "); break;
@@ -53,26 +53,18 @@ int main()
         {
             case cmd_downloadreq :
                 
-                io->writeNote( play->getnote(0));
-                io->writeNote( play->getnote(0));
-                sprintf(cmd, "-1\n");
-                io->writeSerial(cmd);
-
-                io->writeNote( play->getnote(1));
-                io->writeNote( play->getnote(1));
+                io->writeNote( play->getnote(temp.power));
+                io->writeNote( play->getnote(temp.power));
                 sprintf(cmd, "-1\n");
                 io->writeSerial(cmd);
 
                 break;
             
             case cmd_refreshreq :
-                io->writeNote( play->getnote(0));
+                io->writeNote( play->getnote(temp.power));
                 sprintf(cmd, "-1\n");
                 io->writeSerial(cmd);
 
-                io->writeNote( play->getnote(1));
-                sprintf(cmd, "-1\n");
-                io->writeSerial(cmd);
                 break;
         }
 	

@@ -7,7 +7,7 @@ bool note_queue::download(int trial)
     static char buffer[50];
     note temp;
 
-    cmd_send(cmd_downloadreq, 0, 0);
+    cmd_send(cmd_downloadreq, led_number, 0);
     
     memset(buffer, 0, 50);
     while(Serial.readBytesUntil('\n', buffer, 50)==0 && trial--);
@@ -36,7 +36,7 @@ bool note_queue::refresh(int trial)
     static char buffer[50];
     note temp;
 
-    cmd_send(cmd_refreshreq, 0, 0);
+    cmd_send(cmd_refreshreq, led_number, 0);
 
     memset(buffer, 0, 50);
     while(Serial.readBytesUntil('\n', buffer, 50)==0 && trial--);
