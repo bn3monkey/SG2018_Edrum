@@ -88,6 +88,8 @@ void loop()
 
     if(status == playing)
     {
+      int allplay = 0;
+      
       for(int i=0;i<NUM_DRUM;i++)
       {
         int score = nqueue[i].note_sync(elapsed);
@@ -97,9 +99,16 @@ void loop()
         {
           //2-1. 지났으면 현재 노트를 새 노트로 변경
           led[i].write(0, 0, 0);
+          if(nqueue[i].finish())
+          {
+            allplay++;
+            continue;
+          }
           if(!nqueue[i].refresh(1))
           {
             status = play_end;
+            cmd_send(cmd_playend, 0, 0);
+            cmd_send(cmd_refreshfail, 0, 0);
             break;
           }
           nqueue[i].refresh_debug();
@@ -121,12 +130,12 @@ void loop()
         }
       }
 
+      if(allplay == NUM_DRUM)
+      {
+        status = play_end;
+        cmd_send(cmd_playend, 0, 0);
+      }
     }
-    int allplay = 0;
-    for(;allplay<NUM_DRUM;allplay++)
-      if(!nqueue[allplay].finish()) break;
-    if(allplay == NUM_DRUM)
-      status = play_end;
   }
 
 

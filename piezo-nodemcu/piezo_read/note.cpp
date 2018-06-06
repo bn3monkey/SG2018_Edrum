@@ -60,9 +60,9 @@ bool note_queue::refresh(int trial)
 }
 bool note_queue::finish()
 {
-  if(this->now.drum == led_number && this->now.power == -1)
+  if(this->now.power == -1)
     return true;
-   return false;
+  return false;
 }
 #define IN_SCORE(score, gap) ((score) - HALF_TIME_INTERVAL <= (gap) && (gap) < (score) + HALF_TIME_INTERVAL)
 int note_queue::note_sync(unsigned long elapsed)

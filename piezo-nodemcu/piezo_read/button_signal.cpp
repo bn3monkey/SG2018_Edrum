@@ -97,12 +97,14 @@ void Button_signal::set(int* status, unsigned long* elapsed, note_queue* q)
                         if(!q[0].download(1))
                         {
                             *status = play_end;
+                            cmd_send(cmd_playend, this->power, 0);
                             cmd_send(cmd_downloadfail, 0, 0);
                             return;
                         }
                         if(!q[1].download(1))
                         {
                             *status = play_end;
+                            cmd_send(cmd_playend, this->power, 0);
                             cmd_send(cmd_downloadfail, 0, 0);
                             return;
                         }
