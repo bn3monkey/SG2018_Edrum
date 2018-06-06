@@ -26,5 +26,5 @@ enum serial_command
 
     cmd_allocerror = 0x1000,
 };
-
+void cmd_send(int command, int power, int chrono);
 #endif

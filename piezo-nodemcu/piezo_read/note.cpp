@@ -1,11 +1,14 @@
 #include "note.hpp"
 #include <string.h>
+#include "serial_protocol.h"
 
 bool note_queue::download(int trial)
 {
     static char buffer[50];
     note temp;
 
+    cmd_send(cmd_downloadreq, 0, 0);
+    
     memset(buffer, 0, 50);
     while(Serial.readBytesUntil('\n', buffer, 50)==0 && refresh--);
     if(refresh <= 0)
@@ -32,6 +35,8 @@ bool note_queue::refresh(int trial)
 {
     static char buffer[50];
     note temp;
+
+    cmd_send(cmd_refreshreq, 0, 0);
 
     memset(buffer, 0, 50);
     while(Serial.readBytesUntil('\n', buffer, 50)==0 && refresh--);
@@ -74,7 +79,7 @@ int note_queue::note_sync(unsigned long elapsed)
 
 bool note_queue::download_debug()
 {
-    Serial.println("7 0 0");
+    cmd_send(cmd_downloadres, 0, 0);
     Serial.print( this->now.drum,DEC);
     Serial.write(" ");
     Serial.print( this->now.power,DEC);
@@ -87,5 +92,23 @@ bool note_queue::download_debug()
     Serial.write(" ");
     Serial.print(this->next.time,DEC);
     Serial.write("\n");
-    Serial.println("8 0 0");
+    cmd_send(cmd_downloadres, 0, 0);
+}
+
+bool note_queue::refresh_debug()
+{
+    cmd_send(cmd_refreshres, 0, 0);
+    Serial.print( this->now.drum,DEC);
+    Serial.write(" ");
+    Serial.print( this->now.power,DEC);
+    Serial.write(" ");
+    Serial.print(this->now.time,DEC);
+    Serial.write("\n");
+    Serial.print( this->next.drum,DEC);
+    Serial.write(" ");
+    Serial.print( this->next.power,DEC);
+    Serial.write(" ");
+    Serial.print(this->next.time,DEC);
+    Serial.write("\n");
+    cmd_send(cmd_refreshres, 0, 0);
 }

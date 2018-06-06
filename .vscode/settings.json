@@ -12,6 +12,7 @@
         "list": "cpp",
         "queue": "cpp",
         "iosfwd": "cpp",
-        "xiosbase": "cpp"
+        "xiosbase": "cpp",
+        "xlocale": "cpp"
     }
 }

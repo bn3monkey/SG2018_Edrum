@@ -91,7 +91,9 @@ void loop()
         if(score < passaway)
         {
           //2-1. 지났으면 현재 노트를 새 노트로 변경
+          cmd_send(cmd_downloadreq, 0, 0);
           nqueue[i].refresh(1);
+          nqueue[i].refresh_debug();
         }
         //2-2. 지나지 않았으면, 현재 시각이랑 간격 확인
         else
@@ -117,5 +119,6 @@ void loop()
   elapsed = elapsed + 1;
   hittime[0] = false;
   hittime[1] = false;
+
   delay(1);
 }

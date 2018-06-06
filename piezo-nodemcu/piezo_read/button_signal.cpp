@@ -85,14 +85,7 @@ int Button_signal::read()
     return this->status;
 }
 
-static void cmd_send(int command, int power, int chrono)
-{
-  Serial.print(command ,DEC);
-  Serial.write(" ");
-  Serial.print(power, DEC);
-  Serial.write(" ");
-  Serial.println(chrono, DEC);
-}
+
 void Button_signal::set(unsigned long* elapsed, note_queue* q)
 {
     switch(this->status)
