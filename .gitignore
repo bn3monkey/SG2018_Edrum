@@ -1,0 +1,14 @@
+/nodemcu-rasdberrypi/edrum_raspberry
+/nodemcu-rasdberrypi/hello
+/wiringPi
+/nodemcu-rasdberrypi/.vscode/
+/edrum-server/edrum-venv
+/edrum-server/.vscode/
+/edrum-server/edrum_server/__pycache__/
+/edrum-server/edrum_server/settings.py
+/edrum-server/edrum_server/edrum_server_app/migrations/
+/edrum-server/edrum_server/edrum_server_app/__pycache__
+*.txt
+*.json
+
+

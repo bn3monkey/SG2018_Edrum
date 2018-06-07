@@ -12,6 +12,10 @@
 
 #include <thread>
 
+#include "note.h"
+
+extern bool continue_flag;
+
 class Serial_buffer
 {
 private:
@@ -68,11 +72,12 @@ class Serial_io
 
     std::thread pthread;
     //Serial에서 지속적으로 문자열을 받는 Serial을 만든다.
-    static void thread_getSerial(int fd);
+    static void thread_readSerial(int fd);
 
     public:
     Serial_io()
     {
+	    continue_flag = true;
         buff = new Serial_buffer(100);
         //Serial port 연다.
         if ((serial_fd = serialOpen ("/dev/ttyACM0", 115200)) < 0)  // 두번째 인자값이 보레이트 설정
@@ -86,21 +91,28 @@ class Serial_io
             exit(-1);
         }
 
-        pthread = std::thread(thread_getSerial, serial_fd);
+        pthread = std::thread(thread_readSerial, serial_fd);
     }
     ~Serial_io()
     {
         pthread.join();
-	serialFlush(serial_fd);
-	serialClose(serial_fd);
+	    serialFlush(serial_fd);
+	    serialClose(serial_fd);
         if(buff != NULL)
             delete buff;
     }
 
 
     //Serial에서 Protocol을 완성하는 문자열을 받을 떄까지 낱개 문자를 받는다.
-    int getSerial();
-    //Serial에서 받은 문자열을 parameter로 넘어온 버퍼에 저장한다.
-    int setSerial(char* tempbuf);
+    int readSerial();
+    //Serial에서 받은 문자열을 parameter로 넘어온 note 정보에 저장한다.
+    int setSerial(note* pnote);
+    //Serial에서 문자열을 보낸다.
+    int writeSerial(char* buf);
+    //Serial에서 note를 보낸다.
+    int writeNote(note note);
+    //Serial에서 받아온 버퍼를 비운다.
+    int cleanSerial();
 };
+
 #endif

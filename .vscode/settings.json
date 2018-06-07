@@ -1,0 +1,19 @@
+{
+    "files.associations": {
+        "algorithm": "cpp",
+        "chrono": "cpp",
+        "limits": "cpp",
+        "ostream": "cpp",
+        "vector": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp",
+        "system_error": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "queue": "cpp",
+        "iosfwd": "cpp",
+        "xiosbase": "cpp",
+        "xlocale": "cpp",
+        "ratio": "cpp"
+    }
+}

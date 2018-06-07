@@ -6,15 +6,20 @@ std::queue<char> ch_queue;
 //queue의 원자성을 보존하기 위한 mutex
 std::mutex queue_lock;
 
-void Serial_io::thread_getSerial(int fd)
+bool continue_flag;
+
+void Serial_io::thread_readSerial(int fd)
 {
     char ch;
     //serialGetchar blocking 함수.. character 받을 떄까지 대기한다. 
-    while(true)
+    //wiringSerial Device driver를 건드려서 non-blocking으로 바꾸었다.
+    while(continue_flag)
     {
         if(serialDataAvail(fd))
         {
             ch = serialGetchar(fd);
+	    if(ch < 10 || ch > 127)
+		continue;
             queue_lock.lock();
             ch_queue.push(ch);
             queue_lock.unlock();
@@ -22,38 +27,57 @@ void Serial_io::thread_getSerial(int fd)
     }
 }
 
-int Serial_io::getSerial()
+int Serial_io::readSerial()
 {
     bool exists;
     char ch = 0;
     buff->refresh();
-    while(ch != 10)
+    while(ch != '\n')
     {
-	exists = false;
+	    exists = false;
         queue_lock.lock();
         if(!ch_queue.empty())
-	{
-		exists = true;
-		ch = ch_queue.front();
+	    {
+		    exists = true;
+		    ch = ch_queue.front();
         	ch_queue.pop();
-	}
+	    }
         queue_lock.unlock();
         
-	if(exists)
-	{
+	    if(exists)
+	    {
         	buff->push(ch);
          	//printf("%c(%d)\n",ch,ch);
-	}
+	    }
     }
     buff->finish();
     //printf("blocking test : %s\n", buff->data());
     return 1;
 }
 
-int Serial_io::setSerial(char* tempbuf)
+int Serial_io::setSerial(note* pnote)
 {
 
     //printf("blocking test : %s %d\n", buff->data(), buff->gettop());
-    memcpy(tempbuf, buff->data(), buff->gettop() + 1);
+    sscanf(buff->data(), "%d %d %llu", &(pnote->drum), &(pnote->power), &(pnote->msec));
+
+    return 1;
+}
+
+int Serial_io::writeSerial(char* buf)
+{
+    serialPuts(this->serial_fd, buf);
+    return 1;
+}
+int Serial_io::writeNote(note note)
+{
+    char buf[30];
+    sprintf(buf,"%d %d %llu\n",note.drum, note.power, note.msec);
+    return writeSerial(buf);
+}
+
+int Serial_io::cleanSerial()
+{
+    this->buff->refresh();
     return 1;
 }
