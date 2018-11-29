@@ -2,10 +2,12 @@ from django.db import models
 
 # Create your models here.
 class NoteFileModel(models.Model):
-    id = models.AutoField(primary_key = True)
-    title = models.TextField(default='')
-    file = models.FileField(null=True)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    server_id = models.AutoField(primary_key = True)
+    name = models.CharField(max_length=50,default='')
+    artist = models.CharField(max_length=50,default='')
+    date = models.DateField(auto_now=False,auto_now_add=True)
+    ID = models.CharField(max_length=20,default='')
+    song = models.FileField(null=True)
 
     class Meta:
-        ordering = ('id',)
+        ordering = ('server_id',)
