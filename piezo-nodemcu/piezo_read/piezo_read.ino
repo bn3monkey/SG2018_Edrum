@@ -43,7 +43,7 @@ void setup()
   led[0] = LED_signal(RED1, GREEN1, BLUE1);
   led[1] = LED_signal(RED2, GREEN2, BLUE2);
   button = Button_signal(BUTTON);
-
+  
   nqueue[0] = note_queue(0);
   nqueue[1] = note_queue(1);
 
@@ -58,8 +58,7 @@ void setup()
 
 void loop()
 { 
-  //For button input test 
-  //Serial.println(analogRead(BUTTON), DEC);
+  
   
   //1. 드럼값을 센서로 받아옴
   drum[0].set();
@@ -93,6 +92,7 @@ void loop()
       }
     }
 
+  /*  
     if(status == playing)
     {
       int allplay = 0;
@@ -163,11 +163,14 @@ void loop()
         cmd_send(cmd_playend, 0, 0);
       }
     }
+    */
   }
+  
 
 
   elapsed = elapsed + 1;
 
+/*
   // hit_time을 정확히 HIT_TIMELAP을 처음 설정할 때만 불이 들어오고
   // hit_time 안에 있는 동안은 LED를 건들지 않고
   // hit_time이 0일 때는 노트 대로 작동하게 함으로서
@@ -176,5 +179,33 @@ void loop()
     hit_time[0]--;
   if(hit_time[1]>0)
     hit_time[1]--;
+*/
+
+   //For button input test
+  int test0, test1, test2;
+  test0 = 0;
+  test1 = 0;
+  test2 = 0;
+  /*
+  if((test0 = analogRead(BUTTON)) >= 100) 
+  {
+    Serial.write("BUTTON : "); 
+    Serial.println(test0, DEC);
+  }
+  if((test1 = analogRead(DRUM1)) >= 100) 
+  {
+    Serial.write("DRUM1 : "); 
+    Serial.println(test1, DEC);
+  }
+  */
+  test2 = analogRead(DRUM2); 
+  {
+    //Serial.write("DRUM2 : "); 
+    Serial.print(test2, DEC);
+    Serial.write(" ");
+    Serial.println(elapsed, DEC);
+  }
+
+  
   delay(1);
 }
