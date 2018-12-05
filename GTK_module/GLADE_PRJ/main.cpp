@@ -2,12 +2,39 @@
 #include <iostream>
 
 Gtk::Dialog *pDialog = nullptr;
+Gtk::Window *pMainWindow = nullptr;
+
+static Glib::RefPtr<Gtk::Application> app;
+Glib::RefPtr<Gtk::Builder> refBuilder;
 
 static void on_button_clicked()
 {
-    std::cout << "btn_clicked!" << std::endl;
+    std::cout << "btn_dialog clicked" << std::endl;
     if (pDialog)
         pDialog->hide(); //hide() will cause main::run() to end.
+}
+
+static void on_btn_main_clicked()
+{
+    std::cout << "btn_main clicked" << std::endl;
+
+    refBuilder->get_widget("DialogBasic", pDialog);
+    if (pDialog)
+    {
+        //Get the GtkBuilder-instantiated Button, and connect a signal handler:
+        Gtk::Button *pButton = nullptr;
+        refBuilder->get_widget("quit_button", pButton);
+        if (pButton)
+        {
+            pButton->signal_clicked().connect(sigc::ptr_fun(on_button_clicked));
+        }
+
+        pDialog->run();
+    }
+
+    std::cout << "dialog closed" << std::endl;
+
+    pDialog = nullptr;
 }
 
 static void on_window_main_destroyed()
@@ -17,11 +44,11 @@ static void on_window_main_destroyed()
 
 int main(int argc, char *argv[])
 {
-    auto app = Gtk::Application::create(argc, argv, "org.gtkmm.examples.base");
+    app = Gtk::Application::create(argc, argv, "org.gtkmm.examples.base");
 
     //Load the GtkBuilder file and instantiate its widgets:
     // NO_EXCEPTION > Glib::RefPtr<Gtk::Builder> builder = Gtk::Builder::create_from_file("window_main.glade");
-    Glib::RefPtr<Gtk::Builder> refBuilder = Gtk::Builder::create();
+    refBuilder = Gtk::Builder::create();
     try
     {
         refBuilder->add_from_file("window_main.glade");
@@ -43,19 +70,20 @@ int main(int argc, char *argv[])
     }
 
     //Get the GtkBuilder-instantiated Dialog:
-    refBuilder->get_widget("DialogBasic", pDialog);
-    if (pDialog)
+    refBuilder->get_widget("window_main", pMainWindow);
+    if (pMainWindow)
     {
-        //Get the GtkBuilder-instantiated Button, and connect a signal handler:
         Gtk::Button *pButton = nullptr;
-        refBuilder->get_widget("quit_button", pButton);
+        refBuilder->get_widget("btn_main", pButton);
         if (pButton)
         {
-            pButton->signal_clicked().connect(sigc::ptr_fun(on_button_clicked));
+            pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_main_clicked));
         }
 
-        app->run(*pDialog);
+        app->run(*pMainWindow);
     }
 
-    delete pDialog;
+    delete pMainWindow;
+
+    return 0;
 }
