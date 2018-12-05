@@ -5,7 +5,7 @@
 2. [Installation](#2-installation)  
 3. [Progress](#3-progress)  
 3.1. [Done](#31-done)  
-3.2. [TODO / Working](#32-todo---working)  
+3.2. [TODO](#32-todo)  
 
 # 1. Dependency  
 * Language : `CPP`  
@@ -23,6 +23,7 @@ Open terminal and type following command :
 * GTK Window Creation
 * Read UI from `*.glade`  
 * Register event handler in `*.cpp` & `*.glade` (need interlock of both file)
-
-# 3.2. TODO/Working
 * Create **_Fullscreen_** GTK Widget/Window
+
+# 3.2. TODO
+* Flip next page(After login)
