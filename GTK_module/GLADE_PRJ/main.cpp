@@ -10,31 +10,35 @@ Glib::RefPtr<Gtk::Builder> refBuilder;
 static void on_button_clicked()
 {
     std::cout << "btn_dialog clicked" << std::endl;
-    if (pDialog)
+    if (pDialog){
         pDialog->hide(); //hide() will cause main::run() to end.
+    }
 }
 
 static void on_btn_main_clicked()
 {
     std::cout << "btn_main clicked" << std::endl;
 
-    refBuilder->get_widget("DialogBasic", pDialog);
-    if (pDialog)
-    {
-        //Get the GtkBuilder-instantiated Button, and connect a signal handler:
-        Gtk::Button *pButton = nullptr;
-        refBuilder->get_widget("quit_button", pButton);
-        if (pButton)
+    if(pDialog == nullptr){
+        refBuilder->get_widget("DialogBasic", pDialog);
+
+        if (pDialog)
         {
-            pButton->signal_clicked().connect(sigc::ptr_fun(on_button_clicked));
+            //Get the GtkBuilder-instantiated Button, and connect a signal handler:
+            Gtk::Button *pButton = nullptr;
+            refBuilder->get_widget("quit_button", pButton);
+            if (pButton)
+            {
+                pButton->signal_clicked().connect(sigc::ptr_fun(on_button_clicked));
+            }
+
+            pDialog->show();
         }
-
-        pDialog->run();
     }
+    else
+        pDialog->show();
 
-    std::cout << "dialog closed" << std::endl;
-
-    pDialog = nullptr;
+    std::cout << "dialog created" << std::endl;
 }
 
 static void on_window_main_destroyed()
@@ -80,10 +84,16 @@ int main(int argc, char *argv[])
             pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_main_clicked));
         }
 
+        //gtk_widget_set_size_request(GTK_WIDGET(pMainWindow), 1920, 1080);
+        //gtk_window_fullscreen((GtkWindow*)pMainWindow);
+        
+        pMainWindow->fullscreen();
+        pMainWindow->grab_focus();
         app->run(*pMainWindow);
     }
 
-    delete pMainWindow;
+    if(pMainWindow) delete pMainWindow;
+    if(pDialog)     delete pDialog;
 
     return 0;
 }
