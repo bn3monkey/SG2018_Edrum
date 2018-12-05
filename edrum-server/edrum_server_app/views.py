@@ -5,13 +5,15 @@ from django.shortcuts import render,redirect
 
 from rest_framework import viewsets
 from rest_framework import status
+from rest_framework import mixins
 #from rest_framework_filters import backends
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 
 from edrum_server_app.models import NoteFileModel, User
-from edrum_server_app.serializers import NoteFileSerializer, UserSerializer, LoginSerializer, RedundantSerializer
-#from edrum_server_app.filters import NoteFileFilter
+from edrum_server_app.serializers import NoteFileSerializer, UserSerializer, LoginSerializer
+from edrum_server_app.serializers import SignUpSerializer, RedundantSerializer
+from edrum_server_app.filters import UserFilter
 from edrum_server_app.pretty_request import pretty_request
 
 class NoteFileViewSet(viewsets.ModelViewSet) :
@@ -48,5 +50,59 @@ class LoginViewSet(viewsets.ModelViewSet):
         
         user = authenticate(user_id = user_id, password = password)
 
+        # TO DO THIS PART
         if user is not None:
             login(request,user)
+            content = {"content" : "Success"}
+            return Response(content,status=status.HTTP_202_ACCEPTED)
+        else:
+            content = {"content" : "Fail"}
+            return Response(content,status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
+    permission_classes = (IsAuthenticated,)
+    queryset = User.objects.all()
+
+    def list(self,request,pk=None):
+        logout(request)
+        success = {"Success" : "Yes"}
+        return Response(success,status=status.HTTP_201_CREATED)
+
+class SignUpViewSet(viewsets.ModelViewSet):
+    permission_classes = (AllowAny,)
+    queryset = User.objects.all()
+    serializer_class = SignUpSerializer
+    
+    def list(self,request):
+        return Response()
+    # TO DO CREATE
+    def create(self,request,pk=None):
+        serializer = SignUpSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.create(request.data)
+            success = {'Success':'Yes'}
+            return Response(success,status=status.HTTP_201_CREATED)
+        else:
+            success = {'Success':'No'}
+            return Response(success,status=status.HTTP_400_BAD_REQUEST)
+
+class RedundantViewSet(viewsets.ModelViewSet):
+    # RedundantSerializer only returns user_id
+    # Only Check user_id
+    permission_classes = (AllowAny,)
+    queryset = User.objects.all()
+    serializer_class = RedundantSerializer
+
+    """
+    def list(self,request):
+        check_id = self.cleaned_data['user_id']
+        if User.objects.filter(user_id=user_id).exists():
+            raise
+    """
+    def list(self,request):
+        user_id = request.data['user_id']
+        if User.objects.filter(user_id=user_id).exists():
+            success = {'Success':'False'}
+            return Response(success,status=status.HTTP_400_BAD_REQUEST)
+        else:
+            # TO DO THIS PART
