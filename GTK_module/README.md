@@ -7,7 +7,7 @@
 3.1. [Done](#31-done)  
 3.2. [TODO / Working](#32-todo---working)  
 
-# 1. Dependency
+# 1. Dependency  
 * Language : `CPP`  
 * Library : `gtkmm-3.0`  
  
