@@ -11,7 +11,7 @@
 * Language : `CPP`  
 * Library : `gtkmm-3.0`  
  
-# 2. Installation
+# 2. Installation  
 Open terminal and type following command :  
 ```
  ~$ sudo apt-get install libgtkmm-3.0-dev 
