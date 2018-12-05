@@ -24,7 +24,7 @@ from rest_framework import routers
 from edrum_server_app import views
 
 router = routers.DefaultRouter()
-router.register(r'upload', views.NoteFileViewSet)
+router.register(r'songs', views.NoteFileViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
