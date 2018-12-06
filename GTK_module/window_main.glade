@@ -101,7 +101,7 @@
           </object>
         </child>
         <child>
-          <object class="GtkBox">
+          <object class="GtkBox" id="box_login">
             <property name="width_request">1920</property>
             <property name="height_request">1080</property>
             <property name="visible">True</property>
@@ -110,7 +110,9 @@
             <property name="valign">center</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkBox" id="box_login">
+              <object class="GtkBox">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
@@ -175,7 +177,7 @@
                         <property name="orientation">vertical</property>
                         <property name="spacing">5</property>
                         <child>
-                          <object class="GtkEntry" id="textbox_ID">
+                          <object class="GtkEntry" id="entry_id">
                             <property name="width_request">400</property>
                             <property name="height_request">50</property>
                             <property name="visible">True</property>
@@ -193,7 +195,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry" id="textbox_PW">
+                          <object class="GtkEntry" id="entry_pw">
                             <property name="width_request">400</property>
                             <property name="height_request">50</property>
                             <property name="visible">True</property>
