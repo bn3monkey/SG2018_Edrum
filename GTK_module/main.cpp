@@ -2,7 +2,10 @@
 #include <iostream>
 
 Gtk::Dialog *pDialog = nullptr;
+Gtk::Box *pBox_login = nullptr;
 Gtk::Window *pMainWindow = nullptr;
+Gtk::Entry *pEntry_ID = nullptr;
+Gtk::Entry *pEntry_PW = nullptr;
 
 static Glib::RefPtr<Gtk::Application> app;
 Glib::RefPtr<Gtk::Builder> refBuilder;
@@ -18,6 +21,9 @@ static void on_button_clicked()
 static void on_btn_main_clicked()
 {
     std::cout << "btn_main clicked" << std::endl;
+
+    std::cout << "ID : " << pEntry_ID->get_text() << std::endl;
+    std::cout << "PW : " << pEntry_PW->get_text() << std::endl;
 
     if(pDialog == nullptr){
         refBuilder->get_widget("DialogBasic", pDialog);
@@ -37,6 +43,8 @@ static void on_btn_main_clicked()
     }
     else
         pDialog->show();
+
+    pBox_login->hide();
 
     std::cout << "dialog created" << std::endl;
 }
@@ -73,6 +81,9 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    refBuilder->get_widget("entry_pw", pEntry_PW);
+    refBuilder->get_widget("entry_id", pEntry_ID);
+    refBuilder->get_widget("box_login", pBox_login);
     //Get the GtkBuilder-instantiated Dialog:
     refBuilder->get_widget("window_main", pMainWindow);
     if (pMainWindow)
