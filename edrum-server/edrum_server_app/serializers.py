@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from edrum_server_app.models import NoteFileModel, User
+from django.contrib.auth import authenticate
 
 class NoteFileSerializer (serializers.HyperlinkedModelSerializer) :
     class Meta :
@@ -9,8 +10,7 @@ class NoteFileSerializer (serializers.HyperlinkedModelSerializer) :
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('user_id','password','is_active','is_admin')
-        extra_kwargs = {'password' : {'write_only' : True},}
+        fields = ('user_id','is_active','is_admin')
     
     def create(self,validated_data):
         password = validated_data.pop('password',None)
@@ -24,7 +24,6 @@ class LoginSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('user_id','password')
-        exclude = ('is_active','is_admin')    
 
 class SignUpSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -43,8 +42,4 @@ class SignUpSerializer(serializers.HyperlinkedModelSerializer):
 class RedundantSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('user_id')
-
-    def update(self,instance,validated_data):
-        instance.user_id = validated_data.get('user_id',instance.user_id)
-        return instance
+        fields = ('user_id','password')

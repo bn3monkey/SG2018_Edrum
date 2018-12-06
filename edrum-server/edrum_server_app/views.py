@@ -33,6 +33,14 @@ class NoteFileViewSet(viewsets.ModelViewSet) :
         #return Response()
 # Create your views here.
 
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAdminUser,)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    #filter_backends = (backends.DjangoFilterBackend)
+    #filter_class = UserFilter
+    
+
 class LoginViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)
     queryset = User.objects.all()
@@ -45,13 +53,10 @@ class LoginViewSet(viewsets.ModelViewSet):
         user_id = request.data['user_id']
         password = request.data['password']
 
-        print(user_id,file=sys.stderr)
-        print(password,file=sys.stderr)
-        
-        user = authenticate(user_id = user_id, password = password)
+        user = authenticate(user_id=user_id,password=password)
 
         # TO DO THIS PART
-        if user is not None:
+        if user and user.is_active == True:
             login(request,user)
             content = {"content" : "Success"}
             return Response(content,status=status.HTTP_202_ACCEPTED)
@@ -79,13 +84,15 @@ class SignUpViewSet(viewsets.ModelViewSet):
     def create(self,request,pk=None):
         serializer = SignUpSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.create(request.data)
+            #serializer.create(request.data)
+            serializer.save()
             success = {'Success':'Yes'}
             return Response(success,status=status.HTTP_201_CREATED)
         else:
             success = {'Success':'No'}
             return Response(success,status=status.HTTP_400_BAD_REQUEST)
 
+"""
 class RedundantViewSet(viewsets.ModelViewSet):
     # RedundantSerializer only returns user_id
     # Only Check user_id
@@ -93,16 +100,18 @@ class RedundantViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = RedundantSerializer
 
-    """
+    
     def list(self,request):
         check_id = self.cleaned_data['user_id']
         if User.objects.filter(user_id=user_id).exists():
             raise
-    """
-    def list(self,request):
+    
+    def create(self,request):
         user_id = request.data['user_id']
         if User.objects.filter(user_id=user_id).exists():
             success = {'Success':'False'}
             return Response(success,status=status.HTTP_400_BAD_REQUEST)
         else:
-            # TO DO THIS PART
+            success = {'Success':'True'}
+            return Response(success,status=status.HTTP_201_CREATED)
+"""
