@@ -10,5 +10,6 @@
 /edrum-server/edrum_server/edrum_server_app/__pycache__
 *.txt
 *.json
-
-
+*.glade~
+*.o
+*.out
