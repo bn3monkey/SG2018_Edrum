@@ -38,7 +38,14 @@ public:
         Serial.print(this->drum, DEC);
         Serial.write(" ");
         Serial.println(this->power, DEC);
-        Serial.write("\n");
+    }
+
+    void csv_send()
+    {
+        Serial.print(this->time, DEC);
+        Serial.write(",");
+        Serial.print(this->power, DEC);
+        Serial.print("\n");
     }
 };
 

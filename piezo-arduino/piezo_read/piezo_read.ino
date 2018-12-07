@@ -34,6 +34,7 @@ void loop()
   //2. 버튼값을 받아 현재 상태를 결정
   button.read(elapsed);
 
+  //drum[0].test_write();
   drum[0].write();
   //drum[1].write();
   button.write();

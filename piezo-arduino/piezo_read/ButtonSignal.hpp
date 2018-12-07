@@ -6,11 +6,11 @@
 
 enum threshold_button
 {
-    t_up = 6,
-    t_down = 2,
-    t_left = 10,
+    t_up = 3,
+    t_down = 1,
+    t_left = 5,
     t_right = 0,
-    t_ok = 14,
+    t_ok = 7,
     t_idle = 1020,
 };
 
@@ -63,7 +63,9 @@ public:
         {
             written = true;
             note.power = queue.average();
-            switch(note.power)
+            
+            
+            switch(note.power/100)
             {
                 case t_up : note.drum = np_up; break;
                 case t_down : note.drum = np_down;break;
@@ -72,6 +74,8 @@ public:
                 case t_ok : note.drum = np_ok;break;
                 default : note.drum = np_idle; break;
             }
+            
+            
             note.send();
         }
     }

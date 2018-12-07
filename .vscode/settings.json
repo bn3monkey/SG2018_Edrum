@@ -14,6 +14,10 @@
         "iosfwd": "cpp",
         "xiosbase": "cpp",
         "xlocale": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "regex": "cpp",
+        "xfunctional": "cpp",
+        "xlocmon": "cpp",
+        "xtr1common": "cpp"
     }
 }
