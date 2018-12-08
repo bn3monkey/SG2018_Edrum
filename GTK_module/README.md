@@ -23,7 +23,7 @@ Open terminal and type following command :
 * GTK Window Creation
 * Read UI from `*.glade`  
 * Register event handler in `*.cpp` & `*.glade` (need interlock of both file)
-
-<a name="32"></a>
-# 3.2. TODO
 * Create **_Fullscreen_** GTK Widget/Window
+
+# 3.2. TODO
+* Flip next page(After login)

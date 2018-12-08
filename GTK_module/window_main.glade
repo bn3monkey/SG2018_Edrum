@@ -101,17 +101,29 @@
           </object>
         </child>
         <child>
+<<<<<<< HEAD
           <object class="GtkStack" id="stack_main">
             <property name="width_request">100</property>
             <property name="height_request">80</property>
+=======
+          <object class="GtkBox" id="box_login">
+            <property name="width_request">1920</property>
+            <property name="height_request">1080</property>
+>>>>>>> ce85c080455eadb416d60d8603df600d00f28a32
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="transition_type">crossfade</property>
             <property name="interpolate_size">True</property>
             <child>
+<<<<<<< HEAD
               <object class="GtkBox" id="box_login">
                 <property name="width_request">1920</property>
                 <property name="height_request">1080</property>
+=======
+              <object class="GtkBox">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+>>>>>>> ce85c080455eadb416d60d8603df600d00f28a32
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">center</property>
@@ -164,8 +176,14 @@
                         <property name="halign">center</property>
                         <property name="spacing">10</property>
                         <child>
+<<<<<<< HEAD
                           <object class="GtkFixed">
                             <property name="width_request">32</property>
+=======
+                          <object class="GtkEntry" id="entry_id">
+                            <property name="width_request">400</property>
+                            <property name="height_request">50</property>
+>>>>>>> ce85c080455eadb416d60d8603df600d00f28a32
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                           </object>
@@ -176,8 +194,14 @@
                           </packing>
                         </child>
                         <child>
+<<<<<<< HEAD
                           <object class="GtkBox" id="box_login_textbox">
                             <property name="width_request">300</property>
+=======
+                          <object class="GtkEntry" id="entry_pw">
+                            <property name="width_request">400</property>
+                            <property name="height_request">50</property>
+>>>>>>> ce85c080455eadb416d60d8603df600d00f28a32
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
