@@ -6,19 +6,18 @@
 enum NoteProtocol
 {
     np_none = 0x00,
-	//drum 0x10 ~ 0x30
-	np_drum1 = 0x01,
-	np_drum2 = 0x02,
+    //drum 0x10 ~ 0x30
+    np_drum1 = 0x01,
+    np_drum2 = 0x02,
 
-	//switch 0x40 ~ 0x60
-	np_up = 0x03,
-	np_down = 0x04,
-	np_right = 0x05,
-	np_left = 0x06,
-	np_ok = 0x07,
-	np_idle = 0x08,
-	np_num,
-
+    //switch 0x40 ~ 0x60
+    np_up = 0x03,
+    np_down = 0x04,
+    np_right = 0x05,
+    np_left = 0x06,
+    np_ok = 0x07,
+    np_idle = 0x08,
+    np_num,
 };
 
 class NoteData
