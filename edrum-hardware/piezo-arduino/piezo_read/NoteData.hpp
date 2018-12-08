@@ -3,6 +3,10 @@
 
 #include <arduino.h>
 
+enum NoteCommand
+{
+    nc_clock = 'c',
+}
 enum NoteProtocol
 {
     np_none = 0x00,
@@ -17,6 +21,9 @@ enum NoteProtocol
 	np_left = 0x06,
 	np_ok = 0x07,
 	np_idle = 0x08,
+
+    np_cmd_clock = 0x09,
+
 	np_num,
 
 };

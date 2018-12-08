@@ -1,6 +1,11 @@
 #ifndef __NOTE__
 #define __NOTE__
 
+enum NoteCommand
+{
+    nc_clock = 'c',
+}
+
 enum NoteProtocol
 {
 	np_none = 0x00,

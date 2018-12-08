@@ -1,5 +1,6 @@
 #include "DrumSignal.hpp"
 #include "ButtonSignal.hpp"
+#include "SerialSignal.hpp"
 
 #define DRUM1 A1
 #define DRUM2 A2
@@ -10,6 +11,7 @@
 
 DrumSignal drum[NUM_DRUM];
 ButtonSignal button;
+SerialSignal serial;
 
 unsigned long elapsed;
 
@@ -18,7 +20,8 @@ void setup()
   drum[0] = DrumSignal(A1, np_drum1);
   drum[1] = DrumSignal(A2, np_drum2);  
   button = ButtonSignal(BUTTON);
-  
+  serial = SerialSignal();
+
   elapsed = 0;
   
   Serial.begin(115200);
@@ -33,11 +36,13 @@ void loop()
   //drum[1].read(elapsed);
   //2. 버튼값을 받아 현재 상태를 결정
   button.read(elapsed);
+  serial.read();
 
   //drum[0].test_write();
   drum[0].write();
   //drum[1].write();
   button.write();
+  serial.write(elapsed);
 
   elapsed = elapsed + 1;
 

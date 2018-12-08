@@ -6,10 +6,10 @@
 
 enum threshold_button
 {
-    t_up = 3,
-    t_down = 1,
-    t_left = 5,
-    t_right = 0,
+    t_up = 1,
+    t_down = 3,
+    t_left = 0,
+    t_right = 5,
     t_ok = 7,
     t_idle = 1020,
 };
