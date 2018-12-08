@@ -34,14 +34,14 @@ int Serial_io::readSerial()
     buff->refresh();
     while(ch != '\n')
     {
-	    exists = false;
+	exists = false;
         queue_lock.lock();
         if(!ch_queue.empty())
-	    {
-		    exists = true;
-		    ch = ch_queue.front();
+	{
+		exists = true;
+		ch = ch_queue.front();
         	ch_queue.pop();
-	    }
+	}
         queue_lock.unlock();
         
 	    if(exists)
