@@ -90,7 +90,7 @@ class Serial_io
             fprintf (stdout, "Unable to start wiringPi : %s\n", strerror(errno)) ;
             exit(-1);
         }
-
+	serialFlush(serial_fd);
         pthread = std::thread(thread_readSerial, serial_fd);
     }
     ~Serial_io()
@@ -108,6 +108,8 @@ class Serial_io
     int readSerial();
     //Serial에서 받은 문자열을 parameter로 넘어온 note 정보에 저장한다.
     int setSerial(NoteData* pnote);
+    //Send one byte character to Serial
+    int putSerial(char buf); 
     //Serial에서 문자열을 보낸다.
     int writeSerial(char* buf);
     //Serial에서 note를 보낸다.

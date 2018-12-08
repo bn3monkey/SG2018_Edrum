@@ -6,7 +6,7 @@
 #include <mutex>
 #include <thread>
 #include <iostream>
-#include "NoteData.hpp"
+#include "serial.hpp"
 
 //SingleTone class이다.
 class Hardware_IO
@@ -34,6 +34,8 @@ class Hardware_IO
 	static void out();
 	bool out_flag;
 
+	Serial_io* io;
+
 public:
 	Hardware_IO() { in_flag = false; out_flag = false; }
 	~Hardware_IO() {}
@@ -52,6 +54,7 @@ public:
 	
 	// callback을 등록한다.
 	static bool registCallback(std::function<void()> callback, NoteProtocol np);
+	static bool get_clock();
 };
 
 #endif

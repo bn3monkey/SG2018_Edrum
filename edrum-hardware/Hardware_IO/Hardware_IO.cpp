@@ -1,6 +1,4 @@
-#pragma warning(disable : 4996)
 #include "Hardware_IO.hpp"
-#include <conio.h>
 
 Hardware_IO* Hardware_IO::instance = nullptr;
 
@@ -9,27 +7,11 @@ void Hardware_IO::in()
 	while (instance->in_flag)
 	{
 		//1. 외부 장비로부터 입력을 받아온다. 
-		char buffer = 0;
-		if (kbhit())
-			buffer = getch();
-
-		if (!buffer) continue;
+		instance->io->readSerial();
 
 		//2. 받아온 입력을 note로 만들어 Queue에 넣어준다.
 		NoteData note;
-		note.time = 0;
-		note.power = 0;
-		switch (buffer)
-		{
-		case 'w': note.power = np_up; break;
-		case 's': note.power = np_down; break;
-		case 'a': note.power = np_left; break;
-		case 'd': note.power = np_right; break;
-		case ' ': note.power = np_ok; break;
-		case 'q': note.power = np_none; break;
-		default: note.power = np_idle; break;
-			
-		}
+		instance->io->setSerial(&note);			
 
 		// note를 input_queue에 넣는다.
 		instance->queue_lock.lock();
@@ -54,8 +36,11 @@ void Hardware_IO::out()
 			instance->queue_lock.unlock();
 
 			//callback을 수행한다.
+			if(note.drum < 0 && note.drum >= np_num)
+				continue; 
+			printf("time = %llu drum = %d power = %d\n", note.time, note.drum, note.power);
 			instance->callback_lock.lock();
-			instance->callbacks[note.power]();
+			instance->callbacks[note.drum]();
 			instance->callback_lock.unlock();
 		}
 		else
@@ -79,7 +64,9 @@ bool Hardware_IO::initialize()
 
 	// SingleTone 객체를 초기화한다.
 	instance = new Hardware_IO();
-	
+
+	instance->io = new Serial_io();
+		
 	// thread를 시작한다.
 	instance->in_flag = true;
 	instance->out_flag = true;
@@ -89,7 +76,6 @@ bool Hardware_IO::initialize()
 	// 오류를 막기 위해, 함수 테이블을 empty function으로 초기화한다.
 	for (int i = 0; i < np_num; i++)
 		instance->callbacks[i] = std::function<void()>(empty_function);
-
 	return true;
 }
 // Hardware_IO를 정리한다. thread를 join해준다.
@@ -99,6 +85,8 @@ void Hardware_IO::destroy()
 	instance->out_flag = false;
 	instance->in_thread->join();
 	instance->out_thread->join();
+
+	delete instance->io;
 
 	//queue를 비운다.
 	while (!instance->input_queue.empty())
@@ -122,5 +110,12 @@ bool Hardware_IO::registCallback(std::function<void()> callback, NoteProtocol np
 	instance->callbacks[(int)np] = callback;
 	instance->callback_lock.unlock();
 
+	return true;
+}
+
+// get the sensor clock
+bool Hardware_IO::get_clock()
+{
+	instance->io->putSerial(nc_clock);
 	return true;
 }

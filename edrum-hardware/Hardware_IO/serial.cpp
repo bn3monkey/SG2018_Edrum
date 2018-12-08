@@ -63,7 +63,11 @@ int Serial_io::setSerial(NoteData* pnote)
 
     return 1;
 }
-
+int Serial_io::putSerial(char buf)
+{
+    serialPutchar(this->serial_fd, buf);
+    return 1;
+}
 int Serial_io::writeSerial(char* buf)
 {
     serialPuts(this->serial_fd, buf);
