@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.22.1 -->
 <interface>
-  <requires lib="gtk+" version="3.20"/>
+  <requires lib="gtk+" version="3.18"/>
   <object class="GtkDialog" id="DialogBasic">
     <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Notice</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="destroy_with_parent">True</property>
+    <property name="icon_name">dialog-information</property>
     <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
-    <child>
+    <property name="urgency_hint">True</property>
+    <child type="titlebar">
       <placeholder/>
     </child>
     <child internal-child="vbox">
@@ -57,10 +60,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry">
+          <object class="GtkLabel" id="notice">
+            <property name="width_request">500</property>
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="text" translatable="yes">Sample Text</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">label</property>
+            <attributes>
+              <attribute name="font-desc" value="Sans 15"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -69,6 +76,74 @@
           </packing>
         </child>
       </object>
+    </child>
+  </object>
+  <object class="GtkBox" id="box_btn_delete">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkImage">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="stock">gtk-delete</property>
+        <property name="icon_size">6</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="padding">10</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_right">15</property>
+        <property name="label" translatable="yes">DELETE</property>
+        <attributes>
+          <attribute name="font-desc" value="Sans Bold 25"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkBox" id="box_btn_play">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkImage">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="stock">gtk-media-play</property>
+        <property name="icon_size">6</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="padding">10</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_right">15</property>
+        <property name="label" translatable="yes">PLAY</property>
+        <attributes>
+          <attribute name="font-desc" value="Sans Bold 25"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
     </child>
   </object>
   <object class="GtkWindow" id="window_main">
@@ -80,6 +155,7 @@
     <property name="default_width">1920</property>
     <property name="default_height">1080</property>
     <property name="hide_titlebar_when_maximized">True</property>
+    <property name="urgency_hint">True</property>
     <property name="decorated">False</property>
     <property name="transient_for">DialogBasic</property>
     <child>
@@ -92,7 +168,7 @@
         <property name="halign">center</property>
         <property name="valign">center</property>
         <child>
-          <object class="GtkImage">
+          <object class="GtkImage" id="img_bg_login">
             <property name="width_request">1920</property>
             <property name="height_request">1080</property>
             <property name="visible">True</property>
@@ -101,90 +177,65 @@
           </object>
         </child>
         <child>
-          <object class="GtkBox">
-            <property name="width_request">1920</property>
-            <property name="height_request">1080</property>
+          <object class="GtkStack" id="stack_main">
+            <property name="width_request">100</property>
+            <property name="height_request">80</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
-            <property name="orientation">vertical</property>
+            <property name="transition_type">crossfade</property>
+            <property name="interpolate_size">True</property>
             <child>
               <object class="GtkBox" id="box_login">
+                <property name="width_request">1920</property>
+                <property name="height_request">1080</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
                 <property name="orientation">vertical</property>
-                <property name="spacing">10</property>
                 <child>
-                  <object class="GtkLabel" id="label_main">
-                    <property name="width_request">800</property>
+                  <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">200</property>
-                    <property name="margin_bottom">20</property>
-                    <property name="label" translatable="yes">Share Drum!</property>
-                    <property name="justify">center</property>
-                    <property name="single_line_mode">True</property>
-                    <property name="track_visited_links">False</property>
-                    <attributes>
-                      <attribute name="scale" value="10"/>
-                      <attribute name="foreground" value="#000000000000"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkFixed">
-                    <property name="height_request">200</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="box_login_field">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">center</property>
+                    <property name="orientation">vertical</property>
                     <property name="spacing">10</property>
                     <child>
+                      <object class="GtkImage" id="img_logo1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">100</property>
+                        <property name="margin_bottom">100</property>
+                        <property name="pixbuf">sharedrum_1024.png</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkFixed">
-                        <property name="width_request">32</property>
+                        <property name="height_request">32</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">0</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkBox" id="box_login_textbox">
-                        <property name="width_request">300</property>
+                      <object class="GtkBox" id="box_login_field">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">5</property>
+                        <property name="halign">center</property>
+                        <property name="spacing">10</property>
                         <child>
-                          <object class="GtkEntry" id="textbox_ID">
-                            <property name="width_request">400</property>
-                            <property name="height_request">50</property>
+                          <object class="GtkFixed">
+                            <property name="width_request">32</property>
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="truncate_multiline">True</property>
-                            <property name="primary_icon_stock">gtk-edit</property>
-                            <property name="placeholder_text" translatable="yes">ID</property>
-                            <property name="input_purpose">alpha</property>
-                            <property name="input_hints">GTK_INPUT_HINT_NO_SPELLCHECK | GTK_INPUT_HINT_NONE</property>
+                            <property name="can_focus">False</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -193,19 +244,273 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry" id="textbox_PW">
-                            <property name="width_request">400</property>
-                            <property name="height_request">50</property>
+                          <object class="GtkBox" id="box_login_textbox">
+                            <property name="width_request">300</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">5</property>
+                            <child>
+                              <object class="GtkEntry" id="entry_id">
+                                <property name="width_request">400</property>
+                                <property name="height_request">50</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="truncate_multiline">True</property>
+                                <property name="primary_icon_stock">gtk-edit</property>
+                                <property name="placeholder_text" translatable="yes">ID</property>
+                                <property name="input_purpose">alpha</property>
+                                <property name="input_hints">GTK_INPUT_HINT_NO_SPELLCHECK | GTK_INPUT_HINT_NONE</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="entry_pw">
+                                <property name="width_request">400</property>
+                                <property name="height_request">50</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="visibility">False</property>
+                                <property name="invisible_char">•</property>
+                                <property name="activates_default">True</property>
+                                <property name="truncate_multiline">True</property>
+                                <property name="primary_icon_stock">gtk-dialog-authentication</property>
+                                <property name="placeholder_text" translatable="yes">PW</property>
+                                <property name="input_purpose">password</property>
+                                <property name="input_hints">GTK_INPUT_HINT_NO_SPELLCHECK | GTK_INPUT_HINT_NONE</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="btn_login">
+                            <property name="label" translatable="yes">Login</property>
+                            <property name="width_request">100</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="visibility">False</property>
-                            <property name="invisible_char">•</property>
-                            <property name="activates_default">True</property>
-                            <property name="truncate_multiline">True</property>
-                            <property name="primary_icon_stock">gtk-dialog-authentication</property>
-                            <property name="placeholder_text" translatable="yes">PW</property>
-                            <property name="input_purpose">password</property>
-                            <property name="input_hints">GTK_INPUT_HINT_NO_SPELLCHECK | GTK_INPUT_HINT_NONE</property>
+                            <property name="can_default">True</property>
+                            <property name="has_default">True</property>
+                            <property name="receives_default">True</property>
+                            <signal name="clicked" handler="on_btn_login_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="btn_signup">
+                            <property name="label" translatable="yes">Sign _Up</property>
+                            <property name="width_request">100</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_underline">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFixed">
+                            <property name="width_request">32</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFixed">
+                        <property name="height_request">32</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page_login</property>
+                <property name="title" translatable="yes">page_login</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="box_songlist_online">
+                <property name="width_request">1920</property>
+                <property name="height_request">1080</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkBox" id="box_SO_top">
+                    <property name="width_request">1920</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="valign">start</property>
+                    <child>
+                      <object class="GtkButton" id="btn_back">
+                        <property name="label">gtk-go-back</property>
+                        <property name="width_request">100</property>
+                        <property name="height_request">50</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="halign">start</property>
+                        <property name="valign">start</property>
+                        <property name="margin_left">50</property>
+                        <property name="margin_right">50</property>
+                        <property name="margin_top">50</property>
+                        <property name="margin_bottom">50</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="clicked" handler="on_btn_back_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkImage" id="img_logo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">100</property>
+                        <property name="hexpand">True</property>
+                        <property name="pixbuf">sharedrum_1024.png</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="btn_mypage">
+                        <property name="label" translatable="yes">My Page(_M)</property>
+                        <property name="width_request">100</property>
+                        <property name="height_request">50</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="halign">end</property>
+                        <property name="valign">start</property>
+                        <property name="margin_left">50</property>
+                        <property name="margin_right">50</property>
+                        <property name="margin_top">50</property>
+                        <property name="margin_bottom">50</property>
+                        <property name="use_underline">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="clicked" handler="on_btn_mypage_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="box_SO_mid">
+                    <property name="width_request">1920</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkListBox" id="list_song">
+                        <property name="width_request">700</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">start</property>
+                        <property name="margin_left">300</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="padding">50</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="box_interact_songlist">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="margin_right">300</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">50</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <object class="GtkButton" id="btn_song_play">
+                            <property name="width_request">200</property>
+                            <property name="height_request">100</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="image">box_btn_play</property>
+                            <property name="always_show_image">True</property>
+                            <signal name="clicked" handler="on_btn_song_play_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="btn_song_delete">
+                            <property name="label" translatable="yes">
+</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="image">box_btn_delete</property>
+                            <property name="always_show_image">True</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -220,64 +525,646 @@
                         <property name="position">1</property>
                       </packing>
                     </child>
-                    <child>
-                      <object class="GtkButton" id="btn_main">
-                        <property name="label" translatable="yes">Login</property>
-                        <property name="width_request">100</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="can_default">True</property>
-                        <property name="has_default">True</property>
-                        <property name="receives_default">True</property>
-                        <signal name="clicked" handler="on_btn_main_clicked" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkFixed">
-                        <property name="width_request">32</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">2</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkFixed">
-                    <property name="height_request">32</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">3</property>
-                  </packing>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="name">page_songlist_online</property>
+                <property name="title" translatable="yes">page_songlist_online</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </object>
         </child>
       </object>
+    </child>
+  </object>
+  <object class="GtkBox" id="listitem_song0">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkImage" id="img_listitem_song_local0">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="margin_left">10</property>
+            <property name="stock">gtk-save</property>
+            <property name="icon_size">6</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="valign">start</property>
+            <property name="row_spacing">10</property>
+            <property name="column_spacing">10</property>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_title0">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Stairway to Heaven</property>
+                <attributes>
+                  <attribute name="scale" value="4"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_uploader0">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="margin_right">10</property>
+                <property name="label" translatable="yes">Uploader : bn3monkey</property>
+                <attributes>
+                  <attribute name="scale" value="1.5"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_artist0">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">end</property>
+                <property name="margin_left">10</property>
+                <property name="label" translatable="yes">Artist : Kitsch</property>
+                <attributes>
+                  <attribute name="scale" value="1.5"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_listitem_song_date0">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">end</property>
+            <property name="margin_right">10</property>
+            <property name="label" translatable="yes">3045-12-31</property>
+            <attributes>
+              <attribute name="scale" value="1.2"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSeparator">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkBox" id="listitem_song1">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkImage" id="img_listitem_song_local1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="margin_left">10</property>
+            <property name="stock">gtk-save</property>
+            <property name="icon_size">6</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="valign">start</property>
+            <property name="row_spacing">10</property>
+            <property name="column_spacing">10</property>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_title1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Amorpaty</property>
+                <attributes>
+                  <attribute name="scale" value="4"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_uploader1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="margin_right">10</property>
+                <property name="label" translatable="yes">Uploader : Kandelion</property>
+                <attributes>
+                  <attribute name="scale" value="1.5"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_artist1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">end</property>
+                <property name="margin_left">10</property>
+                <property name="label" translatable="yes">Artist : Kitsch</property>
+                <attributes>
+                  <attribute name="scale" value="1.5"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_listitem_song_date1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">end</property>
+            <property name="margin_right">10</property>
+            <property name="label" translatable="yes">3045-12-31</property>
+            <attributes>
+              <attribute name="scale" value="1.2"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSeparator">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkBox" id="listitem_song2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkImage" id="img_listitem_song_local2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="margin_left">10</property>
+            <property name="stock">gtk-save</property>
+            <property name="icon_size">6</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="valign">start</property>
+            <property name="row_spacing">10</property>
+            <property name="column_spacing">10</property>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_title2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Taebo Master</property>
+                <attributes>
+                  <attribute name="scale" value="4"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_uploader2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="margin_right">10</property>
+                <property name="label" translatable="yes">Uploader : JoHR</property>
+                <attributes>
+                  <attribute name="scale" value="1.5"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_artist2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">end</property>
+                <property name="margin_left">10</property>
+                <property name="label" translatable="yes">Artist : JoHR</property>
+                <attributes>
+                  <attribute name="scale" value="1.5"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_listitem_song_date2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">end</property>
+            <property name="margin_right">10</property>
+            <property name="label" translatable="yes">3045-12-31</property>
+            <attributes>
+              <attribute name="scale" value="1.2"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSeparator">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkBox" id="listitem_song3">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkImage" id="img_listitem_song_local3">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="margin_left">10</property>
+            <property name="stock">gtk-save</property>
+            <property name="icon_size">6</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="valign">start</property>
+            <property name="row_spacing">10</property>
+            <property name="column_spacing">10</property>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_title3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Captin Teemo</property>
+                <attributes>
+                  <attribute name="scale" value="4"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_uploader3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="margin_right">10</property>
+                <property name="label" translatable="yes">Uploader : League of Legend(KR)</property>
+                <attributes>
+                  <attribute name="scale" value="1.5"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_artist3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">end</property>
+                <property name="margin_left">10</property>
+                <property name="label" translatable="yes">Artist : Teemo</property>
+                <attributes>
+                  <attribute name="scale" value="1.5"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_listitem_song_date3">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">end</property>
+            <property name="margin_right">10</property>
+            <property name="label" translatable="yes">3045-12-31</property>
+            <attributes>
+              <attribute name="scale" value="1.2"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSeparator">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkBox" id="listitem_song4">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">10</property>
+        <child>
+          <object class="GtkImage" id="img_listitem_song_local4">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="margin_left">10</property>
+            <property name="stock">gtk-save</property>
+            <property name="icon_size">6</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="valign">start</property>
+            <property name="row_spacing">10</property>
+            <property name="column_spacing">10</property>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_title4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Island of starlight lighthouse</property>
+                <attributes>
+                  <attribute name="scale" value="4"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+                <property name="width">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_uploader4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="margin_right">10</property>
+                <property name="label" translatable="yes">Uploader : Kandelion</property>
+                <attributes>
+                  <attribute name="scale" value="1.5"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_listitem_song_artist4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">end</property>
+                <property name="margin_left">10</property>
+                <property name="label" translatable="yes">Artist : Lost Ark</property>
+                <attributes>
+                  <attribute name="scale" value="1.5"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label_listitem_song_date4">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">end</property>
+            <property name="margin_right">10</property>
+            <property name="label" translatable="yes">3045-12-31</property>
+            <attributes>
+              <attribute name="scale" value="1.2"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSeparator">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
     </child>
   </object>
 </interface>
