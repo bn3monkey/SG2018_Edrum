@@ -27,6 +27,9 @@
     <ClInclude Include="LocalList.hpp">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="MyList.hpp">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SongData.cpp">

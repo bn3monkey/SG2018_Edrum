@@ -113,6 +113,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\edrum-hardware\Hardware_IO\NoteData.hpp" />
     <ClInclude Include="LocalList.hpp" />
+    <ClInclude Include="MyList.hpp" />
     <ClInclude Include="SongData.hpp" />
     <ClInclude Include="SongList.hpp" />
   </ItemGroup>

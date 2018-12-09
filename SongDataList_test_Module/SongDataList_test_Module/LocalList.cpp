@@ -28,7 +28,7 @@ bool LocalList::initialize()
 	}
 	while ((dirp = readdir(dp)) != NULL)
 	{
-		if(!strcmp(dirp->d_name,".") || !strcmp(dirp->d_name,".."))
+		if ( strncmp( dirp->d_name + strlen(dirp->d_name) - 4 , ".sdd", 4) )
 			continue;
 		SongData song;
 		std::cout << std::string(dirp->d_name) << std::endl;
