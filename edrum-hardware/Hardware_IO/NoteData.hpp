@@ -1,6 +1,8 @@
 #ifndef __NOTE__
 #define __NOTE__
 
+#include <iostream>
+
 enum NoteCommand
 {
     nc_clock = 'c',
@@ -40,7 +42,7 @@ public:
 		this->drum = e.drum;
 		this->power = e.power;
 	}
-	
+
 };
 
 #endif
