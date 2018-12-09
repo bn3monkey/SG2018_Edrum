@@ -25,4 +25,16 @@ bool ResourceManager::initialize()
             std::cout << "ERROR : MY_LIST INITIALIZATION FAIL!" << std::endl;
             return false;
         }
+	return true;
     }
+
+void ResourceManager::destroy()
+{
+	if(list_server != nullptr)
+            delete list_server;
+        if(list_local != nullptr)
+            delete list_local;
+        if(list_my != nullptr)
+            delete list_my;
+    
+}

@@ -18,6 +18,10 @@ public:
 	{
 		path = "./local/";
 	}
+	~LocalList()
+	{
+		all_songs.clear();
+	}
 	// 현재 List를 초기화한다.
 	bool initialize();
 	// Page를 update한다. 

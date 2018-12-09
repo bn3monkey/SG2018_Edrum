@@ -19,15 +19,11 @@ public:
     }
     ~ResourceManager()
     {
-        if(list_server != nullptr)
-            delete list_server;
-        if(list_local != nullptr)
-            delete list_local;
-        if(list_my != nullptr)
-            delete list_my;
+	destroy();
     }
 
     bool initialize();
+    void destroy();
     inline ServerList* getServerlist() {return list_server;}
     inline LocalList* getLocallist() {return list_local;}
     inline MyList* getMylist() {return list_my;}

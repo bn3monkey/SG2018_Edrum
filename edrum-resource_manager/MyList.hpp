@@ -10,6 +10,7 @@ public:
 	{
 		path = "./mylist/";
 	}
+	~MyList() {}
 	/*
 	// 현재 List를 초기화한다.
 	bool initialize();

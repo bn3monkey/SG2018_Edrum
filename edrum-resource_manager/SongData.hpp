@@ -6,7 +6,7 @@
 #include <vector>
 #include <iostream>
 #include <string.h>
-#include "../../edrum-hardware/Hardware_IO/NoteData.hpp"
+#include "../edrum-hardware/Hardware_IO/NoteData.hpp"
 
 class SongData
 {

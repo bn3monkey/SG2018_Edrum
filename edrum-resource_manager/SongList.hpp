@@ -16,6 +16,8 @@ protected:
 	std::string path;
 	
 public:
+	SongList() {}
+	virtual ~SongList() {}
 	// 현재 List를 초기화한다.
 	virtual bool initialize() = 0;
 	// Page를 update한다. 
