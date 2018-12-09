@@ -3,7 +3,7 @@
 int main(){
     GTK_MODULE gtk;
 
-    gtk.init(NULL, NULL);
+    gtk.init(NULL);
 
     return 0;
 }
