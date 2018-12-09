@@ -5,6 +5,33 @@ const int SongData::metadata_size = sizeof(server_id) + sizeof(local_id) +
 sizeof(name) + sizeof(artist) + sizeof(date) + sizeof(ID) +
 sizeof(drum_amount) + sizeof(note_amount);
 
+SongData::SongData(const SongData& e)
+{
+	this->server_id = e.server_id;
+	this->local_id = e.local_id;
+	memcpy(this->name, e.name, sizeof(name));
+	memcpy(this->artist, e.artist, sizeof(artist));
+	memcpy(this->date, e.date, sizeof(date));
+	memcpy(this->ID, e.ID, sizeof(ID));
+	this->drum_amount = e.drum_amount;
+	this->note_amount = e.note_amount;
+	this->current_note = 0;
+	this->filename = e.filename;
+}
+SongData& SongData::operator=(const SongData& e)
+{
+	this->server_id = e.server_id;
+	this->local_id = e.local_id;
+	memcpy(this->name, e.name, sizeof(name));
+	memcpy(this->artist, e.artist, sizeof(artist));
+	memcpy(this->date, e.date, sizeof(date));
+	memcpy(this->ID, e.ID, sizeof(ID));
+	this->drum_amount = e.drum_amount;
+	this->note_amount = e.note_amount;
+	this->current_note = 0;
+	this->filename = e.filename;
+	return *this;
+}
 // 곡으로부터 메타데이터를 읽어온다.
 bool SongData::read_header()
 {
@@ -133,16 +160,16 @@ void  SongData::close()
 
 /* filename에 해당하는 파일을 읽어 메타데이터를 구성한다. */
 /* 파일이 없으면 false를 리턴한다. */
-bool SongData::pre_read(char* filename)
+bool SongData::pre_read(std::string path, std::string filename)
 {
-	if (!open(filename))
+	if (!open(path + filename))
 	{
-		std::cerr << "ERROR : pre_read [" << filename << "]" << std::endl;
+		std::cerr << "ERROR : pre_read [" << path + filename << "]" << std::endl;
 		return false;
 	}
 	if (!read_header())
 	{
-		std::cerr << "ERROR : pre_read [" << filename << "]" << std::endl;
+		std::cerr << "ERROR : pre_read [" << path + filename << "]" << std::endl;
 		return false;
 	}
 	return true;
@@ -171,7 +198,7 @@ bool SongData::read(std::vector<NoteData>& notelist)
 
 /* MetaData를 구성한다.*/
 #define MIN(a,b) (a<b?a:b)
-bool SongData::pre_write(int local_id, std::string name, std::string artist, std::string ID, int drum_amount, int note_amount)
+bool SongData::pre_write(std::string path, int local_id, std::string name, std::string artist, std::string ID, int drum_amount, int note_amount)
 {
 	this->local_id = local_id;
 	memcpy(this->name, name.c_str(), MIN(name.size(), sizeof(this->name)));
@@ -181,7 +208,7 @@ bool SongData::pre_write(int local_id, std::string name, std::string artist, std
 	this->note_amount = note_amount;
 	set_filename();
 
-	if (!create(get_filename()))
+	if (!create(path + get_filename()))
 	{
 		std::cerr << "ERROR : pre_write [" << filename << "]" << std::endl;
 		return false;
@@ -212,9 +239,9 @@ bool SongData::write(const std::vector<NoteData>& notelist)
 	this->close();
 	return true;
 }
-bool SongData::exist()
+bool SongData::exist(std::string path)
 {
-	song.open(this->filename, std::ios::in | std::ios::binary);
+	song.open(path + this->filename, std::ios::in | std::ios::binary);
 	if (song.is_open())
 	{
 		song.close();
@@ -222,12 +249,12 @@ bool SongData::exist()
 	}
 	return false;
 }
-bool SongData::remove()
+bool SongData::remove(std::string path)
 {
 	// 해당 파일이 열려있으면 닫는다.
 	if (song.is_open())
 		song.close();
-	if (std::remove(this->filename.c_str()))
+	if (std::remove((path + this->filename).c_str()))
 		return false;
 	return true;
 }

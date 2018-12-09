@@ -112,15 +112,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\edrum-hardware\Hardware_IO\NoteData.hpp" />
+    <ClInclude Include="LocalList.hpp" />
     <ClInclude Include="SongData.hpp" />
     <ClInclude Include="SongList.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="LocalList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SongData.cpp" />
+    <ClCompile Include="SongList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="bn3monkey_Mirror_Guckkasten.sdd" />
+    <None Include="makefile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

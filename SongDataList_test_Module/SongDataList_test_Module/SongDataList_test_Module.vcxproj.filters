@@ -24,6 +24,9 @@
     <ClInclude Include="SongList.hpp">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="LocalList.hpp">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SongData.cpp">
@@ -32,10 +35,19 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="LocalList.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SongList.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="bn3monkey_Mirror_Guckkasten.sdd">
       <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="makefile">
+      <Filter>소스 파일</Filter>
     </None>
   </ItemGroup>
 </Project>
