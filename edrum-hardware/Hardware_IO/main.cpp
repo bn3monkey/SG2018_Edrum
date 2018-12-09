@@ -13,28 +13,34 @@ int main()
 	IOTestModule pTest;
 	std::function<void()> container;
 	
-	// [&»ç¿ëÇÏ´Â °´Ã¼ º¯¼ö¸í] () { ½ÇÁ¦·Î ³ÖÀ¸·Á´Â ÇÔ¼ö(); }
+	// [&ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½] () { ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½(); }
+	
 	container = [&pTest]() {pTest.up();};
 	Hardware_IO::registCallback(container, np_up);
-	// class ³»ºÎ¿¡¼­ ºÒ·¯¿À´Â °æ¿ì, 
+	// class ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, 
 	// Hardware_IO::registerCallback( [&this]() {pTest.up();}, np_up );
-	// À§¿Í °°Àº ½ÄÀ¸·Î »ç¿ëÇÏ¸é µÈ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 
-	container = [&pTest]() {pTest.down(); };
+	container = [&pTest]() {pTest.down(); Hardware_IO::get_clock();};
 	Hardware_IO::registCallback(container, np_down);
 	container = [&pTest]() {pTest.left(); };
 	Hardware_IO::registCallback(container, np_left);
 	container = [&pTest]() {pTest.right(); };
 	Hardware_IO::registCallback(container, np_right);
-	container = [&pTest]() {pTest.ok(); };
-	Hardware_IO::registCallback(container, np_ok);
+	//container = [&pTest]() {pTest.ok(); };
+	//Hardware_IO::registCallback(container, np_ok);
+	
 	container = []() {
 		std::unique_lock<std::mutex> lk(m);
 		lk.unlock();
-		cv.notify_one();
+		cv.notify_all();
+		printf("End!\n");
 	};
-	Hardware_IO::registCallback(container, np_none);
+	Hardware_IO::registCallback(container, np_ok);
 
+	Hardware_IO::registCallback([](){cout<<"reset clock!" << endl;}, np_cmd_clock);
+
+	
 	std::unique_lock<std::mutex> lk(m);
 	cv.wait(lk);
 
