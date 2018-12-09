@@ -6,6 +6,7 @@
 
 class LocalList : public SongList
 {
+protected:
 	std::vector<SongData> all_songs;
 	inline int get_allsongnum(int page_num, int song_num)
 	{

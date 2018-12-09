@@ -249,6 +249,15 @@ bool SongData::exist(std::string path)
 	}
 	return false;
 }
+// 미리 곡 데이터 파일을 만드는 패러미터들을 집어넣어 해당하는 곡 데이터 파일이 존재하는지 확인한다.
+bool SongData::exist(std::string path, std::string name, std::string artist, std::string ID)
+{
+	memcpy(this->name, name.c_str(), MIN(name.size(), sizeof(this->name)));
+	memcpy(this->artist, artist.c_str(), MIN(artist.size(), sizeof(this->artist)));
+	memcpy(this->ID, ID.c_str(), MIN(ID.size(), sizeof(this->ID)));
+	set_filename();
+	return this->exist(path);
+}
 bool SongData::remove(std::string path)
 {
 	// 해당 파일이 열려있으면 닫는다.

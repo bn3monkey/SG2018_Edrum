@@ -44,6 +44,9 @@
     <ClCompile Include="SongList.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="MyList.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="bn3monkey_Mirror_Guckkasten.sdd">

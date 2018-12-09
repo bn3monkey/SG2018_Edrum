@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -std=gnu++11 -W -Wall
 TARGET = SongData
-CFILE = main.cpp SongData.cpp SongList.cpp LocalList.cpp
+CFILE = main.cpp SongData.cpp SongList.cpp LocalList.cpp MyList.cpp
 
 all:
 	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE)

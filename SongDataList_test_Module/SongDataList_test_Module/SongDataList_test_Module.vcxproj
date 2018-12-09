@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="LocalList.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyList.cpp" />
     <ClCompile Include="SongData.cpp" />
     <ClCompile Include="SongList.cpp" />
   </ItemGroup>

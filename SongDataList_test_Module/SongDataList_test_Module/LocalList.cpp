@@ -92,6 +92,7 @@ bool LocalList::remove(int song_num)
 	}
 	if (!songs[song_num].remove(path))
 	{
+		std::cerr << "ERROR : LocalList remove " << std::endl;
 		return false;
 	}
 	songs[song_num].clear();
