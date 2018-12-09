@@ -215,9 +215,21 @@ bool SongData::write(const std::vector<NoteData>& notelist)
 bool SongData::exist()
 {
 	song.open(this->filename, std::ios::in | std::ios::binary);
-	if(song.is_open())
+	if (song.is_open())
+	{
+		song.close();
 		return true;
+	}
 	return false;
+}
+bool SongData::remove()
+{
+	// 해당 파일이 열려있으면 닫는다.
+	if (song.is_open())
+		song.close();
+	if (std::remove(this->filename.c_str()))
+		return false;
+	return true;
 }
 void SongData::clear()
 {

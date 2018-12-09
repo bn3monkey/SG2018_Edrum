@@ -33,5 +33,9 @@ int main()
 	for (size_t i = 0; i < notes.size(); i++)
 		std::cout << "(time : " << notes[i].time << " drum : " << notes[i].drum << " power : " << notes[i].power << ")" << std::endl;
 
+	std::cout << song1.exist() << std::endl;
+	std::cout << song1.remove() << std::endl;
+	std::cout << song1.exist() << std::endl;
+
 	return 0;
 }

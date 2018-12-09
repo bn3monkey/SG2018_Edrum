@@ -1,6 +1,7 @@
 #ifndef __SONG_DATA__
 #define __SONG_DATA__
 #include <fstream>
+#include <cstdio>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -16,6 +17,7 @@ class SongData
 	// 곡에 쓰이는 노트 개수
 	int note_amount;
 	
+	// 실제 곡 데이터를 가지고 있는 곡 데이터 파일.
 	std::fstream song;
 	
 	//파일명은 만든사람ID_곡이름_작곡가.sdd 로 정의한다.
@@ -75,7 +77,6 @@ public:
 	{
 		return filename;
 	}
-
 	/* filename에 해당하는 파일을 읽어 메타데이터를 구성한다. */
 	/* 파일이 없으면 false를 리턴한다. */
 	bool pre_read(char* filename);
@@ -88,7 +89,10 @@ public:
 	/* 현재 있는 MetaData를 바탕으로 파일을 쓴다 */
 	bool write(const std::vector<NoteData>& notelist);
 
+	/* 현재 객체에서 참조하고 있는 파일 이름으로 된 곡 데이터 파일이 존재하는지 확인한다. */
 	bool exist();
+	/* 현재 객체에서 참조하고 있는 파일 이름으로 된 곡 파일을 삭제한다. */
+	bool remove();
 };
 
 #endif
