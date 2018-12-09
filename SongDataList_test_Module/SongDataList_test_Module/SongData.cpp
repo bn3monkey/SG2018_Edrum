@@ -130,26 +130,26 @@ bool SongData::write_note(const NoteData& note)
 	return true;
 }
 //파일을 연다.
-bool SongData::open(std::string filename)
+bool SongData::open(std::string path, std::string filename)
 {
-	song.open(filename, std::ios::in | std::ios::binary);
+	song.open(path + filename, std::ios::in | std::ios::binary);
 	if (!song.is_open())
 	{
 		std::cerr << "ERROR : open [" << filename << "]" << std::endl;
 		return false;
 	}
-	filename = this->filename;
+	this->filename = filename;
 	return true;
 }
-bool SongData::create(std::string filename)
+bool SongData::create(std::string path, std::string filename)
 {
-	song.open(filename, std::ios::out | std::ios::binary);
+	song.open(path + filename, std::ios::out | std::ios::binary);
 	if (!song.is_open())
 	{
 		std::cerr << "ERROR : create [" << filename << "]" << std::endl;
 		return false;
 	}
-	filename = this->filename;
+	this->filename = filename;
 	return true;
 } 
 // 파일을 닫는다.
@@ -162,7 +162,7 @@ void  SongData::close()
 /* 파일이 없으면 false를 리턴한다. */
 bool SongData::pre_read(std::string path, std::string filename)
 {
-	if (!open(path + filename))
+	if (!open(path, filename))
 	{
 		std::cerr << "ERROR : pre_read [" << path + filename << "]" << std::endl;
 		return false;
@@ -208,7 +208,7 @@ bool SongData::pre_write(std::string path, int local_id, std::string name, std::
 	this->note_amount = note_amount;
 	set_filename();
 
-	if (!create(path + get_filename()))
+	if (!create(path, get_filename()))
 	{
 		std::cerr << "ERROR : pre_write [" << filename << "]" << std::endl;
 		return false;
@@ -253,9 +253,14 @@ bool SongData::remove(std::string path)
 {
 	// 해당 파일이 열려있으면 닫는다.
 	if (song.is_open())
+	{
 		song.close();
+	}
 	if (std::remove((path + this->filename).c_str()))
+	{
+		std::cerr << "ERROR : remove [" << filename << "]" << std::endl;
 		return false;
+	}
 	return true;
 }
 void SongData::clear()

@@ -39,9 +39,9 @@ class SongData
 	bool write_note(const NoteData& note);
 
 	//파일을 연다.
-	bool open(std::string filename);
+	bool open(std::string path, std::string filename);
 	// 파일을 만든다.
-	bool create(std::string filename);
+	bool create(std::string path, std::string filename);
 	// 파일을 닫는다.
 	void  close();
 		

@@ -90,7 +90,10 @@ bool LocalList::remove(int song_num)
 		std::cerr << "ERROR : LocalList remove (index error : " << song_num << ", " << page_size << ")" << std::endl;
 		return false;
 	}
-	songs[song_num].remove(path);
+	if (!songs[song_num].remove(path))
+	{
+		return false;
+	}
 	songs[song_num].clear();
 
 	//2. 전체 List에서 삭제한다.
