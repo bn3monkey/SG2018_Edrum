@@ -30,6 +30,9 @@
     <ClInclude Include="MyList.hpp">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ServerList.hpp">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SongData.cpp">
@@ -45,6 +48,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MyList.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerList.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

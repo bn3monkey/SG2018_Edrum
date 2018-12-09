@@ -76,11 +76,7 @@ bool LocalList::updatePage(int page_num)
 
 	return true;
 }
-// 현재 Page에 해당하는 SongData를 가져온다.
-SongData* LocalList::getSong(int song_num)
-{
-	return &songs[song_num];
-}
+
 // 현재 Page에 해당하는 SongData를 삭제한다.
 bool LocalList::remove(int song_num)
 {

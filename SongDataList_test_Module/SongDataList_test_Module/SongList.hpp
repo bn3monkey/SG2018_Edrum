@@ -21,7 +21,7 @@ public:
 	// Page를 update한다. 
 	virtual bool updatePage(int page_num) = 0;
 	// 현재 Page에 해당하는 SongData를 가져온다.
-	virtual SongData* getSong(int song_num) = 0;
+	SongData* getSong(int song_num) { return &songs[song_num]; }
 
 	// 디버깅을 위해, 현재 페이지의 곡 데이터들을 전부 보여준다.
 	void print();

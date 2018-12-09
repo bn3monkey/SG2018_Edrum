@@ -1,10 +1,10 @@
-#ifndef __LOCAL_LIST__
-#define __LOCAL_LIST__
+#ifndef __SERVER_LIST__
+#define __SERVER_LIST__
 
 #include "SongList.hpp"
 #include <vector>
 
-class LocalList : public SongList
+class ServerList : public SongList
 {
 protected:
 	std::vector<SongData> all_songs;
@@ -14,7 +14,7 @@ protected:
 	}
 
 public:
-	LocalList()
+	ServerList()
 	{
 		path = "./local/";
 	}
@@ -24,8 +24,11 @@ public:
 	bool updatePage(int page_num);
 	// 현재 Page에 해당하는 SongData를 가져온다.
 	//SongData* getSong(int song_num);
-	// 현재 Page에 해당하는 SongData를 삭제한다.
-	bool remove(int song_num);
+	
+	// Server 목록에 있는 곡을 다운로드 받는다.
+	bool download(int page_num);
+	// Server 목록에 있는 곡의 다운로드를 취소한다.
+	bool download_cancel(int page_num);
 };
 
 #endif
