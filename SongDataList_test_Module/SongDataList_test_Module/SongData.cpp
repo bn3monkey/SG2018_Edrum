@@ -212,7 +212,13 @@ bool SongData::write(const std::vector<NoteData>& notelist)
 	this->close();
 	return true;
 }
-
+bool SongData::exist()
+{
+	song.open(this->filename, std::ios::in | std::ios::binary);
+	if(song.is_open())
+		return true;
+	return false;
+}
 void SongData::clear()
 {
 	this->filename = "";

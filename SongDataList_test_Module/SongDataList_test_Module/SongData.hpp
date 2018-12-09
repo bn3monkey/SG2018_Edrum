@@ -87,6 +87,8 @@ public:
 	bool pre_write(int local_id, std::string name, std::string artist, std::string ID, int drum_amount, int note_amount);
 	/* 현재 있는 MetaData를 바탕으로 파일을 쓴다 */
 	bool write(const std::vector<NoteData>& notelist);
+
+	bool exist();
 };
 
 #endif
