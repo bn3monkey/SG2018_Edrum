@@ -37,6 +37,7 @@ int main()
 	std::cout << song1.remove("./local/") << std::endl;
 	std::cout << song1.exist("./local/") << std::endl;
 
+	/*
 	for(int i=0; i<15; i++)
 	{
 		int local_id = 1;
@@ -57,6 +58,7 @@ int main()
 			return false;
 		song1.write(notes);
 	}
+	*/
 
 	LocalList local;
 	local.initialize();

@@ -1,34 +1,58 @@
 #include "LocalList.hpp"
 #include <algorithm>
+#include <dirent.h>
+/*
 #include <filesystem>
 namespace fs = std::experimental::filesystem::v1;
+*/
 
 #define MIN(a,b) ((a)<(b)?(a):(b))
 // 현재 List를 초기화한다.
 bool LocalList::initialize()
 {
 	// 운영체제의 파일시스템에 맞게 파일들을 읽어온다.
+	/*
 	for (auto & p : fs::directory_iterator(path))
 	{
 		SongData song;
 		song.pre_read(path, p.path().filename().generic_string());
 		all_songs.push_back(song);
 	}
+	*/
+	DIR *dp;
+	struct dirent *dirp;
+	if((dp = opendir(path.c_str())) == NULL)
+	{
+		std::cerr << "ERROR : Locallist intialization : No path (" << path << ")" << std::endl;
+		return false;
+	}
+	while ((dirp = readdir(dp)) != NULL)
+	{
+		if(!strcmp(dirp->d_name,".") || !strcmp(dirp->d_name,".."))
+			continue;
+		SongData song;
+		std::cout << std::string(dirp->d_name) << std::endl;
+		song.pre_read(path, std::string(dirp->d_name));
+		all_songs.push_back(song);
+	}
+	closedir(dp);
 
 	//파일 이름에 맞게 sorting한다
 	std::sort(all_songs.begin(), all_songs.end());
 
 	//맨 처음 페이지를 업데이트한다
 	updatePage(0);
+
 	return true;
 }
 // Page를 update한다. 
 bool LocalList::updatePage(int page_num)
 {
-	size_t start = this->get_allsongnum(page_num, 0);	
+	int start = this->get_allsongnum(page_num, 0);	
 	
 	// 수정으로 인해 가져오고자 하는 범위가 초과되었을 경우
-	if (all_songs.size() <= start)
+	printf("all_song_size : %d\n", all_songs.size());
+	if ((int)all_songs.size() <= start)
 	{
 		page_num = all_songs.size() / page_size;
 	}
@@ -37,7 +61,7 @@ bool LocalList::updatePage(int page_num)
 	this->current_page = page_num;
 	// 가져올 페이지의 맨 끝에 있는 곡의 인덱스를 정한다.
 	start = this->get_allsongnum(this->current_page, 0);
-	size_t end = MIN( this->get_allsongnum(this->current_page, page_size - 1) , all_songs.size() -1 );
+	int end = MIN( this->get_allsongnum(this->current_page, page_size - 1) , (int)all_songs.size() -1 );
 
 	// 현재 곡 리스트를 초기화한다.
 	for (int i = 0; i < page_size; i++)
@@ -61,7 +85,7 @@ SongData* LocalList::getSong(int song_num)
 bool LocalList::remove(int song_num)
 {
 	//1. 현재 List에서 삭제한다.
-	if (song_num < 0 || song_num >= song_len)
+	if (song_num >= song_len)
 	{
 		std::cerr << "ERROR : LocalList remove (index error : " << song_num << ", " << page_size << ")" << std::endl;
 		return false;
@@ -71,7 +95,7 @@ bool LocalList::remove(int song_num)
 
 	//2. 전체 List에서 삭제한다.
 	size_t whole_songnum = this->get_allsongnum(this->current_page, song_num);
-	if (whole_songnum < 0 || whole_songnum >= all_songs.size())
+	if (whole_songnum >= all_songs.size())
 	{
 		std::cerr << "ERROR : LocalList remove (all_index error : " << whole_songnum << ", " << all_songs.size() << ")" << std::endl;
 		return false;
