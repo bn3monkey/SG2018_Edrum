@@ -98,6 +98,9 @@ public:
 
 	/* 현재 객체에서 참조하고 있는 파일 이름으로 된 곡 데이터 파일이 존재하는지 확인한다. */
 	bool exist(std::string path);
+	// 미리 곡 데이터 파일을 만드는 패러미터들을 집어넣어 해당하는 곡 데이터 파일이 존재하는지 확인한다.
+	bool exist(std::string path, std::string name, std::string artist, std::string ID);
+
 	/* 현재 객체에서 참조하고 있는 파일 이름으로 된 곡 파일을 삭제한다. */
 	bool remove(std::string path);
 	// 현재 객체 내부에 있는 모든 변수를 초기값으로 초기화한다.

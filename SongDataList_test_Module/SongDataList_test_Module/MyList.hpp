@@ -2,21 +2,15 @@
 #define __MY_LIST__
 
 #include "LocalList.hpp"
-#include <vector>
 
-class LocalList : public SongList
+class MyList : public LocalList
 {
-	std::vector<SongData> all_songs;
-	inline int get_allsongnum(int page_num, int song_num)
-	{
-		return page_num * page_size + song_num;
-	}
-
 public:
-	LocalList()
+	MyList()
 	{
-		path = "./local/";
+		path = "./mylist/";
 	}
+	/*
 	// 현재 List를 초기화한다.
 	bool initialize();
 	// Page를 update한다. 
@@ -25,6 +19,15 @@ public:
 	SongData* getSong(int song_num);
 	// 현재 Page에 해당하는 SongData를 삭제한다.
 	bool remove(int song_num);
+	*/
+
+	// 현재 Page에 해당하는 SongData를 추가한다.
+	bool insert(int local_id, std::string name, std::string artist, std::string ID, int drum_amount, const std::vector<NoteData> notelist);
+	// 현재 Page에 해당하는 SongData를 업로드한다.
+	bool upload(int song_num);
+	// 현재 Page에 해당하는 SongData를 삭제한다.
+	bool upload_cancel(int song_num);
+
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "LocalList.hpp"
+#include "MyList.hpp"
 int main()
 {
 	int local_id = 1;
@@ -99,6 +100,38 @@ int main()
 
 	local.remove(1);
 	local.print();
+
+
+	printf("========= MYLIST =========\n");
+	MyList mylist;
+	mylist.initialize();
+	mylist.print();
+
+	for (int i = 1; i<=13; i++)
+	{
+		int local_id = i;
+		std::string name = std::to_string(i);
+		std::string artist = std::to_string(i);
+		std::string ID = "bn3monkey";
+		std::vector<NoteData> notes;
+		int drum_amount = 1;
+
+		for (int i = 0; i < 10; i++)
+		{
+			NoteData note(1 + 500 * i, 1, 200);
+			notes.push_back(note);
+		}
+
+		mylist.insert(local_id, name, artist, ID, drum_amount, notes);
+	}
+	mylist.updatePage(2);
+	mylist.print();
+
+	mylist.remove(1);
+	mylist.print();
+
+	mylist.remove(1);
+	mylist.print();
 
 	return 0;
 }
