@@ -4,15 +4,16 @@ TARGET = HardWare_IO
 LIBNAME = libHardWare_IO.so
 CFILE = main.cpp
 LIBFILE = Hardware_IO.cpp serial.cpp
+LIBPATH = /home/bn3monkey/edrum/Edrum/edrum-hardware/Hardware_IO
 
 all :
 	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) $(LIBFILE) -lwiringPi
 
 lib :
-	$(CC) $(CFLAGS) -fPIC $(LIBFILE) -Wl,-rpath,. -shared -o $(LIBNAME) -lwiringPi
+	$(CC) $(CFLAGS) -fPIC $(LIBFILE) -shared -o $(LIBNAME) -lwiringPi
 
 libtest :
-	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) -Wl,-rpath,. -L. -lHardWare_IO -lwiringPi
+	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) -Wl,-rpath,$(LIBPATH) -L$(LIBPATH) -lHardWare_IO -lwiringPi
 	 
 clean :
 	sudo rm -f $(OBJS) $(TARGET)
