@@ -24,11 +24,6 @@ Glib::RefPtr<Gtk::Builder> refBuilder;
 
 int main(int argc, char *argv[])
 {
-    ResourceManager RM;
-
-    RM.initialize();
-
-
     app = Gtk::Application::create(argc, argv, "org.gtkmm.examples.base");
 
     //Load the GtkBuilder file and instantiate its widgets:

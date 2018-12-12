@@ -17,18 +17,18 @@ CC = g++
 CFLAGS = -std=gnu++11 -pthread -W -Wall
 TARGET = sharedrum
 CFILE = main.cpp init.cpp event_handler.cpp
+HEADER = init.hpp event_handler.hpp
 OBJS = main.o init.o event_handler.o
 
-all:
-	@echo " *** Try Compile.."
-	$(CC) $(CFLAGS) -c $(CFILE) `pkg-config gtkmm-3.0 --cflags --libs`
-	@echo ""
-	@echo " *** Try Build.."
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) `pkg-config gtkmm-3.0 --cflags --libs`
+all: $(OBJS)
+	@echo " > Try Build.."
+	@$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) `pkg-config gtkmm-3.0 --cflags --libs`
+	@echo " Done."
 
-obj:
-	@echo " *** Try Compile.."
-	$(CC) $(CFLAGS) -c $(CFILE) `pkg-config gtkmm-3.0 --cflags --libs`
+$(OBJS): $(CFILE) $(HEADER)
+	@echo " > Try Compile.."
+	@$(CC) $(CFLAGS) -c $(CFILE) `pkg-config gtkmm-3.0 --cflags --libs`
 
 clean:
-	sudo rm -rf $(OBJS) $(TARGET)
+	@echo " *** Clean up!"
+	@sudo rm -rf $(OBJS) $(TARGET)
