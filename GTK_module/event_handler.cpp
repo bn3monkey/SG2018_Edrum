@@ -106,26 +106,16 @@ static void on_btn_login_clicked()
     std::string str = "";
     str = "Welcome, " + pEntry_id->get_text() + "!";
     pLabel_notice->set_text(str);
+    std::cout << str << std::endl;
 
-    if (pDialog == nullptr)
-    {
-        refBuilder->get_widget("DialogBasic", pDialog);
-
-        if (pDialog)
-        {
-            //Get the GtkBuilder-instantiated Button, and connect a signal handler:
-            Gtk::Button *pButton = nullptr;
-            refBuilder->get_widget("quit_button", pButton);
-            if (pButton)
-            {
-                pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_dialog_clicked));
-            }
-
-            pDialog->show();
-        }
+    if (true)
+    { /*LOGIN_SUCCESS*/
+        pStack_main->set_visible_child("page_songlist_online");
     }
     else
-        pDialog->show();
+    {
+        //SOMETHING
+    }
 
     std::cout << "dialog created" << std::endl;
 }

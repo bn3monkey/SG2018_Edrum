@@ -20,6 +20,7 @@ extern Gtk::Widget *pListItem_song[SONGLIST_SIZE];
 extern Gtk::Label *pLabel_songlist_title[SONGLIST_SIZE];
 extern Gtk::Label *pLabel_songlist_uploader[SONGLIST_SIZE];
 extern Gtk::Label *pLabel_songlist_artist[SONGLIST_SIZE];
+extern Gtk::Stack *pStack_main;
 
 extern Glib::RefPtr<Gtk::Builder> refBuilder;
 

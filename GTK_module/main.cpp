@@ -18,6 +18,7 @@ Gtk::Widget *pListItem_song[SONGLIST_SIZE] = {nullptr};
 Gtk::Label *pLabel_songlist_title[SONGLIST_SIZE] = {nullptr};
 Gtk::Label *pLabel_songlist_uploader[SONGLIST_SIZE] = {nullptr};
 Gtk::Label *pLabel_songlist_artist[SONGLIST_SIZE] = {nullptr};
+Gtk::Stack *pStack_main = nullptr;
 
 static Glib::RefPtr<Gtk::Application> app;
 Glib::RefPtr<Gtk::Builder> refBuilder;

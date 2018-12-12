@@ -5,12 +5,15 @@ int get_widget_pointer(){
     refBuilder->get_widget("entry_id", pEntry_id);
     refBuilder->get_widget("box_login", pBox_login); 
     refBuilder->get_widget("list_song", pListBox_song);
+    refBuilder->get_widget("stack_main", pStack_main);
+    refBuilder->get_widget("notice", pLabel_notice);
 
     char widget_name[15] = "listitem_song0";
     char label_title[27] = "label_listitem_song_title0";
     char label_uploader[] = "label_listitem_song_uploader0";
     char label_artist[] = "label_listitem_song_artist0";
 
+    // Initialize List widget.
     for (int i = 0; i < SONGLIST_SIZE; i++)
     {
         widget_name[strlen(widget_name) - 1] = '0' + i;
@@ -37,7 +40,7 @@ int get_widget_pointer(){
         }
     }
 
-    refBuilder->get_widget("notice", pLabel_notice);
+    pStack_main->set_visible_child("page_login");
 
     return 0;
 }
