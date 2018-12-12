@@ -6,7 +6,7 @@ int get_widget_pointer(){
     refBuilder->get_widget("box_login", pBox_login); 
     refBuilder->get_widget("list_song", pListBox_song);
     refBuilder->get_widget("stack_main", pStack_main);
-    refBuilder->get_widget("notice", pLabel_notice);
+    refBuilder->get_widget("label_notice", pLabel_notice);
 
     char widget_name[15] = "listitem_song0";
     char label_title[27] = "label_listitem_song_title0";
@@ -40,6 +40,7 @@ int get_widget_pointer(){
         }
     }
 
+    // Init main page.
     pStack_main->set_visible_child("page_login");
 
     return 0;

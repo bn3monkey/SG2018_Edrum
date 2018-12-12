@@ -16,9 +16,9 @@
 CC = g++
 CFLAGS = -std=gnu++11 -pthread -W -Wall
 TARGET = sharedrum
-CFILE = main.cpp init.cpp event_handler.cpp
-HEADER = init.hpp event_handler.hpp
-OBJS = main.o init.o event_handler.o
+CFILE = main.cpp init.cpp event_handler.cpp popup.cpp
+HEADER = init.hpp event_handler.hpp popup.hpp
+OBJS = main.o init.o event_handler.o popup.o
 
 all: $(OBJS)
 	@echo " > Try Build.."
@@ -31,4 +31,4 @@ $(OBJS): $(CFILE) $(HEADER)
 
 clean:
 	@echo " *** Clean up!"
-	@sudo rm -rf $(OBJS) $(TARGET)
+	@rm -rf $(OBJS) $(TARGET)

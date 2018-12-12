@@ -4,7 +4,8 @@
 #include "event_handler.hpp"
 #include "../edrum-resource_manager/ResourceManager.hpp"
 
-Gtk::Dialog *pDialog = nullptr;
+Gtk::Dialog *pDialog_notice = nullptr;
+Gtk::Label *pLabel_notice = nullptr;
 Gtk::Dialog *pSignUp = nullptr;
 Gtk::Box *pBox_login = nullptr;
 Gtk::Window *pMainWindow = nullptr;
@@ -12,7 +13,6 @@ Gtk::Entry *pEntry_id = nullptr;
 Gtk::Entry *signup_pEntry_id = nullptr;
 Gtk::Entry *pEntry_pw = nullptr;
 Gtk::Entry *signup_pEntry_pw = nullptr;
-Gtk::Label *pLabel_notice = nullptr;
 Gtk::ListBox *pListBox_song = nullptr;
 Gtk::Widget *pListItem_song[SONGLIST_SIZE] = {nullptr};
 Gtk::Label *pLabel_songlist_title[SONGLIST_SIZE] = {nullptr};
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     }
 
     if(pMainWindow) delete pMainWindow;
-    if(pDialog)     delete pDialog;
+    if(pDialog_notice)     delete pDialog_notice;
 
     return 0;
 }
