@@ -1,10 +1,8 @@
-CC = g++
-CFLAGS = -std=gnu++11 -pthread -W -Wall
-TARGET = sharedrum
-CFILE = main.cpp
+sharedrum: main.o
+	g++ -o $@ main.o `pkg-config gtkmm-3.0 --cflags --libs`
 
-all:
-	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) `pkg-config gtkmm-3.0 --cflags --libs`
+main.o: main.cpp
+	g++ -c $*.cpp -Wall `pkg-config gtkmm-3.0 --cflags --libs`
 
 clean:
-	sudo rm -rf $(OBJS) $(TARGET)
+	rm -rf *.out *.o sharedrum
