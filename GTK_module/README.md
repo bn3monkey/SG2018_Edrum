@@ -38,6 +38,8 @@ Open terminal and type following command :
 * Read UI from `*.glade`  
 * Register event handler in `*.cpp` & `*.glade` (need interlock of both file)
 * Create **_Fullscreen_** GTK Widget/Window
+* Create song list  
+* Pop up sign up dialog
 
 # 4.2. TODO
-* Flip next page(After login)
+* Page Flip method change
