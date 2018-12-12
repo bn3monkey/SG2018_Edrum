@@ -127,8 +127,6 @@ static void on_btn_login_clicked()
     else
         pDialog->show();
 
-    pBox_login->hide();
-
     std::cout << "dialog created" << std::endl;
 }
 

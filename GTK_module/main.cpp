@@ -2,6 +2,7 @@
 #include <iostream>
 #include "init.hpp"
 #include "event_handler.hpp"
+#include "../edrum-resource_manager/ResourceManager.hpp"
 
 Gtk::Dialog *pDialog = nullptr;
 Gtk::Dialog *pSignUp = nullptr;
@@ -23,6 +24,11 @@ Glib::RefPtr<Gtk::Builder> refBuilder;
 
 int main(int argc, char *argv[])
 {
+    ResourceManager RM;
+
+    RM.initialize();
+
+
     app = Gtk::Application::create(argc, argv, "org.gtkmm.examples.base");
 
     //Load the GtkBuilder file and instantiate its widgets:
