@@ -1,8 +1,7 @@
 #include <gtkmm.h>
 #include <iostream>
 #include "init.hpp"
-
-#define SONGLIST_SIZE 5
+#include "event_handler.hpp"
 
 Gtk::Dialog *pDialog = nullptr;
 Gtk::Dialog *pSignUp = nullptr;

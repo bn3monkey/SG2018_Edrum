@@ -5,7 +5,6 @@ int get_widget_pointer(){
     refBuilder->get_widget("entry_id", pEntry_id);
     refBuilder->get_widget("box_login", pBox_login); 
     refBuilder->get_widget("list_song", pListBox_song);
-    //refBuilder->get_widget("listitem_song", pListItem_song);
 
     char widget_name[15] = "listitem_song0";
     char label_title[27] = "label_listitem_song_title0";
