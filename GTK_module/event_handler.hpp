@@ -5,5 +5,6 @@
 #include <iostream>
 #include "init.hpp"
 
+void register_event_handler();
 
 #endif
