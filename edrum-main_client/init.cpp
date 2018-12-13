@@ -51,7 +51,7 @@ void update_songlist(SongList *SL, int page){
         pLabel_songlist_title[i]->set_text(std::string(pSD->name));
         pLabel_songlist_uploader[i]->set_text(std::string(pSD->ID));
         pLabel_songlist_artist[i]->set_text(std::string(pSD->artist));
-        pLabel_songlist_date[i]->set_text(std::string(pSD->date));
+        pLabel_songlist_date[i]->set_text("2012-12-12"/*std::string(pSD->date)*/);
     }
 
     pCurList = SL;
