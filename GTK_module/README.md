@@ -1,9 +1,9 @@
 # ShareDrum - Capstone2 Project  
 
 # 목차  
-1. [Dependency](#1-dependency)
+1. [Dependency](#1-dependency)  
 2. [Installation](#2-installation)  
-3. [Naming Rule](#3-naming-rule)
+3. [Naming Rule](#3-naming-rule)  
 4. [Progress](#4-progress)  
 4.1. [Done](#41-done)  
 4.2. [TODO](#42-todo)  

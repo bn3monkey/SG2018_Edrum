@@ -20,9 +20,11 @@ CFILE = main.cpp init.cpp event_handler.cpp popup.cpp
 HEADER = init.hpp event_handler.hpp popup.hpp
 OBJS = main.o init.o event_handler.o popup.o
 
+LIB_RM_PATH = ../edrum-resource_manager
+
 all: $(OBJS)
 	@echo " > Try Build.."
-	@$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) `pkg-config gtkmm-3.0 --cflags --libs`
+	@$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) `pkg-config gtkmm-3.0 --cflags --libs` -Wl,-rpath,$(LIB_RM_PATH) -L$(LIB_RM_PATH) -lResourceManager
 	@echo " Done."
 
 $(OBJS): $(CFILE) $(HEADER)
