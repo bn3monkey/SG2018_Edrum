@@ -7,10 +7,10 @@ namespace fs = std::experimental::filesystem::v1;
 */
 
 #define MIN(a,b) ((a)<(b)?(a):(b))
-// ÇöÀç List¸¦ ÃÊ±âÈ­ÇÑ´Ù.
-bool LocalList::initialize()
+// ï¿½ï¿½ï¿½ï¿½ Listï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+bool LocalList::initialize(std::string path)
 {
-	// ¿î¿µÃ¼Á¦ÀÇ ÆÄÀÏ½Ã½ºÅÛ¿¡ ¸Â°Ô ÆÄÀÏµéÀ» ÀÐ¾î¿Â´Ù.
+	// ï¿½î¿µÃ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï½Ã½ï¿½ï¿½Û¿ï¿½ ï¿½Â°ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½Â´ï¿½.
 	/*
 	for (auto & p : fs::directory_iterator(path))
 	{
@@ -19,6 +19,8 @@ bool LocalList::initialize()
 		all_songs.push_back(song);
 	}
 	*/
+	this->path = path;
+	
 	DIR *dp;
 	struct dirent *dirp;
 	if((dp = opendir(path.c_str())) == NULL)
@@ -37,37 +39,37 @@ bool LocalList::initialize()
 	}
 	closedir(dp);
 
-	//ÆÄÀÏ ÀÌ¸§¿¡ ¸Â°Ô sortingÇÑ´Ù
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Â°ï¿½ sortingï¿½Ñ´ï¿½
 	std::sort(all_songs.begin(), all_songs.end());
 
-	//¸Ç Ã³À½ ÆäÀÌÁö¸¦ ¾÷µ¥ÀÌÆ®ÇÑ´Ù
+	//ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ñ´ï¿½
 	updatePage(0);
 
 	return true;
 }
-// Page¸¦ updateÇÑ´Ù. 
+// Pageï¿½ï¿½ updateï¿½Ñ´ï¿½. 
 bool LocalList::updatePage(int page_num)
 {
 	int start = this->get_allsongnum(page_num, 0);	
 	
-	// ¼öÁ¤À¸·Î ÀÎÇØ °¡Á®¿À°íÀÚ ÇÏ´Â ¹üÀ§°¡ ÃÊ°úµÇ¾úÀ» °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	printf("all_song_size : %d\n", all_songs.size());
 	if ((int)all_songs.size() <= start)
 	{
 		page_num = all_songs.size() / page_size;
 	}
 
-	//°¡Á®¿À°íÀÚ ÇÒ ÆäÀÌÁö¸¦ ÀúÀåÇÑ´Ù.
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	this->current_page = page_num;
-	// °¡Á®¿Ã ÆäÀÌÁöÀÇ ¸Ç ³¡¿¡ ÀÖ´Â °îÀÇ ÀÎµ¦½º¸¦ Á¤ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 	start = this->get_allsongnum(this->current_page, 0);
 	int end = MIN( this->get_allsongnum(this->current_page, page_size - 1) , (int)all_songs.size() -1 );
 
-	// ÇöÀç °î ¸®½ºÆ®¸¦ ÃÊ±âÈ­ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 	for (int i = 0; i < page_size; i++)
 		songs[i].clear();
 
-	// ÀüÃ¼ °î ¸®½ºÆ®¿¡¼­ ÇöÀç °î ¸®½ºÆ®·Î ÇÊ¿äÇÑ °ªµéÀ» º¹»çÇÑ´Ù.
+	// ï¿½ï¿½Ã¼ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	song_len = 0;
 	for (int i = start; i <= end; i++)
 	{
@@ -77,10 +79,10 @@ bool LocalList::updatePage(int page_num)
 	return true;
 }
 
-// ÇöÀç Page¿¡ ÇØ´çÇÏ´Â SongData¸¦ »èÁ¦ÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ Pageï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ SongDataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 bool LocalList::remove(int song_num)
 {
-	//1. ÇöÀç List¿¡¼­ »èÁ¦ÇÑ´Ù.
+	//1. ï¿½ï¿½ï¿½ï¿½ Listï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	if (song_num >= song_len)
 	{
 		std::cerr << "ERROR : LocalList remove (index error : " << song_num << ", " << page_size << ")" << std::endl;
@@ -93,7 +95,7 @@ bool LocalList::remove(int song_num)
 	}
 	songs[song_num].clear();
 
-	//2. ÀüÃ¼ List¿¡¼­ »èÁ¦ÇÑ´Ù.
+	//2. ï¿½ï¿½Ã¼ Listï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	size_t whole_songnum = this->get_allsongnum(this->current_page, song_num);
 	if (whole_songnum >= all_songs.size())
 	{
@@ -102,7 +104,7 @@ bool LocalList::remove(int song_num)
 	}
 	all_songs.erase(all_songs.begin() + whole_songnum);
 
-	//3. ÇöÀç Page¸¦ Àç¾÷µ¥ÀÌÆ®ÇÑ´Ù.
+	//3. ï¿½ï¿½ï¿½ï¿½ Pageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ñ´ï¿½.
 	updatePage(current_page);
 
 	return true;

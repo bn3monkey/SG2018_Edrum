@@ -19,7 +19,7 @@ public:
     }
     ~ResourceManager()
     {
-	destroy();
+	    destroy();
     }
 
     bool initialize();
