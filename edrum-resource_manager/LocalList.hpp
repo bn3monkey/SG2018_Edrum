@@ -29,6 +29,9 @@ public:
 	//SongData* getSong(int song_num);
 	// remove song which matches song_num in current page
 	bool remove(int song_num);
+	// get amount of pages
+	int getMaxpage();
+
 };
 
 #endif

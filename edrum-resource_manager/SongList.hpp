@@ -22,6 +22,8 @@ public:
 	virtual bool updatePage(int page_num) = 0;
 	// get song which matches song_num in current page
 	SongData* getSong(int song_num) { return &songs[song_num]; }
+	// get amount of page_size
+	virtual int getMaxpage() = 0;
 
 	// print page
 	void print();
