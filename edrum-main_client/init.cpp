@@ -1,5 +1,47 @@
 #include "init.hpp"
 
+using namespace std;
+
+void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyList **ML){
+    cout<<"client init"<<endl;
+    if(pRM){
+        if(!pRM->initialize()){
+            std::cerr << " *** ResourceManager INIT FAILED!!" << std::endl;
+            exit(0);
+        }
+        cout<<"pRM initialized"<<endl;
+        *LL = pRM->getLocallist();
+
+        cout<<"LL get from pRM"<<endl;
+        SongData *pSD = nullptr;
+
+        (*LL)->print();
+
+        for(int i=0; i<SONGLIST_SIZE; i++){
+            pSD = (*LL)->getSong(i);
+            cout<<"pSD get from LL - "<<i<<endl;
+
+            cout << "pSD : " << *(int*)(pSD) << endl;
+            cout << "pSD->name : " << *(int*)(pSD->name) << endl;
+            if(pSD->name[0] == 0)
+            {
+                cout << "pLabel : " << *(int*)(pLabel_songlist_title[i]) << endl;
+                pLabel_songlist_title[i]->set_text("");
+                pLabel_songlist_uploader[i]->set_text("");
+                pLabel_songlist_artist[i]->set_text("");
+                pLabel_songlist_date[i]->set_text("");
+                continue;
+            }
+            cout<<"set list label - "<<i<<endl;
+
+            pLabel_songlist_title[i]->set_text(pSD->name);
+            pLabel_songlist_uploader[i]->set_text(pSD->ID);
+            pLabel_songlist_artist[i]->set_text(pSD->artist);
+            pLabel_songlist_date[i]->set_text(pSD->date);
+        }
+    }
+}
+
 int get_widget_pointer(){
     refBuilder->get_widget("entry_pw", pEntry_pw);
     refBuilder->get_widget("entry_id", pEntry_id);
@@ -36,7 +78,7 @@ int get_widget_pointer(){
         catch(const char *e)
         {
             std::cout << "Error : " << e << std::endl;
-            break;
+            return -1;
         }
     }
 
