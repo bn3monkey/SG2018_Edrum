@@ -4,28 +4,28 @@
 class SongList
 {
 protected:
-	// °ªÀº SongList.cpp ¾È¿¡
+	// ï¿½ï¿½ï¿½ï¿½ SongList.cpp ï¿½È¿ï¿½
 	const static int page_size = 5;
-	// ÇöÀç º¸¿©ÁÖ°í ÀÖ´Â page
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½Ö´ï¿½ page
 	int current_page;
-	// ÇöÀç º¸¿©ÁÖ°í ÀÖ´Â pageÀÇ °î ¸ñ·Ï
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½Ö´ï¿½ pageï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 	SongData songs[page_size];
-	// ÇöÀç º¸¿©ÁÖ°í ÀÖ´Â pageÀÇ °î Áß À¯È¿ÇÑ °îµéÀÇ °³¼ö
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½Ö´ï¿½ pageï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	int song_len;
-	// ÇöÀç listÀÇ ÆÄÀÏµéÀÌ ÀúÀåµÈ directory
+	// ï¿½ï¿½ï¿½ï¿½ listï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ directory
 	std::string path;
 	
 public:
 	SongList() {}
 	virtual ~SongList() {}
-	// ÇöÀç List¸¦ ÃÊ±âÈ­ÇÑ´Ù.
-	virtual bool initialize() = 0;
-	// Page¸¦ updateÇÑ´Ù. 
+	// ï¿½ï¿½ï¿½ï¿½ Listï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	virtual bool initialize(std::string path) = 0;
+	// Pageï¿½ï¿½ updateï¿½Ñ´ï¿½. 
 	virtual bool updatePage(int page_num) = 0;
-	// ÇöÀç Page¿¡ ÇØ´çÇÏ´Â SongData¸¦ °¡Á®¿Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ Pageï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ SongDataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
 	SongData* getSong(int song_num) { return &songs[song_num]; }
 
-	// µð¹ö±ëÀ» À§ÇØ, ÇöÀç ÆäÀÌÁöÀÇ °î µ¥ÀÌÅÍµéÀ» ÀüºÎ º¸¿©ÁØ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	void print();
 };
 

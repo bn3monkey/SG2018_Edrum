@@ -1,21 +1,21 @@
 #include "ServerList.hpp"
 
-// ÇöÀç List¸¦ ÃÊ±âÈ­ÇÑ´Ù.
-bool ServerList::initialize()
+// ï¿½ï¿½ï¿½ï¿½ Listï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+bool ServerList::initialize(std::string path)
 {
 	return true;
 }
-// Page¸¦ updateÇÑ´Ù. 
+// Pageï¿½ï¿½ updateï¿½Ñ´ï¿½. 
 bool ServerList::updatePage(int page_num)
 {
 	return true;
 }
-// Server ¸ñ·Ï¿¡ ÀÖ´Â °îÀ» ´Ù¿î·Îµå ¹Þ´Â´Ù.
+// Server ï¿½ï¿½Ï¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½ ï¿½Þ´Â´ï¿½.
 bool ServerList::download(int page_num)
 {
 	return true;
 }
-// Server ¸ñ·Ï¿¡ ÀÖ´Â °îÀÇ ´Ù¿î·Îµå¸¦ Ãë¼ÒÇÑ´Ù.
+// Server ï¿½ï¿½Ï¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµå¸¦ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 bool ServerList::download_cancel(int page_num)
 {
 	return true;
