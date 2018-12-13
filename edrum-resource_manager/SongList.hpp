@@ -19,7 +19,7 @@ public:
 	SongList() {}
 	virtual ~SongList() {}
 	// ���� List�� �ʱ�ȭ�Ѵ�.
-	virtual bool initialize(std::string path) = 0;
+	virtual bool initialize(const std::string& path) = 0;
 	// Page�� update�Ѵ�. 
 	virtual bool updatePage(int page_num) = 0;
 	// ���� Page�� �ش��ϴ� SongData�� �����´�.

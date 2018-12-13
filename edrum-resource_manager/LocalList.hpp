@@ -22,7 +22,7 @@ public:
 		all_songs.clear();
 	}
 	// ���� List�� �ʱ�ȭ�Ѵ�.
-	bool initialize(std::string path = "./local/");
+	bool initialize(const std::string& path = "./local/");
 	// Page�� update�Ѵ�. 
 	bool updatePage(int page_num);
 	// ���� Page�� �ش��ϴ� SongData�� �����´�.

@@ -1,6 +1,6 @@
 #include "ResourceManager.hpp"
 
-bool ResourceManager::initialize(std::string local_path, std::string my_path)
+bool ResourceManager::initialize(const std::string& local_path, const std::string& my_path )
     {
         list_server = new ServerList("");
         if(!list_server)
