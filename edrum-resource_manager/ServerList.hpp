@@ -16,19 +16,18 @@ protected:
 public:
 	ServerList()
 	{
-		path = "./local/";
 	}
 	~ServerList() {}
-	// ÇöÀç List¸¦ ÃÊ±âÈ­ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ Listï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 	bool initialize();
-	// Page¸¦ updateÇÑ´Ù. 
+	// Pageï¿½ï¿½ updateï¿½Ñ´ï¿½. 
 	bool updatePage(int page_num);
-	// ÇöÀç Page¿¡ ÇØ´çÇÏ´Â SongData¸¦ °¡Á®¿Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ Pageï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ SongDataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
 	//SongData* getSong(int song_num);
 	
-	// Server ¸ñ·Ï¿¡ ÀÖ´Â °îÀ» ´Ù¿î·Îµå ¹Þ´Â´Ù.
+	// Server ï¿½ï¿½Ï¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½ ï¿½Þ´Â´ï¿½.
 	bool download(int page_num);
-	// Server ¸ñ·Ï¿¡ ÀÖ´Â °îÀÇ ´Ù¿î·Îµå¸¦ Ãë¼ÒÇÑ´Ù.
+	// Server ï¿½ï¿½Ï¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµå¸¦ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	bool download_cancel(int page_num);
 };
 

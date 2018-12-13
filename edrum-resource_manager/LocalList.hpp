@@ -16,19 +16,18 @@ protected:
 public:
 	LocalList()
 	{
-		path = "./local/";
 	}
 	~LocalList()
 	{
 		all_songs.clear();
 	}
-	// ÇöÀç List¸¦ ÃÊ±âÈ­ÇÑ´Ù.
-	bool initialize();
-	// Page¸¦ updateÇÑ´Ù. 
+	// ï¿½ï¿½ï¿½ï¿½ Listï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	bool initialize(std::string path = "./local/");
+	// Pageï¿½ï¿½ updateï¿½Ñ´ï¿½. 
 	bool updatePage(int page_num);
-	// ÇöÀç Page¿¡ ÇØ´çÇÏ´Â SongData¸¦ °¡Á®¿Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ Pageï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ SongDataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
 	//SongData* getSong(int song_num);
-	// ÇöÀç Page¿¡ ÇØ´çÇÏ´Â SongData¸¦ »èÁ¦ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ Pageï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ SongDataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	bool remove(int song_num);
 };
 

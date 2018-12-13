@@ -6,14 +6,14 @@ void Hardware_IO::in()
 {
 	while (instance->in_flag)
 	{
-		//1. 외부 장비로부터 입력을 받아온다. 
+		// read input from serial device. 
 		instance->io->readSerial();
 
-		//2. 받아온 입력을 note로 만들어 Queue에 넣어준다.
+		// convert serial input to note data.
 		NoteData note;
 		instance->io->setSerial(&note);			
 
-		// note를 input_queue에 넣는다.
+		// push note data to input queue.
 		instance->queue_lock.lock();
 		instance->input_queue.push(note);
 		instance->queue_lock.unlock();
@@ -23,19 +23,21 @@ void Hardware_IO::in()
 
 void Hardware_IO::out()
 {
+	// only iterate when out_flag is activated.
 	while (instance->out_flag)
 	{
 		NoteData note;
 
 		instance->queue_lock.lock();
+		//
 		if (!instance->input_queue.empty())
 		{
-			// note를 input_queue에 빼온다.
+			// pop note from input_queue.
 			note = instance->input_queue.front();
 			instance->input_queue.pop();
 			instance->queue_lock.unlock();
 
-			//callback을 수행한다.
+			// excute callback
 			if(note.drum < 0 && note.drum >= np_num)
 				continue; 
 			printf("time = %llu drum = %d power = %d\n", note.time, note.drum, note.power);
@@ -52,33 +54,34 @@ static void empty_function()
 {
 }
 
-// Hardware_IO를 초기화한다. input을 받을 수 있도록 thread를 킥해준다.
+// initialize hardware_io. kick thread.
 bool Hardware_IO::initialize()
 {
-	// 이미 초기화되었으면, 초기화를 멈춘다.
+	// if already intialize, cancel to initialize.
 	if (instance != nullptr)
 	{
 		std::cout << "Hardware_IO already initialized" << std::endl;
 		return false;
 	}
 
-	// SingleTone 객체를 초기화한다.
+	// initialize singletone instance.
 	instance = new Hardware_IO();
 
+	// initialize serial io
 	instance->io = new Serial_io();
 		
-	// thread를 시작한다.
+	// start thread.
 	instance->in_flag = true;
 	instance->out_flag = true;
 	instance->in_thread = new std::thread(in);
 	instance->out_thread = new std::thread(out);
 
-	// 오류를 막기 위해, 함수 테이블을 empty function으로 초기화한다.
+	// initialize callbacks
 	for (int i = 0; i < np_num; i++)
 		instance->callbacks[i] = std::function<void()>(empty_function);
 	return true;
 }
-// Hardware_IO를 정리한다. thread를 join해준다.
+// destroy hardware_io. join thread.
 void Hardware_IO::destroy()
 {
 	instance->in_flag = false;
@@ -88,21 +91,21 @@ void Hardware_IO::destroy()
 
 	delete instance->io;
 
-	//queue를 비운다.
+	// clean queue.
 	while (!instance->input_queue.empty())
 		instance->input_queue.pop();
 
-	// SingleTone 객체를 할당해제한다.
+	// destroy hardware instance.
 	if (instance != nullptr)
 	{
 		delete instance;
 		instance = nullptr;
 	}
 }
-// callback을 등록한다.
+// register callback.
 bool Hardware_IO::registCallback(std::function<void()> callback, NoteProtocol np)
 {
-	// SingleTone으로 선언하지 않았으면 취소한다.
+	// cancel if you didn't get instance.
 	if (Hardware_IO::getInstance() == nullptr)
 		return false;
 
@@ -113,7 +116,7 @@ bool Hardware_IO::registCallback(std::function<void()> callback, NoteProtocol np
 	return true;
 }
 
-// get the sensor clock
+// get the sensor clock and reset sensor clock.
 bool Hardware_IO::get_clock()
 {
 	instance->io->putSerial(nc_clock);

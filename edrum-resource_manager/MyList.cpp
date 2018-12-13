@@ -1,16 +1,20 @@
 #include "MyList.hpp"
 
-// ÇöÀç Page¿¡ ÇØ´çÇÏ´Â SongData¸¦ Ãß°¡ÇÑ´Ù.
+bool MyList::initialize(std::string path)
+{
+	return LocalList::initialize(path);
+}
+// ï¿½ï¿½ï¿½ï¿½ Pageï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ SongDataï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 bool MyList::insert(int local_id, std::string name, std::string artist, std::string ID , int drum_amount, const std::vector<NoteData> notelist)
 {
-	//1. ÇöÀç SongData¿¡ ÇØ´çÇÏ´Â °î µ¥ÀÌÅÍ ÆÄÀÏÀÌ ÀÌ¹Ì µð·ºÅä¸® »ó¿¡ Á¸ÀçÇÏ¸é, Ãß°¡ÇÏÁö ¾Ê´Â´Ù.
+	//1. ï¿½ï¿½ï¿½ï¿½ SongDataï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ä¸® ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½, ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	SongData song;
 	if (song.exist(path, name, artist, ID))
 	{
 		std::cerr << "ERROR : there is already file which has same name." << std::endl;
 		return false;
 	}
-	//2. ÇöÀç SongData¿¡ ÇØ´çÇÏ´Â °î µ¥ÀÌÅÍ ÆÄÀÏÀ» »ý¼ºÇÑ´Ù.
+	//2. ï¿½ï¿½ï¿½ï¿½ SongDataï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	if (!song.pre_write(this->path, local_id, name, artist, ID, drum_amount, (int)notelist.size()))
 	{
 		std::cerr << "ERROR : mylist insert" << std::endl;
@@ -21,10 +25,10 @@ bool MyList::insert(int local_id, std::string name, std::string artist, std::str
 		std::cerr << "ERROR : mylist insert" << std::endl;
 		return false;
 	}
-	//3. ÃÑ °î ¸®½ºÆ®¿¡ ÇöÀç °îÀ» Ãß°¡ÇÑ´Ù.
+	//3. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 	all_songs.push_back(song);
 
-	//4. º¸¿©ÁÖ´Â °î ¸®½ºÆ®¸¦ ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
+	//4. ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ñ´ï¿½.
 	if (!updatePage(current_page))
 	{
 		std::cerr << "ERROR : mylist insert" << std::endl;
@@ -32,12 +36,12 @@ bool MyList::insert(int local_id, std::string name, std::string artist, std::str
 	}
 	return true;
 }
-// ÇöÀç Page¿¡ ÇØ´çÇÏ´Â SongData¸¦ ¾÷·ÎµåÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ Pageï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ SongDataï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½Ñ´ï¿½.
 bool MyList::upload(int song_num)
 {
 	return true;
 }
-// ÇöÀç Page¿¡ ÇØ´çÇÏ´Â SongData¸¦ »èÁ¦ÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ Pageï¿½ï¿½ ï¿½Ø´ï¿½ï¿½Ï´ï¿½ SongDataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 bool MyList::upload_cancel(int song_num)
 {
 	return true;
