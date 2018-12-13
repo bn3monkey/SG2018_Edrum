@@ -1,6 +1,7 @@
 #include "event_handler.hpp"
 #include "popup.hpp"
 
+static int get_song_selected_index();
 static void on_btn_notice_ok_clicked();
 static void on_button_clicked_in_signup();
 static void on_btn_song_play_clicked();
@@ -11,6 +12,7 @@ static void on_btn_songlist_page_next_clicked();
 static void on_btn_home_clicked();
 static void on_btn_mypage_clicked();
 static void on_btn_song_conversion_clicked();
+static void on_btn_song_delete_clicked();
 
 void register_event_handler()
 {
@@ -90,6 +92,14 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
+    std::cout << " > btn_song_delete..";
+    refBuilder->get_widget("btn_song_delete", pButton);
+    if (pButton)
+    {
+        pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_song_delete_clicked));
+    }
+    std::cout << " Done." << std::endl;
+
     std::cout << " *** All Event Handler Registered." << std::endl << std::endl;
 }
 
@@ -117,37 +127,17 @@ static void on_button_clicked_in_signup()
 
 static void on_btn_song_play_clicked()
 {
-    for (int i = 0; i < SONGLIST_SIZE; i++)
-    {
-        if (pListBox_song->get_selected_row() == pListBox_song->get_row_at_index(i))
-        {
-            std::cout << "PLAY : " << pLabel_songlist_title[i]->get_text() << std::endl;
+    int idx = get_song_selected_index();
 
-            std::string str = "";
-            str = "PLAY : " + pLabel_songlist_title[i]->get_text();
-            pLabel_notice->set_text(str);
+    if(idx == -1)
+        return;
 
-            if (pDialog_notice == nullptr)
-            {
-                refBuilder->get_widget("dialog_notice", pDialog_notice);
+    std::cout << "PLAY : " << pLabel_songlist_title[idx]->get_text() << std::endl;
 
-                if (pDialog_notice)
-                {
-                    //Get the GtkBuilder-instantiated Button, and connect a signal handler:
-                    Gtk::Button *pButton = nullptr;
-                    refBuilder->get_widget("btn_notice_ok", pButton);
-                    if (pButton)
-                    {
-                        pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_notice_ok_clicked));
-                    }
+    std::string str = "";
+    str = "PLAY : " + pLabel_songlist_title[idx]->get_text();
 
-                    pDialog_notice->show();
-                }
-            }
-            else
-                pDialog_notice->show();
-        }
-    }
+    popup(str);
 }
 
 static void on_btn_login_clicked()
@@ -220,6 +210,38 @@ static void on_btn_song_conversion_clicked(){
         update_songlist(pServerList, 0);
     else
         return;
+}
+
+static void on_btn_song_delete_clicked(){
+    if(pCurList == pServerList)
+        return;
+    
+    int idx = get_song_selected_index();
+
+    if(idx < 0 || idx >= SONGLIST_SIZE)
+        return;
+
+    if(pCurList == pLocalList)
+        ((LocalList*)pCurList)->remove(idx);
+    else if(pCurList == pMyList)
+        ((MyList*)pCurList)->remove(idx);
+    else{
+        std::cerr<<" *** Wrong list type!"<<std::endl;
+        exit(0);
+    }
+
+    update_songlist(pCurList, CurPage);
+}
+
+static int get_song_selected_index(){
+    for (int i = 0; i < SONGLIST_SIZE; i++)
+    {
+        if (pListBox_song->get_selected_row() == pListBox_song->get_row_at_index(i))
+        {
+            return i;
+        }
+    }
+    return -1;
 }
 
 /*Seob's work*/
