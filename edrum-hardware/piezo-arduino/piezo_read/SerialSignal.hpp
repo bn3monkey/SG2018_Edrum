@@ -13,7 +13,9 @@ class SerialSignal
     {
          Serial.setTimeout(1);
     }
+    //read signal from serial
     bool read();
+    // write signal to serial
     bool write(unsigned long& clock);
 };
 
