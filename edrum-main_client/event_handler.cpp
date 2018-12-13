@@ -10,6 +10,7 @@ static void on_btn_songlist_page_back_clicked();
 static void on_btn_songlist_page_next_clicked();
 static void on_btn_home_clicked();
 static void on_btn_mypage_clicked();
+static void on_btn_song_conversion_clicked();
 
 void register_event_handler()
 {
@@ -78,6 +79,14 @@ void register_event_handler()
     if (pButton)
     {
         pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_home_clicked));
+    }
+    std::cout << " Done." << std::endl;
+
+    std::cout << " > btn_song_conversion..";
+    refBuilder->get_widget("btn_song_conversion", pButton);
+    if (pButton)
+    {
+        pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_song_conversion_clicked));
     }
     std::cout << " Done." << std::endl;
 
@@ -190,11 +199,27 @@ static void on_btn_songlist_page_next_clicked(){
 }
 
 static void on_btn_home_clicked(){
-    update_songlist(pServerList, 0);
+    if(pCurList == pServerList || pCurList == pLocalList)
+        return;
+    else
+        update_songlist(pServerList, 0);
 }
 
 static void on_btn_mypage_clicked(){
-    update_songlist(pMyList, 0);
+    if(pCurList != pMyList)
+        update_songlist(pMyList, 0);
+}
+
+static void on_btn_song_conversion_clicked(){
+    if(pCurList == pMyList)
+        return;
+    
+    if(pCurList == pServerList)
+        update_songlist(pLocalList, 0);
+    else if(pCurList == pLocalList)
+        update_songlist(pServerList, 0);
+    else
+        return;
 }
 
 /*Seob's work*/
