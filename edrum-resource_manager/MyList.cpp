@@ -4,17 +4,17 @@ bool MyList::initialize(const std::string& path)
 {
 	return LocalList::initialize(path);
 }
-// ���� Page�� �ش��ϴ� SongData�� �߰��Ѵ�.
+
 bool MyList::insert(int local_id, std::string name, std::string artist, std::string ID , int drum_amount, const std::vector<NoteData> notelist)
 {
-	//1. ���� SongData�� �ش��ϴ� �� ������ ������ �̹� ���丮 �� �����ϸ�, �߰����� �ʴ´�.
+	//1. check song if it exists
 	SongData song;
 	if (song.exist(path, name, artist, ID))
 	{
 		std::cerr << "ERROR : there is already file which has same name." << std::endl;
 		return false;
 	}
-	//2. ���� SongData�� �ش��ϴ� �� ������ ������ �����Ѵ�.
+	//2. write songdata
 	if (!song.pre_write(this->path, local_id, name, artist, ID, drum_amount, (int)notelist.size()))
 	{
 		std::cerr << "ERROR : mylist insert" << std::endl;
@@ -25,10 +25,10 @@ bool MyList::insert(int local_id, std::string name, std::string artist, std::str
 		std::cerr << "ERROR : mylist insert" << std::endl;
 		return false;
 	}
-	//3. �� �� ����Ʈ�� ���� ���� �߰��Ѵ�.
+	//3. push song to all_songs
 	all_songs.push_back(song);
 
-	//4. �����ִ� �� ����Ʈ�� ������Ʈ�Ѵ�.
+	//4. update page
 	if (!updatePage(current_page))
 	{
 		std::cerr << "ERROR : mylist insert" << std::endl;
@@ -36,12 +36,10 @@ bool MyList::insert(int local_id, std::string name, std::string artist, std::str
 	}
 	return true;
 }
-// ���� Page�� �ش��ϴ� SongData�� ���ε��Ѵ�.
 bool MyList::upload(int song_num)
 {
 	return true;
 }
-// ���� Page�� �ش��ϴ� SongData�� �����Ѵ�.
 bool MyList::upload_cancel(int song_num)
 {
 	return true;

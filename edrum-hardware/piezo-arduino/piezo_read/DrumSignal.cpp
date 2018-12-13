@@ -1,6 +1,6 @@
 #include "DrumSignal.hpp"
 // read analog input
-void read(unsigned long elapsed)
+void DrumSignal::read(unsigned long elapsed)
 {
     // set previous value
     pre_value = value;
@@ -20,7 +20,7 @@ void read(unsigned long elapsed)
     note.time = elapsed;
 }
 
-void write()
+void DrumSignal::write()
 {
     if(value > drum_threshold)
     {
@@ -37,7 +37,7 @@ void write()
     }
 }
 // send signal in csv form to client 
-void test_write()
+void DrumSignal::test_write()
 {
     note.power = value;
     note.csv_send();

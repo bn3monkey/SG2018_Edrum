@@ -21,13 +21,13 @@ public:
 	{
 		all_songs.clear();
 	}
-	// ���� List�� �ʱ�ȭ�Ѵ�.
+	// initialize list 
 	bool initialize(const std::string& path = "./local/");
-	// Page�� update�Ѵ�. 
+	// update page by page_num  
 	bool updatePage(int page_num);
-	// ���� Page�� �ش��ϴ� SongData�� �����´�.
+	// get song which matches song_num in current page
 	//SongData* getSong(int song_num);
-	// ���� Page�� �ش��ϴ� SongData�� �����Ѵ�.
+	// remove song which matches song_num in current page
 	bool remove(int song_num);
 };
 

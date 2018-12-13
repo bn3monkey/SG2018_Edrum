@@ -18,16 +18,16 @@ public:
 	{
 	}
 	~ServerList() {}
-	// ���� List�� �ʱ�ȭ�Ѵ�.
+	// initialize list
 	bool initialize(const std::string& path="");
-	// Page�� update�Ѵ�. 
+	// update page by page_num 
 	bool updatePage(int page_num);
-	// ���� Page�� �ش��ϴ� SongData�� �����´�.
+	// get song which matehs song_num in current page
 	//SongData* getSong(int song_num);
 	
-	// Server ��Ͽ� �ִ� ���� �ٿ�ε� �޴´�.
+	// download data file by using metadata in song data 
 	bool download(int page_num);
-	// Server ��Ͽ� �ִ� ���� �ٿ�ε带 ����Ѵ�.
+	// cancel data file by using metadata in song data 
 	bool download_cancel(int page_num);
 };
 
