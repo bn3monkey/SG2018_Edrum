@@ -25,7 +25,7 @@ int main(int argc, char **argv){
     if(Py_IsInitialized()){
         PySys_SetArgv(argc,argv);
         SysPath();
-        /*
+        
         flag = upload(s_name,s_artist,c_id,f_name);
         if(flag){
             printf("Successfully transmitted\n");
@@ -33,8 +33,8 @@ int main(int argc, char **argv){
         else{
             printf("Fail\n");
         }
-        */
-        flag = download_note(5);
+        
+        //flag = download_note(5);
         if(flag){
             printf("Successful\n");
         }
