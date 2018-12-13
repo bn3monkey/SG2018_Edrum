@@ -12,22 +12,22 @@ public:
 	}
 	~MyList() {}
 	
-	// ���� List�� �ʱ�ȭ�Ѵ�.
+	// initialize list
 	bool initialize(const std::string& path = "./mylist/");
 	/*
-	// Page�� update�Ѵ�. 
+	// update page by page_num 
 	bool updatePage(int page_num);
-	// ���� Page�� �ش��ϴ� SongData�� �����´�.
+	// get song which matches song_num in current page
 	SongData* getSong(int song_num);
-	// ���� Page�� �ش��ϴ� SongData�� �����Ѵ�.
+	// remove song which matches song_num in current page
 	bool remove(int song_num);
 	*/
 
-	// ���� Page�� �ش��ϴ� SongData�� �߰��Ѵ�.
+	// insert song from meta data
 	bool insert(int local_id, std::string name, std::string artist, std::string ID, int drum_amount, const std::vector<NoteData> notelist);
-	// ���� Page�� �ش��ϴ� SongData�� ���ε��Ѵ�.
+	// upload data file by using metadata in song data 
 	bool upload(int song_num);
-	// ���� Page�� �ش��ϴ� SongData�� �����Ѵ�.
+	// cancel data file by using metadata in song data 
 	bool upload_cancel(int song_num);
 
 };

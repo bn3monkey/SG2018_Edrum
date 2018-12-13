@@ -7,10 +7,8 @@ namespace fs = std::experimental::filesystem::v1;
 */
 
 #define MIN(a,b) ((a)<(b)?(a):(b))
-// ���� List�� �ʱ�ȭ�Ѵ�.
 bool LocalList::initialize(const std::string& path)
 {
-	// �ü���� ���Ͻý��ۿ� �°� ���ϵ��� �о�´�.
 	/*
 	for (auto & p : fs::directory_iterator(path))
 	{
@@ -19,8 +17,10 @@ bool LocalList::initialize(const std::string& path)
 		all_songs.push_back(song);
 	}
 	*/
+	//1. set path
 	this->path = path;
 
+	//2. read all .sdd file in path and push it to all_songs
 	DIR *dp;
 	struct dirent *dirp;
 	if((dp = opendir(path.c_str())) == NULL)
@@ -39,37 +39,36 @@ bool LocalList::initialize(const std::string& path)
 	}
 	closedir(dp);
 
-	//���� �̸��� �°� sorting�Ѵ�
+	// sort all_songs
 	std::sort(all_songs.begin(), all_songs.end());
 
-	//�� ó�� �������� ������Ʈ�Ѵ�
+	// update page
 	updatePage(0);
 
 	return true;
-}
-// Page�� update�Ѵ�. 
+} 
 bool LocalList::updatePage(int page_num)
 {
 	int start = this->get_allsongnum(page_num, 0);	
 	
-	// �������� ���� ���������� �ϴ� ������ �ʰ��Ǿ��� ���
+	// check if page_num validates
 	printf("all_song_size : %d\n", all_songs.size());
 	if ((int)all_songs.size() <= start)
 	{
 		page_num = all_songs.size() / page_size;
 	}
 
-	//���������� �� �������� �����Ѵ�.
+	// make page_num validates
 	this->current_page = page_num;
-	// ������ �������� �� ���� �ִ� ���� �ε����� ���Ѵ�.
+	// get start and end
 	start = this->get_allsongnum(this->current_page, 0);
 	int end = MIN( this->get_allsongnum(this->current_page, page_size - 1) , (int)all_songs.size() -1 );
 
-	// ���� �� ����Ʈ�� �ʱ�ȭ�Ѵ�.
+	// clear current song list
 	for (int i = 0; i < page_size; i++)
 		songs[i].clear();
 
-	// ��ü �� ����Ʈ���� ���� �� ����Ʈ�� �ʿ��� ������ �����Ѵ�.
+	// set song list from all songs
 	song_len = 0;
 	for (int i = start; i <= end; i++)
 	{
@@ -79,23 +78,24 @@ bool LocalList::updatePage(int page_num)
 	return true;
 }
 
-// ���� Page�� �ش��ϴ� SongData�� �����Ѵ�.
 bool LocalList::remove(int song_num)
 {
-	//1. ���� List���� �����Ѵ�.
+	//1. check if song_num is validates
 	if (song_num >= song_len)
 	{
 		std::cerr << "ERROR : LocalList remove (index error : " << song_num << ", " << page_size << ")" << std::endl;
 		return false;
 	}
+	// 2. remove song data
 	if (!songs[song_num].remove(path))
 	{
 		std::cerr << "ERROR : LocalList remove " << std::endl;
 		return false;
 	}
+	// 3. remove song data from list
 	songs[song_num].clear();
 
-	//2. ��ü List���� �����Ѵ�.
+	// 4. remove song data from all_songs
 	size_t whole_songnum = this->get_allsongnum(this->current_page, song_num);
 	if (whole_songnum >= all_songs.size())
 	{
@@ -104,7 +104,7 @@ bool LocalList::remove(int song_num)
 	}
 	all_songs.erase(all_songs.begin() + whole_songnum);
 
-	//3. ���� Page�� �������Ʈ�Ѵ�.
+	//5. update page
 	updatePage(current_page);
 
 	return true;

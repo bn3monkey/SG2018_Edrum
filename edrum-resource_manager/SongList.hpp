@@ -4,28 +4,26 @@
 class SongList
 {
 protected:
-	// ���� SongList.cpp �ȿ�
 	const static int page_size = 5;
-	// ���� �����ְ� �ִ� page
+
 	int current_page;
-	// ���� �����ְ� �ִ� page�� �� ���
 	SongData songs[page_size];
-	// ���� �����ְ� �ִ� page�� �� �� ��ȿ�� ����� ����
+	// length of songs
 	int song_len;
-	// ���� list�� ���ϵ��� ����� directory
+	// path of list
 	std::string path;
 	
 public:
 	SongList() {}
 	virtual ~SongList() {}
-	// ���� List�� �ʱ�ȭ�Ѵ�.
+	// initialize list
 	virtual bool initialize(const std::string& path) = 0;
-	// Page�� update�Ѵ�. 
+	// update page by page_num 
 	virtual bool updatePage(int page_num) = 0;
-	// ���� Page�� �ش��ϴ� SongData�� �����´�.
+	// get song which matches song_num in current page
 	SongData* getSong(int song_num) { return &songs[song_num]; }
 
-	// ������� ����, ���� �������� �� �����͵��� ���� �����ش�.
+	// print page
 	void print();
 };
 

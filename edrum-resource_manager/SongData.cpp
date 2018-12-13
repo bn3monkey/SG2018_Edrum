@@ -32,11 +32,13 @@ SongData& SongData::operator=(const SongData& e)
 	this->filename = e.filename;
 	return *this;
 }
-// 곡으로부터 메타데이터를 읽어온다.
+
 bool SongData::read_header()
 {
+	//1. go to file
 	song.seekg(0, song.beg);
 
+	//2. read metadata stream
 	char buffer[metadata_size + 1];
 	song.read(buffer, metadata_size);
 	if (!song.good())
@@ -45,6 +47,7 @@ bool SongData::read_header()
 		return false;
 	}
 
+	// set metadata
 	int step = 0;
 	memcpy((char *)(&server_id), buffer + step, sizeof(server_id));
 	step += sizeof(server_id);
@@ -63,15 +66,18 @@ bool SongData::read_header()
 	memcpy((char *)&note_amount, buffer + step, sizeof(note_amount));
 	step += sizeof(note_amount);
 
+	// intialize metadata
 	this->current_note = 0;
 
 	return true;
 }
-// 현재 메타데이터를 DataFIle에 쓴다.
+
 bool SongData::write_header()
 {
+	//1. go to file first
 	song.seekp(0, song.beg);
 
+	//2. move metadata to buffer
 	char buffer[metadata_size + 1];
 	memset(buffer, 0, metadata_size + 1);
 	
@@ -93,6 +99,7 @@ bool SongData::write_header()
 	memcpy(buffer + step, (char *)&note_amount, sizeof(note_amount));
 	step += sizeof(note_amount);
 
+	//3. write buffer to file
 	song.write(buffer, metadata_size);
 	if (!song.good())
 	{
@@ -100,36 +107,43 @@ bool SongData::write_header()
 		return false;
 	}
 
+	// intialize metadata
 	this->current_note = 0;
 	return true;
 }
-// 파일로부터 NoteData 하나를 읽어온다.
+
 bool SongData::read_note(NoteData& note)
 {
+	// go to current note in file
 	song.seekg(metadata_size + this->current_note * sizeof(NoteData), song.beg);
+	// read note
 	song.read((char *)(&note), sizeof(note));
 	if (!song.good())
 	{
 		std::cerr << "ERROR : read_note (" << this->current_note << ") [" << this->filename << "]" << std::endl;
 		return false;
 	}
+	// go to next current note
 	++this->current_note;
 	return true;
 }
-// 파일로부터 NoteData 하나를 쓴다.
+
 bool SongData::write_note(const NoteData& note)
 {
+	// go to current note in file
 	song.seekp(metadata_size + this->current_note * sizeof(NoteData), song.beg);
+	// write note
 	song.write((char *)(&note), sizeof(note));
 	if (!song.good())
 	{
 		std::cerr << "ERROR : write_note (" << this->current_note << ") [" << this->filename << "]" << std::endl;
 		return false;
 	}
+	// go to next note
 	++this->current_note;
 	return true;
 }
-//파일을 연다.
+
 bool SongData::open(std::string path, std::string filename)
 {
 	song.open(path + filename, std::ios::in | std::ios::binary);
@@ -152,14 +166,13 @@ bool SongData::create(std::string path, std::string filename)
 	this->filename = filename;
 	return true;
 } 
-// 파일을 닫는다.
+
 void  SongData::close()
 {
 	song.close();
 }
 
-/* filename에 해당하는 파일을 읽어 메타데이터를 구성한다. */
-/* 파일이 없으면 false를 리턴한다. */
+
 bool SongData::pre_read(std::string path, std::string filename)
 {
 	if (!open(path, filename))
@@ -174,8 +187,7 @@ bool SongData::pre_read(std::string path, std::string filename)
 	}
 	return true;
 }
-/* filename에 해당하는 파일을 읽어 메타데이터를 받아온 뒤,
-Note 정보들을 list에 넣는다 */
+
 bool SongData::read(std::vector<NoteData>& notelist)
 {
 	if (!song.is_open())
@@ -196,7 +208,6 @@ bool SongData::read(std::vector<NoteData>& notelist)
 	return true;
 }
 
-/* MetaData를 구성한다.*/
 #define MIN(a,b) (a<b?a:b)
 bool SongData::pre_write(std::string path, int local_id, std::string name, std::string artist, std::string ID, int drum_amount, int note_amount)
 {
@@ -220,7 +231,7 @@ bool SongData::pre_write(std::string path, int local_id, std::string name, std::
 	}
 	return true;
 }
-/* 현재 있는 MetaData를 바탕으로 파일을 쓴다 */
+
 bool SongData::write(const std::vector<NoteData>& notelist)
 {
 	if (!song.is_open())
@@ -249,7 +260,6 @@ bool SongData::exist(std::string path)
 	}
 	return false;
 }
-// 미리 곡 데이터 파일을 만드는 패러미터들을 집어넣어 해당하는 곡 데이터 파일이 존재하는지 확인한다.
 bool SongData::exist(std::string path, std::string name, std::string artist, std::string ID)
 {
 	memcpy(this->name, name.c_str(), MIN(name.size(), sizeof(this->name)));
@@ -260,7 +270,6 @@ bool SongData::exist(std::string path, std::string name, std::string artist, std
 }
 bool SongData::remove(std::string path)
 {
-	// 해당 파일이 열려있으면 닫는다.
 	if (song.is_open())
 	{
 		song.close();

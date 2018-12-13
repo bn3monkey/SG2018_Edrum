@@ -10,66 +10,64 @@
 
 class SongData
 {
-	// 곡에 쓰이는 드럼 개수
+	// amount of drum
 	int drum_amount;
-	// 현재 곡에서 참조하고 있는 노트
+	// the index of current note in note queue
 	int current_note;
-	// 곡에 쓰이는 노트 개수
+	// amount of note in note queue
 	int note_amount;
 	
-	// 실제 곡 데이터를 가지고 있는 곡 데이터 파일.
+	// fstream of song data file
 	std::fstream song;
 	
-	//파일이 있는 path명이다.
-	//파일명은 만든사람ID_곡이름_작곡가.sdd 로 정의한다.
+	//filename defines  "ID_SongName_Artist.sdd"
 	std::string filename;
+	// set filename from object
 	inline void set_filename() 
 	{
 		filename = std::string(ID) + "_" + std::string(name) + "_" + std::string(artist) + ".sdd";
 	};
 
-	// 곡으로부터 메타데이터를 읽어온다.
+	// read data file from metadata
 	bool read_header();
-	// 현재 메타데이터를 DataFIle에 쓴다.
+	// write metadata to data_file
 	bool write_header();
 
-	// 파일로부터 NoteData 하나를 읽어온다.
+	// read one note from object
 	bool read_note(NoteData& note);
-	// 파일로부터 NoteData 하나를 쓴다.
+	// write one note to object
 	bool write_note(const NoteData& note);
 
-	//파일을 연다.
+	// open file
 	bool open(std::string path, std::string filename);
-	// 파일을 만든다.
+	// create file
 	bool create(std::string path, std::string filename);
-	// 파일을 닫는다.
+	// close file.
 	void  close();
 		
 public:
 
-	//server에서 쓰이는 id
+	// id used by server
 	int server_id; //4byte
-	 // local에서 부여되는 id
+	// id used by local
 	int local_id; //4byte
-	// 곡 이름
+	// song name
 	char name[51]; //51byte
-	// 작곡가
+	// song artist
 	char artist[51];
-	// 날짜 정보의 표현
+	// date made by server
 	char date[16];
-	// 곡을 제작한 사람의 ID
+	// uploader ID
 	char ID[21];
-
+	// metadata size
 	const static int metadata_size;
-
-	
 
 	SongData()
 	{
 		this->clear();		
 	}
 
-	//복사 생성자
+	// copy constructor
 	SongData(const SongData& e);
 	SongData& operator=(const SongData& e);
 	bool operator<(const SongData &e) {
@@ -78,32 +76,32 @@ public:
 	bool operator>(const SongData &e) {
 		return (strcmp(this->name, e.name) > 0);
 	}
-
-	// SongData 내부에 있는 파일명을 가져온다.
+	// get file name from song data
 	inline std::string& get_filename()
 	{
 		return filename;
 	}
-	/* filename에 해당하는 파일을 읽어 메타데이터를 구성한다. */
-	/* 파일이 없으면 false를 리턴한다. */
+	
+	// read file from path and filename and make meta data in object
+	// return false if there is no file.
 	bool pre_read(std::string path, std::string filename);
-	/* filename에 해당하는 파일을 읽어 메타데이터를 받아온 뒤,
-	Note 정보들을 list에 넣는다 */
+	
+	// if you first call pre_read, make notelist from data file.
 	bool read(std::vector<NoteData>& notelist);
 	
-	/* MetaData를 구성한다.*/
+	// wrtie file using metadata from parameter
 	bool pre_write(std::string path, int local_id, std::string name, std::string artist, std::string ID, int drum_amount, int note_amount);
-	/* 현재 있는 MetaData를 바탕으로 파일을 쓴다 */
+	// write notelist by using metadata and note list
 	bool write(const std::vector<NoteData>& notelist);
 
-	/* 현재 객체에서 참조하고 있는 파일 이름으로 된 곡 데이터 파일이 존재하는지 확인한다. */
+	// check file which its name same path exists  
 	bool exist(std::string path);
-	// 미리 곡 데이터 파일을 만드는 패러미터들을 집어넣어 해당하는 곡 데이터 파일이 존재하는지 확인한다.
+	// check file which exists
 	bool exist(std::string path, std::string name, std::string artist, std::string ID);
 
-	/* 현재 객체에서 참조하고 있는 파일 이름으로 된 곡 파일을 삭제한다. */
+	// remove file which its name same path exists
 	bool remove(std::string path);
-	// 현재 객체 내부에 있는 모든 변수를 초기값으로 초기화한다.
+	// clear object
 	void clear();
 };
 
