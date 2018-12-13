@@ -292,3 +292,15 @@ void SongData::clear()
 	memset(this->ID, 0, 21);
 	current_note = 0;
 }
+
+void SongData::print()
+{
+	std::cout << "----------------------------" << std::endl;
+	std::cout << "server_id :" << this->server_id << std::endl;
+	std::cout << "local_id :" << this->local_id << std::endl;
+	std::cout << "name :" << this->name << std::endl;
+	std::cout << "artist :" << this->artist << std::endl;
+	std::cout << "date :" << this->date << std::endl;
+	std::cout << "ID :" << this->ID << std::endl;
+	std::cout << "----------------------------" << std::endl;
+}
