@@ -22,7 +22,7 @@ public:
 	    destroy();
     }
 
-    bool initialize();
+    bool initialize(std::string local_path = "./local/", std::string my_path = "./mylist/");
     void destroy();
     inline ServerList* getServerlist() {return list_server;}
     inline LocalList* getLocallist() {return list_local;}
