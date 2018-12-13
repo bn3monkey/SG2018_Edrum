@@ -1,43 +1,38 @@
 #include "init.hpp"
+#include <stdio.h>
 
 using namespace std;
 
 void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyList **ML){
-    cout<<"client init"<<endl;
     if(pRM){
         if(!pRM->initialize()){
             std::cerr << " *** ResourceManager INIT FAILED!!" << std::endl;
             exit(0);
         }
-        cout<<"pRM initialized"<<endl;
         *LL = pRM->getLocallist();
+        *SL = pRM->getServerlist();
+        *ML = pRM->getMylist();
 
-        cout<<"LL get from pRM"<<endl;
         SongData *pSD = nullptr;
 
         (*LL)->print();
 
         for(int i=0; i<SONGLIST_SIZE; i++){
             pSD = (*LL)->getSong(i);
-            cout<<"pSD get from LL - "<<i<<endl;
-
-            cout << "pSD : " << *(int*)(pSD) << endl;
-            cout << "pSD->name : " << *(int*)(pSD->name) << endl;
+            
             if(pSD->name[0] == 0)
             {
-                cout << "pLabel : " << *(int*)(pLabel_songlist_title[i]) << endl;
                 pLabel_songlist_title[i]->set_text("");
                 pLabel_songlist_uploader[i]->set_text("");
                 pLabel_songlist_artist[i]->set_text("");
                 pLabel_songlist_date[i]->set_text("");
                 continue;
             }
-            cout<<"set list label - "<<i<<endl;
 
-            pLabel_songlist_title[i]->set_text(pSD->name);
-            pLabel_songlist_uploader[i]->set_text(pSD->ID);
-            pLabel_songlist_artist[i]->set_text(pSD->artist);
-            pLabel_songlist_date[i]->set_text(pSD->date);
+            pLabel_songlist_title[i]->set_text(std::string(pSD->name));
+            pLabel_songlist_uploader[i]->set_text(std::string(pSD->ID));
+            pLabel_songlist_artist[i]->set_text(std::string(pSD->artist));
+            pLabel_songlist_date[i]->set_text(std::string(pSD->date));
         }
     }
 }
@@ -54,6 +49,7 @@ int get_widget_pointer(){
     char label_title[27] = "label_listitem_song_title0";
     char label_uploader[] = "label_listitem_song_uploader0";
     char label_artist[] = "label_listitem_song_artist0";
+    char label_date[] = "label_listitem_song_date0";
 
     // Initialize List widget.
     for (int i = 0; i < SONGLIST_SIZE; i++)
@@ -62,6 +58,7 @@ int get_widget_pointer(){
         label_title[strlen(label_title) - 1] = '0' + i;
         label_uploader[strlen(label_uploader) - 1] = '0' + i;
         label_artist[strlen(label_artist) - 1] = '0' + i;
+        label_date[strlen(label_date) - 1] = '0' + i;
 
         try
         {
@@ -73,6 +70,7 @@ int get_widget_pointer(){
             refBuilder->get_widget(label_title, pLabel_songlist_title[i]);
             refBuilder->get_widget(label_uploader, pLabel_songlist_uploader[i]);
             refBuilder->get_widget(label_artist, pLabel_songlist_artist[i]);
+            refBuilder->get_widget(label_date, pLabel_songlist_date[i]);
             pListBox_song->append(*pListItem_song[i]);
         }
         catch(const char *e)
