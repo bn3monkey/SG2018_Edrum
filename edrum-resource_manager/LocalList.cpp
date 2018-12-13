@@ -81,7 +81,7 @@ bool LocalList::updatePage(int page_num)
 bool LocalList::remove(int song_num)
 {
 	//1. check if song_num is validates
-	if (song_num >= song_len)
+	if (song_num >= song_len || song_num < 0)
 	{
 		std::cerr << "ERROR : LocalList remove (index error : " << song_num << ", " << page_size << ")" << std::endl;
 		return false;
