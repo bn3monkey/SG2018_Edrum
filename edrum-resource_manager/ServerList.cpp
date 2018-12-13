@@ -10,7 +10,10 @@ bool ServerList::updatePage(int page_num)
 {
 	return true;
 }
-
+int ServerList::getMaxpage()
+{
+	return 1;
+}
 bool ServerList::download(int page_num)
 {
 	return true;

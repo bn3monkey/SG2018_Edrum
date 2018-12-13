@@ -24,7 +24,8 @@ public:
 	bool updatePage(int page_num);
 	// get song which matehs song_num in current page
 	//SongData* getSong(int song_num);
-	
+	int getMaxpage();
+
 	// download data file by using metadata in song data 
 	bool download(int page_num);
 	// cancel data file by using metadata in song data 
