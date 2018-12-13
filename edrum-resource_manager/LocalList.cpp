@@ -8,7 +8,7 @@ namespace fs = std::experimental::filesystem::v1;
 
 #define MIN(a,b) ((a)<(b)?(a):(b))
 // ���� List�� �ʱ�ȭ�Ѵ�.
-bool LocalList::initialize(std::string path)
+bool LocalList::initialize(const std::string& path)
 {
 	// �ü���� ���Ͻý��ۿ� �°� ���ϵ��� �о�´�.
 	/*
@@ -20,7 +20,7 @@ bool LocalList::initialize(std::string path)
 	}
 	*/
 	this->path = path;
-	
+
 	DIR *dp;
 	struct dirent *dirp;
 	if((dp = opendir(path.c_str())) == NULL)

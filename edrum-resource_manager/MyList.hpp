@@ -13,7 +13,7 @@ public:
 	~MyList() {}
 	
 	// ���� List�� �ʱ�ȭ�Ѵ�.
-	bool initialize(std::string path = "./mylist/");
+	bool initialize(const std::string& path = "./mylist/");
 	/*
 	// Page�� update�Ѵ�. 
 	bool updatePage(int page_num);

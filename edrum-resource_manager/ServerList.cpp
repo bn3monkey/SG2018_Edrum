@@ -1,7 +1,7 @@
 #include "ServerList.hpp"
 
 // ���� List�� �ʱ�ȭ�Ѵ�.
-bool ServerList::initialize(std::string path)
+bool ServerList::initialize(const std::string& path)
 {
 	return true;
 }

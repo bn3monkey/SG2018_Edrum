@@ -19,7 +19,7 @@ public:
 	}
 	~ServerList() {}
 	// ���� List�� �ʱ�ȭ�Ѵ�.
-	bool initialize(std::string path="");
+	bool initialize(const std::string& path="");
 	// Page�� update�Ѵ�. 
 	bool updatePage(int page_num);
 	// ���� Page�� �ش��ϴ� SongData�� �����´�.

@@ -31,17 +31,21 @@ void loop()
 { 
   
   
-  //1. 드럼값을 센서로 받아옴
+  // read drum signal
   drum[0].read(elapsed);
   //drum[1].read(elapsed);
-  //2. 버튼값을 받아 현재 상태를 결정
+  // read button signal
   button.read(elapsed);
+  // read serial signal
   serial.read();
 
+  // write drum signal
   //drum[0].test_write();
   drum[0].write();
   //drum[1].write();
+  // write button signal
   button.write();
+  //write serial signal
   serial.write(elapsed);
 
   elapsed = elapsed + 1;

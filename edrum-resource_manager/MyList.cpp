@@ -1,6 +1,6 @@
 #include "MyList.hpp"
 
-bool MyList::initialize(std::string path)
+bool MyList::initialize(const std::string& path)
 {
 	return LocalList::initialize(path);
 }
