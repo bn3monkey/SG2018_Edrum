@@ -114,5 +114,5 @@ int LocalList::getMaxpage()
 	int size = (int)all_songs.size();
 	int quotient = size / this->page_size;
 	int remain = size - (size * quotient);
-	return remain ? size + 1 : size;
+	return remain ? quotient + 1 : quotient;
 }
