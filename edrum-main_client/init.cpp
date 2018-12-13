@@ -4,6 +4,8 @@
 using namespace std;
 
 void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyList **ML){
+    get_widget_pointer();
+
     if(pRM){
         if(!pRM->initialize()){
             std::cerr << " *** ResourceManager INIT FAILED!!" << std::endl;
@@ -13,28 +15,49 @@ void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyL
         *SL = pRM->getServerlist();
         *ML = pRM->getMylist();
 
-        SongData *pSD = nullptr;
-
-        (*LL)->print();
-
-        for(int i=0; i<SONGLIST_SIZE; i++){
-            pSD = (*LL)->getSong(i);
-            
-            if(pSD->name[0] == 0)
-            {
-                pLabel_songlist_title[i]->set_text("");
-                pLabel_songlist_uploader[i]->set_text("");
-                pLabel_songlist_artist[i]->set_text("");
-                pLabel_songlist_date[i]->set_text("");
-                continue;
-            }
-
-            pLabel_songlist_title[i]->set_text(std::string(pSD->name));
-            pLabel_songlist_uploader[i]->set_text(std::string(pSD->ID));
-            pLabel_songlist_artist[i]->set_text(std::string(pSD->artist));
-            pLabel_songlist_date[i]->set_text(std::string(pSD->date));
-        }
+        update_songlist(*LL, 0);
     }
+}
+
+void update_songlist(SongList *SL, int page){
+    SongData *pSD = nullptr;
+
+    SL->updatePage(page);
+    CurPage = page;
+
+    if(SL == pLocalList){
+        pLabel_songlist_type->set_text("OFFLINE");
+    } else if(SL == pServerList){
+        pLabel_songlist_type->set_text("ONLINE");
+    } else if(SL == pMyList){
+        pLabel_songlist_type->set_text("MYLIST");
+    } else{
+        pLabel_songlist_type->set_text("# ERROR #");
+    }
+
+    for (int i = 0; i < SONGLIST_SIZE; i++)
+    {
+        pSD = SL->getSong(i);
+
+        if (pSD->name[0] == 0)
+        {
+            pLabel_songlist_title[i]->set_text("");
+            pLabel_songlist_uploader[i]->set_text("");
+            pLabel_songlist_artist[i]->set_text("");
+            pLabel_songlist_date[i]->set_text("");
+            continue;
+        }
+
+        pLabel_songlist_title[i]->set_text(std::string(pSD->name));
+        pLabel_songlist_uploader[i]->set_text(std::string(pSD->ID));
+        pLabel_songlist_artist[i]->set_text(std::string(pSD->artist));
+        pLabel_songlist_date[i]->set_text(std::string(pSD->date));
+    }
+
+    pCurList = SL;
+
+    std::string str = std::to_string(CurPage + 1) + " / " + std::to_string(pCurList->getMaxpage());
+    pLabel_songlist_pagenum->set_text(str);
 }
 
 int get_widget_pointer(){
@@ -44,6 +67,8 @@ int get_widget_pointer(){
     refBuilder->get_widget("list_song", pListBox_song);
     refBuilder->get_widget("stack_main", pStack_main);
     refBuilder->get_widget("label_notice", pLabel_notice);
+    refBuilder->get_widget("label_songlist_pagenum", pLabel_songlist_pagenum);
+    refBuilder->get_widget("label_songlist_type", pLabel_songlist_type);
 
     char widget_name[15] = "listitem_song0";
     char label_title[27] = "label_listitem_song_title0";

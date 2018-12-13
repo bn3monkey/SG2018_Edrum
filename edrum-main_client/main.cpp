@@ -4,6 +4,8 @@
 #include "event_handler.hpp"
 #include "../edrum-resource_manager/ResourceManager.hpp"
 
+
+/**** Widget Pointer ****/
 Gtk::Dialog *pDialog_notice = nullptr;
 Gtk::Label *pLabel_notice = nullptr;
 Gtk::Dialog *pSignUp = nullptr;
@@ -19,12 +21,18 @@ Gtk::Label *pLabel_songlist_title[SONGLIST_SIZE] = {nullptr};
 Gtk::Label *pLabel_songlist_uploader[SONGLIST_SIZE] = {nullptr};
 Gtk::Label *pLabel_songlist_artist[SONGLIST_SIZE] = {nullptr};
 Gtk::Label *pLabel_songlist_date[SONGLIST_SIZE] = {nullptr};
+Gtk::Label *pLabel_songlist_pagenum = nullptr;
+Gtk::Label *pLabel_songlist_type = nullptr;
 Gtk::Stack *pStack_main = nullptr;
 
+
+/**** SongList & Manager ****/
 ResourceManager RM;
 LocalList *pLocalList = nullptr;
 ServerList *pServerList = nullptr;
 MyList *pMyList = nullptr;
+SongList *pCurList = nullptr;
+int CurPage = 0;
 
 static Glib::RefPtr<Gtk::Application> app;
 Glib::RefPtr<Gtk::Builder> refBuilder;
@@ -56,7 +64,6 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    get_widget_pointer();
     init_main_client(&RM, &pLocalList, &pServerList, &pMyList);
 
     //Get the GtkBuilder-instantiated Dialog:

@@ -6,6 +6,10 @@ static void on_button_clicked_in_signup();
 static void on_btn_song_play_clicked();
 static void on_btn_login_clicked();
 static void on_btn_signup_clicked();
+static void on_btn_songlist_page_back_clicked();
+static void on_btn_songlist_page_next_clicked();
+static void on_btn_home_clicked();
+static void on_btn_mypage_clicked();
 
 void register_event_handler()
 {
@@ -42,6 +46,38 @@ void register_event_handler()
     if (pButton)
     {
         pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_song_play_clicked));
+    }
+    std::cout << " Done." << std::endl;
+
+    std::cout << " > btn_songlist_page_back..";
+    refBuilder->get_widget("btn_songlist_page_back", pButton);
+    if (pButton)
+    {
+        pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_songlist_page_back_clicked));
+    }
+    std::cout << " Done." << std::endl;
+
+    std::cout << " > btn_songlist_page_next..";
+    refBuilder->get_widget("btn_songlist_page_next", pButton);
+    if (pButton)
+    {
+        pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_songlist_page_next_clicked));
+    }
+    std::cout << " Done." << std::endl;
+
+    std::cout << " > btn_mypage..";
+    refBuilder->get_widget("btn_mypage", pButton);
+    if (pButton)
+    {
+        pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_mypage_clicked));
+    }
+    std::cout << " Done." << std::endl;
+
+    std::cout << " > btn_home..";
+    refBuilder->get_widget("btn_home", pButton);
+    if (pButton)
+    {
+        pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_home_clicked));
     }
     std::cout << " Done." << std::endl;
 
@@ -132,6 +168,33 @@ static void on_btn_login_clicked()
     }
 
     std::cout << "===========================" << std::endl << std::endl;
+}
+
+static void on_btn_songlist_page_back_clicked(){
+    CurPage = (CurPage - 1) < 0 ? 0 : (CurPage - 1);
+
+    std::string str = std::to_string(CurPage + 1) + " / " + std::to_string(pCurList->getMaxpage());
+    pLabel_songlist_pagenum->set_text(str);
+
+    update_songlist(pCurList, CurPage);
+}
+
+static void on_btn_songlist_page_next_clicked(){
+    if (++CurPage >= pCurList->getMaxpage())
+        CurPage--;
+
+    std::string str = std::to_string(CurPage + 1) + " / " + std::to_string(pCurList->getMaxpage());
+    pLabel_songlist_pagenum->set_text(str);
+
+    update_songlist(pCurList, CurPage);
+}
+
+static void on_btn_home_clicked(){
+    update_songlist(pServerList, 0);
+}
+
+static void on_btn_mypage_clicked(){
+    update_songlist(pMyList, 0);
 }
 
 /*Seob's work*/

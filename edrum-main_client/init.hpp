@@ -22,11 +22,21 @@ extern Gtk::Label *pLabel_songlist_title[SONGLIST_SIZE];
 extern Gtk::Label *pLabel_songlist_uploader[SONGLIST_SIZE];
 extern Gtk::Label *pLabel_songlist_artist[SONGLIST_SIZE];
 extern Gtk::Label *pLabel_songlist_date[SONGLIST_SIZE];
+extern Gtk::Label *pLabel_songlist_pagenum;
+extern Gtk::Label *pLabel_songlist_type;
 extern Gtk::Stack *pStack_main;
 
 extern Glib::RefPtr<Gtk::Builder> refBuilder;
 
+extern LocalList *pLocalList;
+extern ServerList *pServerList;
+extern MyList *pMyList;
+extern SongList *pCurList;
+extern int CurPage;
+
 void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyList **ML);
+void update_songlist(SongList *SL, int page);
 int get_widget_pointer();
+
 
 #endif
