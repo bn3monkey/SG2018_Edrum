@@ -15,7 +15,7 @@
 
 CC = g++
 CFLAGS = -std=gnu++11 -pthread -W -Wall
-TARGET = sharedrum
+TARGET = sharedrum.out
 CFILE = main.cpp init.cpp event_handler.cpp popup.cpp
 HEADER = init.hpp event_handler.hpp popup.hpp
 OBJS = main.o init.o event_handler.o popup.o

@@ -52,7 +52,6 @@ bool LocalList::updatePage(int page_num)
 	int start = this->get_allsongnum(page_num, 0);	
 	
 	// check if page_num validates
-	printf("all_song_size : %d\n", all_songs.size());
 	if ((int)all_songs.size() <= start)
 	{
 		page_num = all_songs.size() / page_size;
