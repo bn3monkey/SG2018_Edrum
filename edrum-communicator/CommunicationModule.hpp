@@ -2,7 +2,7 @@
 #define __COMMUNICATION_MODULE__
 
 #include <Python.h>
-#include "SongData.hpp"
+#include "../edrum-resource_manager/SongData.hpp"
 #include <vector>
 #include <string>
 class CommunicationModule

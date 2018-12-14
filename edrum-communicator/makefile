@@ -3,7 +3,7 @@ CFLAGS = -std=gnu++11 -pthread -W -Wall
 TARGET = cm.out
 LIBNAME = libCommunicationModule.so
 CFILE = main.cpp
-LIBFILE = CommunicationModule.cpp SongData.cpp
+LIBFILE = CommunicationModule.cpp ../edrum-resource_manager/SongData.cpp
 LIBPATH = ../edrum-communicator/
 
 all :

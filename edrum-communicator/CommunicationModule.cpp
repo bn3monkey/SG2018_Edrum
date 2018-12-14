@@ -14,8 +14,7 @@ bool CommunicationModule::initialize(std::string _server_url)
         return false;
     }
     
-    char* test = (char *)"";
-    PySys_SetArgv(1, &test);
+    PyRun_SimpleString("import sys\nsys.path.append(\"/../edrum-communicator\")\nprint(sys.path)\n");
     pyFile = PyImport_ImportModule("scripts.CommunicationModule");
     if(!pyFile)
     {

@@ -24,7 +24,6 @@ int upload_test(int local_id, std::string name, std::string artist, std::string 
      e = makeSong(local_id, name, artist, ID);
      pCM->upload("./mylist/", e);
      std::cout << "e.server_id : " << e.server_id << std::endl;
-     pCM->uploadCancel(e);
      return 1;
 }
 int uploadCancel_test(int server_id)
@@ -34,12 +33,21 @@ int uploadCancel_test(int server_id)
      pCM->uploadCancel(e);
      return 1;
 }
+int double_test(int local_id, std::string name, std::string artist, std::string ID)
+{
+     SongData e;
+     e = makeSong(local_id, name, artist, ID);
+     pCM->upload("./mylist/", e);
+     std::cout << "e.server_id : " << e.server_id << std::endl;
+     pCM->uploadCancel(e);
+     return 1;
+}
 int Download_test(int server_id)
 {
     SongData song2;
     song2.server_id = server_id;
     pCM->download("./local/", song2);
-    printf("Song Name : %s\name", song2.name);
+    printf("Song Name : %s\n", song2.name);
     return 1;
 }
 
@@ -49,7 +57,8 @@ int main()
     pCM->initialize();
 
     //1. making SongData
-    
+   
+    /* 
     upload_test(0, "Mirror", "Guckkasten", "bn3monkey");
     upload_test(1, "Violet Wand", "Guckkasten", "bn3monkey");
     upload_test(2, "Maze", "Guckkasten", "bn3monkey");
@@ -63,9 +72,9 @@ int main()
     upload_test(10, "Tail", "Guckkasten", "bn3monkey");
     upload_test(11, "Toddle", "Guckkasten", "bn3monkey");
     upload_test(12, "Tail(Acoustic)", "Guckkasten", "bn3monkey");
-    
+    */
 
-    for(int i=0;i<10;i++)
+    for(int i=1;i<=10;i++)
         Download_test(i);
 
     std::vector<SongData> SongList;
