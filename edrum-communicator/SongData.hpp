@@ -103,6 +103,8 @@ public:
 	bool remove(std::string path);
 	// clear object
 	void clear();
+	//print object
+	void print();
 };
 
 #endif

@@ -23,9 +23,17 @@ public:
 
     bool login(const std::string& id, const std::string& password);
     bool signup(const std::string& id, const std::string& password);
-    bool upload(const std::string& path, const SongData& e);
-    bool uploadCancel(const std::string& path, const SongData& e);
+    
+    // if error occured, return -1
+    // return the number of whole pages
+    int getAllpage(const int page_size);
+    // upload SongData and get data file and server_id from server
+     bool upload(const std::string& path, SongData& e);
+     // cancel to uplaod SongData using server_id in SongData
+     // and remove server_id in SongData
+    bool uploadCancel(SongData& e);
     bool download(const std::string& path, SongData& e);
+    //page_num starts 0
     bool updatePage(const int page_size, const int page_num, std::vector<SongData>& songlist);
 };
 

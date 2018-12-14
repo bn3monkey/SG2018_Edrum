@@ -15,10 +15,12 @@ from edrum_server_app.serializers import NoteFileSerializer, UserSerializer, Log
 from edrum_server_app.serializers import SignUpSerializer, RedundantSerializer
 from edrum_server_app.filters import UserFilter
 from edrum_server_app.pretty_request import pretty_request
+from edrum_server_app.pagination import SmallResultsSetPagination
 
 class NoteFileViewSet(viewsets.ModelViewSet) :
     queryset = NoteFileModel.objects.all()
     serializer_class = NoteFileSerializer
+    pagination_class = SmallResultsSetPagination
 
     #filter_backends = (backends.DjangoFilterBackend,)
     #filter_class = NoteFileFilter
