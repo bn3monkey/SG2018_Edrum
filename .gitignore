@@ -10,5 +10,9 @@
 *.glade~
 *.o
 *.out
+*.so
+*.pyc
+*.sdd
+*.cpython-35.pyc
 sharedrum
 .gitignore
