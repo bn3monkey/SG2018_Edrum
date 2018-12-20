@@ -73,6 +73,7 @@ int get_widget_pointer(){
     refBuilder->get_widget("label_notice", pLabel_notice);
     refBuilder->get_widget("label_songlist_pagenum", pLabel_songlist_pagenum);
     refBuilder->get_widget("label_songlist_type", pLabel_songlist_type);
+    refBuilder->get_widget("fixed_play", pFixed_play);
 
     char widget_name[15] = "listitem_song0";
     char label_title[27] = "label_listitem_song_title0";

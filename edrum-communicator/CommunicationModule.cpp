@@ -10,7 +10,8 @@ bool CommunicationModule::initialize(std::string _server_url)
 {
     this->server_url = _server_url;
     //Py_SetProgramName((char *)"CommunicationModule");
-    Py_Initialize();
+    if(!Py_IsInitialized())
+        Py_Initialize();
     
     if(!Py_IsInitialized())
     {

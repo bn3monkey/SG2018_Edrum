@@ -138,6 +138,7 @@ static void on_btn_song_play_clicked()
     str = "PLAY : " + pLabel_songlist_title[idx]->get_text();
 
     popup(str);
+    pStack_main->set_visible_child("page_play");
 }
 
 static void on_btn_login_clicked()
@@ -149,6 +150,7 @@ static void on_btn_login_clicked()
 
     std::cout << "ID : " << id << std::endl;
     std::cout << "PW : " << pw << std::endl;
+    std::cout << "===========================" << std::endl << std::endl;
 
     std::string str = "";
     str = "Welcome, " + id + "!";
@@ -166,7 +168,6 @@ static void on_btn_login_clicked()
         }
         if(!CM.isinitialized()){
             popup("Failed to connect server.");
-            std::cout << "===========================" << std::endl << std::endl;
             //return;
         }
     }
@@ -183,8 +184,6 @@ static void on_btn_login_clicked()
         std::cout << "Wrong Account!" << std::endl;
         popup("Wrong Account!");
     }
-
-    std::cout << "===========================" << std::endl << std::endl;
 }
 
 static void on_btn_songlist_page_back_clicked(){

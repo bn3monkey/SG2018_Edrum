@@ -933,7 +933,7 @@
       <placeholder/>
     </child>
     <child>
-      <object class="GtkFixed">
+      <object class="GtkFixed" id="fixed_main">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="halign">center</property>
@@ -1526,23 +1526,149 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box_record">
+              <object class="GtkFixed" id="fixed_play">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
+                  <object class="GtkBox" id="box_play">
+                    <property name="width_request">100</property>
+                    <property name="height_request">80</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkBox" id="box_lane">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">start</property>
+                        <property name="margin_top">150</property>
+                        <child>
+                          <object class="GtkImage" id="img_play_lane">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/lane_600.png</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkImage" id="img_play_lane1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/lane_600.png</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkImage" id="img_play_lane2">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/lane_600.png</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkImage" id="img_play_lane3">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/lane_600.png</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="box_hit">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <child>
+                          <object class="GtkImage" id="img_hit0">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/circle_resized/circle_gray.png</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkImage" id="img_hit1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/circle_resized/circle_gray.png</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkImage" id="img_hit2">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/circle_resized/circle_gray.png</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkImage" id="img_hit3">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/circle_resized/circle_gray.png</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
                 </child>
               </object>
               <packing>
-                <property name="name">page_record</property>
-                <property name="title" translatable="yes">page_record</property>
+                <property name="name">page_play</property>
+                <property name="title" translatable="yes">page_play</property>
                 <property name="position">2</property>
               </packing>
             </child>
