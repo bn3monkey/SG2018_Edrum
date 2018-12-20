@@ -30,6 +30,9 @@ extern Gtk::Stack *pStack_main;
 
 /**** Play UI ****/
 extern Gtk::Container *pFixed_play;
+extern std::vector<Gtk::Image*> Image_notes;
+extern Gtk::Image *pImage_hit[4];
+extern Gtk::Button *pButton_hit[4];
 
 /**** SongList & Manager ****/
 extern ResourceManager RM;

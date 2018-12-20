@@ -22,7 +22,9 @@ Gtk::Stack *pStack_main = nullptr;
 
 /**** Play UI ****/
 Gtk::Container *pFixed_play = nullptr;
-std::vector<Gtk::Image> Image_notes;
+std::vector<Gtk::Image*> Image_notes;
+Gtk::Image *pImage_hit[4] = {nullptr};
+Gtk::Button *pButton_hit[4] = {nullptr};
 
 /**** SongList & Manager ****/
 ResourceManager RM;

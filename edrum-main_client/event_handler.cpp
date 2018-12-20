@@ -2,6 +2,7 @@
 #include "popup.hpp"
 
 static int get_song_selected_index();
+static void on_btn_hit_clicked(int idx);
 static void on_btn_notice_ok_clicked();
 static void on_button_clicked_in_signup();
 static void on_btn_song_play_clicked();
@@ -100,7 +101,73 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
+
+
+    /* Set event on play hit button - remove this block after hardware input */
+    {
+        std::cout << " > btn_hit..";
+        pButton_hit[0]->signal_clicked().connect(sigc::bind<int>(sigc::ptr_fun(on_btn_hit_clicked), 0));
+        pButton_hit[1]->signal_clicked().connect(sigc::bind<int>(sigc::ptr_fun(on_btn_hit_clicked), 1));
+        pButton_hit[2]->signal_clicked().connect(sigc::bind<int>(sigc::ptr_fun(on_btn_hit_clicked), 2));
+        pButton_hit[3]->signal_clicked().connect(sigc::bind<int>(sigc::ptr_fun(on_btn_hit_clicked), 3));
+        std::cout << " Done." << std::endl;
+    }
+    /*************************************************/
+
     std::cout << std::endl << " *** All Event Handler Registered." << std::endl << std::endl;
+}
+
+static void on_btn_hit_clicked(int idx){
+    int dest_x = 0, dest_y = 0;
+    int src_x=0, src_y=0;
+
+    std::cout << "btn_hit" << idx << " clicked." << std::endl;
+
+    src_x = ((Gtk::Widget *)pFixed_play)->get_allocation().get_x();
+    src_y = ((Gtk::Widget *)pFixed_play)->get_allocation().get_y();
+
+    for (unsigned int i = 0; i < Image_notes.size(); i++)
+    {
+        dest_x = ((Gtk::Widget*)Image_notes[i])->get_allocation().get_x() - src_x;
+        dest_y = ((Gtk::Widget*)Image_notes[i])->get_allocation().get_y() - src_y;
+        dest_y += 50;
+        std::cout << "move note_" << i << std::endl;
+        ((Gtk::Fixed *)pFixed_play)->move(*(Gtk::Widget *)Image_notes[i], dest_x, dest_y);
+    }
+
+    Gtk::Image *pImg = nullptr;
+    switch (idx)
+    {
+    case 0:
+        pImg = new Gtk::Image("resources/circle_resized/circle_green.png");
+        break;
+    case 1:
+        pImg = new Gtk::Image("resources/circle_resized/circle_orange.png");
+        break;
+    case 2:
+        pImg = new Gtk::Image("resources/circle_resized/circle_red.png");
+        break;
+    case 3:
+        pImg = new Gtk::Image("resources/circle_resized/circle_blue.png");
+        break;
+    default:
+        return;
+        break;
+    }
+
+    if (!pImg)
+    {
+        std::cerr << " *** Failed to generate new note!" << std::endl;
+        return;
+    }
+
+    dest_x = idx * 172;
+    dest_y = 0;
+    //pFixed_play->add(*((Gtk::Widget *)pImg));
+    //pImg->translate_coordinates(*(Gtk::Widget *)pFixed_play, 0, 0, dest_x, dest_y);
+    ((Gtk::Fixed*)pFixed_play)->put(*(Gtk::Widget*)pImg, dest_x, dest_y);
+    pImg->show();
+    Image_notes.push_back(pImg);
 }
 
 static void on_btn_notice_ok_clicked()

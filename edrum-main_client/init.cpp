@@ -75,6 +75,21 @@ int get_widget_pointer(){
     refBuilder->get_widget("label_songlist_type", pLabel_songlist_type);
     refBuilder->get_widget("fixed_play", pFixed_play);
 
+    // Get play hit image
+    refBuilder->get_widget("img_hit0", pImage_hit[0]);
+    refBuilder->get_widget("img_hit1", pImage_hit[1]);
+    refBuilder->get_widget("img_hit2", pImage_hit[2]);
+    refBuilder->get_widget("img_hit3", pImage_hit[3]);
+
+    /* Get Play hit button - remove this block after hardware input */
+    {
+        refBuilder->get_widget("btn_hit0", pButton_hit[0]);
+        refBuilder->get_widget("btn_hit1", pButton_hit[1]);
+        refBuilder->get_widget("btn_hit2", pButton_hit[2]);
+        refBuilder->get_widget("btn_hit3", pButton_hit[3]);
+    }
+    /*************************************************/
+
     char widget_name[15] = "listitem_song0";
     char label_title[27] = "label_listitem_song_title0";
     char label_uploader[] = "label_listitem_song_uploader0";
