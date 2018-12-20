@@ -16,7 +16,7 @@ static void on_btn_song_delete_clicked();
 
 void register_event_handler()
 {
-    std::cout << std::endl << " *** Event Handler Register" << std::endl;
+    std::cout << std::endl << " *** Event Handler Register" << std::endl << std::endl;
 
     Gtk::Button *pButton = nullptr;
 
@@ -100,7 +100,7 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
-    std::cout << " *** All Event Handler Registered." << std::endl << std::endl;
+    std::cout << std::endl << " *** All Event Handler Registered." << std::endl << std::endl;
 }
 
 static void on_btn_notice_ok_clicked()
@@ -153,7 +153,25 @@ static void on_btn_login_clicked()
     std::string str = "";
     str = "Welcome, " + id + "!";
 
-    if (id != "" && pw != "")
+    if(!CM.isinitialized()){
+        for(int i=0; i<5; i++){
+            if(CM.initialize())
+            {
+                std::cout << " > Server connected." << std::endl;
+                break;
+            }
+            else{
+                std::cerr << " > Failed to connect server. Retrying..." << i + 1 << std::endl;
+            }
+        }
+        if(!CM.isinitialized()){
+            popup("Failed to connect server.");
+            std::cout << "===========================" << std::endl << std::endl;
+            //return;
+        }
+    }
+    //if (CM.login(id, pw))
+    if(id != "" && pw != "")
     { /*LOGIN_SUCCESS*/
         pLabel_notice->set_text(str);
         std::cout << str << std::endl;

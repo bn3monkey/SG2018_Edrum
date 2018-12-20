@@ -21,15 +21,16 @@ HEADER = init.hpp event_handler.hpp popup.hpp
 OBJS = main.o init.o event_handler.o popup.o
 
 LIB_RM_PATH = ../edrum-resource_manager
+LIB_CM_PATH = ../edrum-communicator
 
 all: $(OBJS)
 	@echo " > Try Build.."
-	@$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) `pkg-config gtkmm-3.0 --cflags --libs` -Wl,-rpath,$(LIB_RM_PATH) -L$(LIB_RM_PATH) -lResourceManager
+	@$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) `pkg-config gtkmm-3.0 --cflags --libs` -Wl,-rpath,$(LIB_RM_PATH) -L$(LIB_RM_PATH) -lResourceManager -Wl,-rpath,$(LIB_CM_PATH) -L$(LIB_CM_PATH) -lCommunicationModule -lpython2.7
 	@echo " Done."
 
 $(OBJS): $(CFILE) $(HEADER)
 	@echo " > Try Compile.."
-	@$(CC) $(CFLAGS) -c $(CFILE) `pkg-config gtkmm-3.0 --cflags --libs`
+	@$(CC) $(CFLAGS) -c $(CFILE) `pkg-config gtkmm-3.0 --cflags --libs` -I/usr/include/python2.7
 
 clean:
 	@echo " *** Clean up!"

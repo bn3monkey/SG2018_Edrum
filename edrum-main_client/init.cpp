@@ -4,6 +4,10 @@
 using namespace std;
 
 void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyList **ML){
+    if(!CM.initialize())
+    {
+        std::cerr << " *** ServerConnection FAILED!!" << std::endl;
+    }
     get_widget_pointer();
 
     if(pRM){

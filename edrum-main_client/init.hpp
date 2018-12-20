@@ -4,6 +4,7 @@
 #include <gtkmm.h>
 #include <iostream>
 #include "../edrum-resource_manager/ResourceManager.hpp"
+#include "../edrum-communicator/CommunicationModule.hpp"
 
 #define SONGLIST_SIZE 5
 
@@ -33,6 +34,8 @@ extern ServerList *pServerList;
 extern MyList *pMyList;
 extern SongList *pCurList;
 extern int CurPage;
+
+extern CommunicationModule CM;
 
 void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyList **ML);
 void update_songlist(SongList *SL, int page);

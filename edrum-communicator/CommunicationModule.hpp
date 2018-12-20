@@ -18,6 +18,7 @@ public:
     }
     ~CommunicationModule() {}
 
+    bool isinitialized();
     bool initialize(std::string _server_url = "http://106.10.34.243/");
     void destroy();
 

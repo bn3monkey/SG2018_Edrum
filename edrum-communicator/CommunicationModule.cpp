@@ -2,6 +2,10 @@
 #include <cstring>
 #include <iostream>
 
+bool CommunicationModule::isinitialized(){
+    return initialized;
+}
+
 bool CommunicationModule::initialize(std::string _server_url)
 {
     this->server_url = _server_url;

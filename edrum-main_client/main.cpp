@@ -2,7 +2,6 @@
 #include <iostream>
 #include "init.hpp"
 #include "event_handler.hpp"
-#include "../edrum-resource_manager/ResourceManager.hpp"
 
 
 /**** Widget Pointer ****/
@@ -33,6 +32,9 @@ ServerList *pServerList = nullptr;
 MyList *pMyList = nullptr;
 SongList *pCurList = nullptr;
 int CurPage = 0;
+
+/**** Network Manager ****/
+CommunicationModule CM;
 
 static Glib::RefPtr<Gtk::Application> app;
 Glib::RefPtr<Gtk::Builder> refBuilder;
