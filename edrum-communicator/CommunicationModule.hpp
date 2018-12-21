@@ -19,6 +19,7 @@ public:
     ~CommunicationModule() {}
 
     bool initialize(std::string _server_url = "http://106.10.34.243/");
+    bool isinitialized() {return initialized;}
     void destroy();
 
     bool login(const std::string& id, const std::string& password);

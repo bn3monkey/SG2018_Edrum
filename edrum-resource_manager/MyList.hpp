@@ -2,13 +2,16 @@
 #define __MY_LIST__
 
 #include "LocalList.hpp"
+#include "../edrum-communicator/CommunicationModule.hpp"
 
 class MyList : public LocalList
 {
+	CommunicationModule* pCM;
 public:
-	MyList()
+	MyList(CommunicationModule& _pCM)
 	{
 		path = "./mylist/";
+		pCM = &_pCM;
 	}
 	~MyList() {}
 	
@@ -30,7 +33,7 @@ public:
 	// upload data file by using metadata in song data 
 	bool upload(int song_num);
 	// cancel data file by using metadata in song data 
-	bool upload_cancel(int song_num);
+	bool uploadCancel(int song_num);
 
 };
 
