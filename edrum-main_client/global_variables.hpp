@@ -10,11 +10,21 @@
 #define SONGLIST_SIZE 5
 #define NOTE_IMG_SIZE 172
 
+/**** Mutex ****/
+extern std::mutex mtx_lock_timer;
+extern std::mutex mtx_lock_fixed_play;
+extern std::mutex mtx_lock_image_notes;
+extern std::mutex mtx_lock_update_note;
+
 /**** Timer Thread ****/
 extern std::thread *pThread_timer;
-extern std::mutex mtx_lock_timer;
 extern uint64_t cur_time;
 extern bool timer_running;
+
+/**** Custum Signal - Timer ****/
+typedef sigc::signal<void> type_signal_update_note;
+extern type_signal_update_note m_signal_update_note;
+type_signal_update_note signal_update_note();
 
 /**** Widget Pointer ****/
 extern Gtk::Dialog *pDialog_notice;
@@ -38,8 +48,13 @@ extern Gtk::Label *pLabel_songlist_type;
 extern Gtk::Stack *pStack_main;
 
 /**** Play UI ****/
+struct GAMENOTE{
+    Gtk::Image *pImg;
+    uint64_t gen_time;
+    int note_idx;
+};
 extern Gtk::Container *pFixed_play;
-extern std::vector<Gtk::Image*> Image_notes;
+extern std::vector<GAMENOTE*> Image_notes;
 extern Gtk::Image *pImage_hit[4];
 extern Gtk::Button *pButton_hit[4];
 

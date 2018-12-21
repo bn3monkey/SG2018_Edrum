@@ -1,10 +1,19 @@
 #include "global_variables.hpp"
 
+/**** Mutex ****/
+std::mutex mtx_lock_timer;
+std::mutex mtx_lock_fixed_play;
+std::mutex mtx_lock_image_notes;
+std::mutex mtx_lock_update_note;
+
 /**** Timer Thread ****/
 std::thread *pThread_timer = nullptr;
-std::mutex mtx_lock_timer;
 uint64_t cur_time = 0;
 bool timer_running = false;
+
+/**** Custum Signal - Timer ****/
+type_signal_update_note m_signal_update_note;
+type_signal_update_note signal_update_note(){ return m_signal_update_note; }
 
 /**** Widget Pointer ****/
 Gtk::Dialog *pDialog_notice = nullptr;
@@ -28,7 +37,7 @@ Gtk::Stack *pStack_main = nullptr;
 
 /**** Play UI ****/
 Gtk::Container *pFixed_play = nullptr;
-std::vector<Gtk::Image*> Image_notes;
+std::vector<GAMENOTE*> Image_notes;
 Gtk::Image *pImage_hit[4] = {nullptr};
 Gtk::Button *pButton_hit[4] = {nullptr};
 

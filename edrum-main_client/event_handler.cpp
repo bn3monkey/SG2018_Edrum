@@ -2,6 +2,7 @@
 #include "popup.hpp"
 
 static int get_song_selected_index();
+static void update_note();
 static void on_btn_hit_clicked(int idx);
 static void on_btn_notice_ok_clicked();
 static void on_button_clicked_in_signup();
@@ -114,36 +115,85 @@ void register_event_handler()
     }
     /*************************************************/
 
+
+    // Register custom signal - update note
+    std::cout << " > timer_update_note..";
+    signal_update_note().connect(sigc::ptr_fun(&update_note) );
+    std::cout << " Done." << std::endl;
+
     std::cout << std::endl << " *** All Event Handler Registered." << std::endl << std::endl;
+}
+
+static void update_note(){
+    int dest_x = 0, dest_y = 0;
+    int src_x = 0, src_y = 0;
+    static uint64_t now_time = 0;
+    static uint64_t pre_time = 0;
+    static unsigned int delta_time = 0;
+    unsigned int delta_y = 0;
+
+    //mtx_lock_update_note.lock();
+
+    pre_time = now_time;
+    /// Critical ///
+    mtx_lock_timer.lock();
+    now_time = cur_time;
+    mtx_lock_timer.unlock();
+    ////////////////
+    if(pre_time == 0)
+        pre_time = now_time;
+    
+    // Get DELTA_TIME
+    delta_time += now_time - pre_time;
+
+    //mtx_lock_fixed_play.lock();
+    src_x = ((Gtk::Widget *)pFixed_play)->get_allocation().get_x();
+    //src_y = ((Gtk::Widget *)pFixed_play)->get_allocation().get_y();
+    src_y = ((Gtk::Widget *)pImage_hit[0])->get_allocation().get_y();
+    //mtx_lock_fixed_play.unlock();
+
+    if(delta_time > 15){
+        delta_y = delta_time;
+        delta_time = 0;
+        //mtx_lock_image_notes.lock();
+        for (unsigned int i = 0; i < Image_notes.size(); i++)
+        {
+            //dest_x = ((Gtk::Widget *)(Image_notes[i]->pImg))->get_allocation().get_x() - src_x;
+            dest_x = Image_notes[i]->note_idx * NOTE_IMG_SIZE;
+            //dest_y = ((Gtk::Widget *)(Image_notes[i]->pImg))->get_allocation().get_y() - src_y;
+            //dest_y -= delta_y;
+            dest_y = src_y - (int)(now_time - Image_notes[i]->gen_time);
+
+            if (dest_y < -NOTE_IMG_SIZE)
+            {
+                std::cout << "delete note_" << i << std::endl;
+                Image_notes[i]->pImg->hide();
+                delete Image_notes[i]->pImg;
+                delete Image_notes[i];
+                Image_notes.erase(Image_notes.begin() + i);
+                i--;
+                continue;
+            }
+
+            //mtx_lock_fixed_play.lock();
+            ((Gtk::Fixed *)pFixed_play)->move(*(Gtk::Widget *)(Image_notes[i]->pImg), dest_x, dest_y);
+            //mtx_lock_fixed_play.unlock();
+        }
+        //mtx_lock_image_notes.unlock();
+    }
+    //mtx_lock_update_note.unlock();
 }
 
 static void on_btn_hit_clicked(int idx){
     int dest_x = 0, dest_y = 0;
-    int src_x=0, src_y=0;
+    int src_x = 0, src_y = 0;
 
     std::cout << "btn_hit" << idx << " clicked." << std::endl;
 
+    //mtx_lock_fixed_play.lock();
     src_x = ((Gtk::Widget *)pFixed_play)->get_allocation().get_x();
     src_y = ((Gtk::Widget *)pFixed_play)->get_allocation().get_y();
-
-    for (unsigned int i = 0; i < Image_notes.size(); i++)
-    {
-        dest_x = ((Gtk::Widget*)Image_notes[i])->get_allocation().get_x() - src_x;
-        dest_y = ((Gtk::Widget*)Image_notes[i])->get_allocation().get_y() - src_y;
-        dest_y -= 50;
-
-        if(dest_y < -NOTE_IMG_SIZE){
-            std::cout << "delete note_" << i << std::endl;
-            Image_notes[i]->hide();
-            delete Image_notes[i];
-            Image_notes.erase(Image_notes.begin() + i);
-            i--;
-            continue;
-        }
-
-        std::cout << "move note_" << i << std::endl;
-        ((Gtk::Fixed *)pFixed_play)->move(*(Gtk::Widget *)Image_notes[i], dest_x, dest_y);
-    }
+    //mtx_lock_fixed_play.unlock();
 
     Gtk::Image *pImg = nullptr;
     switch (idx)
@@ -171,17 +221,28 @@ static void on_btn_hit_clicked(int idx){
         return;
     }
 
-    dest_x = idx * NOTE_IMG_SIZE;
-    dest_y = 0;
-    //pFixed_play->add(*((Gtk::Widget *)pImg));
-    //pImg->translate_coordinates(*(Gtk::Widget *)pFixed_play, 0, 0, dest_x, dest_y);
-
     dest_x = ((Gtk::Widget *)pImage_hit[idx])->get_allocation().get_x() - src_x;
     dest_y = ((Gtk::Widget *)pImage_hit[idx])->get_allocation().get_y() - src_y;
+    std::cout << " # NEW Widget : " << dest_x << ", " << dest_y << std::endl;
 
+    //mtx_lock_fixed_play.lock();
     ((Gtk::Fixed*)pFixed_play)->put(*(Gtk::Widget*)pImg, dest_x, dest_y);
+    ((Gtk::Fixed*)pFixed_play)->move(*(Gtk::Widget*)pImg, dest_x, dest_y);
+    //mtx_lock_fixed_play.unlock();
     pImg->show();
-    Image_notes.push_back(pImg);
+    
+    GAMENOTE *pGN = new GAMENOTE;
+    pGN->pImg = pImg;
+    mtx_lock_timer.lock();
+    pGN->gen_time = cur_time;
+    mtx_lock_timer.unlock();
+    pGN->note_idx = idx;
+    
+    //mtx_lock_image_notes.lock();
+    Image_notes.push_back(pGN);
+    //mtx_lock_image_notes.unlock();
+
+    while(Gtk::Main::events_pending()) Gtk::Main::iteration();
 }
 
 static void on_btn_notice_ok_clicked()

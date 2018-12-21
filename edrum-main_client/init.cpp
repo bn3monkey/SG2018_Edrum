@@ -1,4 +1,5 @@
 #include "init.hpp"
+#include "event_handler.hpp"
 
 using namespace std;
 
@@ -145,16 +146,23 @@ void timer_sharedrum(){
 
         /// Critical ///
         mtx_lock_timer.lock();
-        if(!timer_running){
-            break;
-        }
-        else{
-        }
         cur_time = ms;
         mtx_lock_timer.unlock();
         ////////////////
 
-        std::this_thread::yield();
+        if(!timer_running){
+            break;
+        }
+        else{
+            mtx_lock_update_note.lock();
+            mtx_lock_update_note.unlock();
+            m_signal_update_note.emit();
+            //signal_draw();
+            //update_note();
+        }
+
+        //std::this_thread::sleep_for(50ms);
+        //std::this_thread::yield();
     }
 
     std::cout << " *** Timer thread terminating.." << std::endl;
