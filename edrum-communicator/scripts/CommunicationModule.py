@@ -138,3 +138,45 @@ def getAllpage(url, page_size) :
 		return quotient +1
 	else :
 		return quotient
+
+
+"""
+login and signup. 
+Added by Taehoon Kim.
+20181214
+"""
+def login_sharedrum(url, user_ID, user_pwd):
+# Login Session
+	URL = url
+	s = requests.Session()
+
+	LOGIN_INFO = {
+		'user_id' : user_ID,
+		'password' : user_pwd
+	}
+
+	login_req = s.post(URL,data=LOGIN_INFO)
+	if login_req.status_code == 202 :
+		print('Successfully login')
+		return True
+	else :
+		print('Login Fail! Non-valid ID or password')
+		return False
+
+
+def signup_sharedrum(url, new_ID, new_pwd):
+# Signup session
+	URL = url
+	s = requests.Session()
+
+	SIGNUP_INFO = {
+		'user_id' : new_ID,
+		'password' : new_pwd
+	}
+	signup_req = s.post(URL,data=SIGNUP_INFO)
+	if signup_req.status_code == 201:
+		print('Succesfully sign up')
+		return True
+	else:
+		print('Signup fail! Maybe you enter duplicate ID')
+		return False
