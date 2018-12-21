@@ -47,10 +47,22 @@ int main(int argc, char *argv[])
         app->run(*pMainWindow);
     }
 
-    if(pMainWindow) delete pMainWindow;
-    if(pDialog_notice)     delete pDialog_notice;
+    std::cout<<" Stop timer thread.."<<std::endl;
+    mtx_lock_timer.lock();
+    timer_running = false;
+    mtx_lock_timer.unlock();
 
-    RM.destroy();
+    std::cout<<" Wait for thread exit.."<<std::endl;
+    if(pThread_timer->joinable()){
+        pThread_timer->join();
+    }
+
+    std::cout<<" Release memory.."<<std::endl;
+    if (pThread_timer)  delete pThread_timer;
+    if(pMainWindow)     delete pMainWindow;
+    if(pDialog_notice)  delete pDialog_notice;
+
+    //RM.destroy();     // Segmentation fault !!
     CM.destroy();
 
     return 0;

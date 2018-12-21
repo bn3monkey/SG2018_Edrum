@@ -1,5 +1,4 @@
 #include "init.hpp"
-#include <stdio.h>
 
 using namespace std;
 
@@ -21,6 +20,9 @@ void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyL
 
         update_songlist(*LL, 0);
     }
+
+    timer_running = true;
+    pThread_timer = new thread(&timer_sharedrum);
 }
 
 void update_songlist(SongList *SL, int page){
@@ -129,4 +131,31 @@ int get_widget_pointer(){
     pStack_main->set_visible_child("page_login");
 
     return 0;
+}
+
+void timer_sharedrum(){
+    std::cout << " *** Timer thread launched." << std::endl;
+    uint64_t ms;
+
+    while(1){
+        ms = 
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count();
+
+        /// Critical ///
+        mtx_lock_timer.lock();
+        if(!timer_running){
+            break;
+        }
+        else{
+        }
+        cur_time = ms;
+        mtx_lock_timer.unlock();
+        ////////////////
+
+        std::this_thread::yield();
+    }
+
+    std::cout << " *** Timer thread terminating.." << std::endl;
 }

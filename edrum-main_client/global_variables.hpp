@@ -2,10 +2,19 @@
 #define __GLOBAL_SHAREDRUM__
 
 #include <gtkmm.h>
+#include <thread>
+#include <mutex>
 #include "../edrum-resource_manager/ResourceManager.hpp"
 #include "../edrum-communicator/CommunicationModule.hpp"
 
 #define SONGLIST_SIZE 5
+#define NOTE_IMG_SIZE 172
+
+/**** Timer Thread ****/
+extern std::thread *pThread_timer;
+extern std::mutex mtx_lock_timer;
+extern uint64_t cur_time;
+extern bool timer_running;
 
 /**** Widget Pointer ****/
 extern Gtk::Dialog *pDialog_notice;

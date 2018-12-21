@@ -1,5 +1,11 @@
 #include "global_variables.hpp"
 
+/**** Timer Thread ****/
+std::thread *pThread_timer = nullptr;
+std::mutex mtx_lock_timer;
+uint64_t cur_time = 0;
+bool timer_running = false;
+
 /**** Widget Pointer ****/
 Gtk::Dialog *pDialog_notice = nullptr;
 Gtk::Label *pLabel_notice = nullptr;

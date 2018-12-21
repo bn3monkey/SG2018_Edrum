@@ -130,7 +130,17 @@ static void on_btn_hit_clicked(int idx){
     {
         dest_x = ((Gtk::Widget*)Image_notes[i])->get_allocation().get_x() - src_x;
         dest_y = ((Gtk::Widget*)Image_notes[i])->get_allocation().get_y() - src_y;
-        dest_y += 50;
+        dest_y -= 50;
+
+        if(dest_y < -NOTE_IMG_SIZE){
+            std::cout << "delete note_" << i << std::endl;
+            Image_notes[i]->hide();
+            delete Image_notes[i];
+            Image_notes.erase(Image_notes.begin() + i);
+            i--;
+            continue;
+        }
+
         std::cout << "move note_" << i << std::endl;
         ((Gtk::Fixed *)pFixed_play)->move(*(Gtk::Widget *)Image_notes[i], dest_x, dest_y);
     }
@@ -161,10 +171,14 @@ static void on_btn_hit_clicked(int idx){
         return;
     }
 
-    dest_x = idx * 172;
+    dest_x = idx * NOTE_IMG_SIZE;
     dest_y = 0;
     //pFixed_play->add(*((Gtk::Widget *)pImg));
     //pImg->translate_coordinates(*(Gtk::Widget *)pFixed_play, 0, 0, dest_x, dest_y);
+
+    dest_x = ((Gtk::Widget *)pImage_hit[idx])->get_allocation().get_x() - src_x;
+    dest_y = ((Gtk::Widget *)pImage_hit[idx])->get_allocation().get_y() - src_y;
+
     ((Gtk::Fixed*)pFixed_play)->put(*(Gtk::Widget*)pImg, dest_x, dest_y);
     pImg->show();
     Image_notes.push_back(pImg);
