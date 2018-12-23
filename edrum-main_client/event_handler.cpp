@@ -256,11 +256,49 @@ static void on_btn_notice_ok_clicked()
 
 static void on_button_clicked_in_signup()
 {
+    std::string id = signup_pEntry_id->get_text();
+    std::string pw = signup_pEntry_pw->get_text();
+
     std::cout << "##################################" << std::endl;
     std::cout << "register the following information" << std::endl;
-    std::cout << "new ID : " << signup_pEntry_id->get_text() << std::endl;
-    std::cout << "new PW : " << signup_pEntry_pw->get_text() << std::endl;
+    std::cout << "new ID : " << id << std::endl;
+    std::cout << "new PW : " << pw << std::endl;
     std::cout << "##################################" << std::endl;
+
+
+    std::string str = "";
+
+    if(!CM.isinitialized()){
+        for(int i=0; i<5; i++){
+            if(CM.initialize())
+            {
+                std::cout << " > Server connected." << std::endl;
+                break;
+            }
+            else{
+                std::cerr << " > Failed to connect server. Retrying..." << i + 1 << std::endl;
+            }
+        }
+        if(!CM.isinitialized()){
+            popup("Failed to connect server.");
+            //return;
+        }
+    }
+    if (CM.signup(id, pw))
+    //if(id != "" && pw != "")
+    { /*LOGIN_SUCCESS*/
+
+        str = "Welcome!\nYour ID : ["+ id+"]\nYour PW : [" + pw + "]" ;
+        pLabel_notice->set_text(str);
+        std::cout << str << std::endl;
+        popup(str);
+    }
+    else
+    {
+        std::cout << "Not valid ID/PW!" << std::endl;
+        popup("Not valid ID/PW!");
+    }
+
     if (pSignUp)
     {
         pSignUp->hide();
@@ -274,13 +312,28 @@ static void on_btn_song_play_clicked()
     if(idx == -1)
         return;
 
-    std::cout << "PLAY : " << pLabel_songlist_title[idx]->get_text() << std::endl;
+    std::string str = "", title = "";
+    title = pLabel_songlist_title[idx]->get_text();
+    str = "PLAY : " + title;
 
-    std::string str = "";
-    str = "PLAY : " + pLabel_songlist_title[idx]->get_text();
+    //playable song!
+    if(title != ""){
+        std::cout << str << std::endl;
 
-    popup(str);
-    pStack_main->set_visible_child("page_play");
+        if(pCurList == pServerList){
+            popup("Downloading data - [" + title + "]");
+            ((ServerList*)pCurList)->download(idx);
+            popup("Download complete! - [" + title + "]", true);
+        }
+
+        popup(str, true);
+
+        pStack_main->set_visible_child("page_play");
+    }
+    //non-playable!
+    else{
+        popup("Not valid song!");
+    }
 }
 
 static void on_btn_login_clicked()
@@ -313,8 +366,8 @@ static void on_btn_login_clicked()
             //return;
         }
     }
-    //if (CM.login(id, pw))
-    if(id != "" && pw != "")
+    if (CM.login(id, pw))
+    //if(id != "" && pw != "")
     { /*LOGIN_SUCCESS*/
         pLabel_notice->set_text(str);
         std::cout << str << std::endl;

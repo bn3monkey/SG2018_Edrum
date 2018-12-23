@@ -2,16 +2,11 @@
 #include <cstring>
 #include <iostream>
 
-bool CommunicationModule::isinitialized(){
-    return initialized;
-}
-
 bool CommunicationModule::initialize(std::string _server_url)
 {
     this->server_url = _server_url;
     //Py_SetProgramName((char *)"CommunicationModule");
-    if(!Py_IsInitialized())
-        Py_Initialize();
+    Py_Initialize();
     
     if(!Py_IsInitialized())
     {
@@ -19,7 +14,13 @@ bool CommunicationModule::initialize(std::string _server_url)
         return false;
     }
     
-    PyRun_SimpleString("import sys\nsys.path.append(\"/../edrum-communicator\")\nprint(sys.path)\n");
+    PyRun_SimpleString(
+        "import sys\n" 
+        "sys.path.append('.')\n"
+        "sys.path.append('../edrum-communicator/')\n"
+        "print(sys.path)\n"
+    );
+    
     pyFile = PyImport_ImportModule("scripts.CommunicationModule");
     if(!pyFile)
     {
@@ -43,8 +44,38 @@ bool CommunicationModule::login(const std::string& id, const std::string& passwo
          std::cerr << "ERROR : Communication Module is not initialized" << std::endl;
          return false;
     }
-    return true;
+    std::string login_url = server_url + "login/";
+
+    PyObject *pyFunc = PyObject_GetAttrString(pyFile, "login_sharedrum");
+    if(!pyFunc){
+        std::cerr << "ERROR : Embedded python function name(login_sharedrum) load fail!" << std::endl;
+        return false;
+    }
+
+    PyObject *py_login = 
+        PyObject_CallFunction(pyFunc,"sss",
+            (char*)(login_url.c_str()),
+            (char*)(id.c_str()),
+            (char*)(password.c_str())
+        );
+
+    if(!py_login){
+        std::cerr << "ERROR : Embedded python function(login_sharedrum) load fail!" << std::endl;
+        Py_XDECREF(pyFunc);
+        return false;
+    }
+
+    bool success = false;
+    if(PyObject_IsTrue(py_login)){
+        success = true;
+    }
+
+    Py_XDECREF(pyFunc);
+    Py_XDECREF(py_login);
+
+    return success;
 }
+
 bool CommunicationModule::signup(const std::string& id, const std::string& password)
 {
     if(!initialized)
@@ -52,8 +83,38 @@ bool CommunicationModule::signup(const std::string& id, const std::string& passw
          std::cerr << "ERROR : Communication Module is not initialized" << std::endl;
          return false;
     }
-    return true;
+    /* need to add */
+    std::string signup_url = server_url + "signup/";
+    
+    PyObject *pyFunc = PyObject_GetAttrString(pyFile, "signup_sharedrum");
+    if(!pyFunc){
+         std::cerr << "ERROR : Embedded python function name(signup_sharedrum) load fail!" << std::endl;
+        return false;
+    }
+
+    PyObject *py_signup = 
+        PyObject_CallFunction(pyFunc,"sss",
+            (char*)(signup_url.c_str()),
+            (char*)(id.c_str()),
+            (char*)(password.c_str())
+        );
+
+    if(!py_signup){
+        std::cerr << "ERROR : Embedded python function(signup_sharedrum) load fail!" << std::endl;
+        Py_XDECREF(pyFunc);
+        return false;
+    }
+
+    bool success = false;
+    if(PyObject_IsTrue(py_signup)){
+        success = true;
+    }
+
+    Py_XDECREF(pyFunc);
+    Py_XDECREF(py_signup);
+    return success;
 }
+
 int CommunicationModule::getAllpage(const int page_size)
 {
      if(!initialized)
@@ -188,8 +249,6 @@ bool CommunicationModule::uploadCancel(SongData& e)
     Py_XDECREF(pyFunc);
     Py_XDECREF(py_upload_cancel);
     return success;
-
-    return true;
 }
 bool CommunicationModule::download(const std::string& path, SongData& e)
 {

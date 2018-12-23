@@ -9,6 +9,6 @@ extern Gtk::Label *pLabel_notice;
 
 extern Glib::RefPtr<Gtk::Builder> refBuilder;
 
-void popup(std::string str);
+void popup(std::string str, bool modal);
 
 #endif

@@ -22,11 +22,7 @@ class SongData
 	
 	//filename defines  "ID_SongName_Artist.sdd"
 	std::string filename;
-	// set filename from object
-	inline void set_filename() 
-	{
-		filename = std::string(ID) + "_" + std::string(name) + "_" + std::string(artist) + ".sdd";
-	};
+	
 
 	// read data file from metadata
 	bool read_header();
@@ -81,6 +77,11 @@ public:
 	{
 		return filename;
 	}
+	// set filename from object
+	inline void set_filename() 
+	{
+		filename = std::string(ID) + "_" + std::string(name) + "_" + std::string(artist) + ".sdd";
+	};
 	
 	// read file from path and filename and make meta data in object
 	// return false if there is no file.

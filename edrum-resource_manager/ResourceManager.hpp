@@ -7,12 +7,16 @@
 
 class ResourceManager
 {
+    CommunicationModule* pCM;
     ServerList* list_server;
     LocalList* list_local;
     MyList* list_my;
+
+
 public:
     ResourceManager()
     {
+        pCM = nullptr;
         list_server = nullptr;
         list_local = nullptr;
         list_my = nullptr;
@@ -27,6 +31,7 @@ public:
     inline ServerList* getServerlist() {return list_server;}
     inline LocalList* getLocallist() {return list_local;}
     inline MyList* getMylist() {return list_my;}
+    inline CommunicationModule* getCM() {return pCM;}
 };
 
 #endif
