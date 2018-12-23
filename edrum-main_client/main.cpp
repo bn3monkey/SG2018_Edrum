@@ -66,8 +66,5 @@ int main(int argc, char *argv[])
         delete Notes_meta[i];
     }
 
-    //RM.destroy();     // Segmentation fault !!
-    CM->destroy();
-
     return 0;
 }

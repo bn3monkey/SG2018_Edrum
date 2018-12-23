@@ -13,7 +13,7 @@ bool timer_running = false;
 
 /**** Custum Signal - Timer ****/
 type_signal_update_note m_signal_update_note;
-type_signal_update_note signal_update_note(){ return m_signal_update_note; }
+//type_signal_update_note signal_update_note(){ return m_signal_update_note; }
 
 /**** Widget Pointer ****/
 Gtk::Dialog *pDialog_notice = nullptr;
@@ -39,8 +39,11 @@ Gtk::Stack *pStack_main = nullptr;
 Gtk::Container *pFixed_play = nullptr;
 std::vector<GAMENOTE*> Notes_meta;//Image_notes;
 std::vector<Gtk::Image*> Notes_img;//Image_notes;
+std::vector<int> Notes_visible;
 Gtk::Image *pImage_hit[4] = {nullptr};
 Gtk::Button *pButton_hit[4] = {nullptr};
+int NOTE_GAP = 0;
+int NOTE_CNT = 0;
 
 /**** SongList & Manager ****/
 ResourceManager RM;

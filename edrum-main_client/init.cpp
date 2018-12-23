@@ -24,21 +24,27 @@ void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyL
         update_songlist(*LL, 0);
     }
 
-    timer_running = true;
-    pThread_timer = new thread(&timer_sharedrum);
+    pThread_timer = nullptr;
+    // timer_running = true;
+    // pThread_timer = new thread(&timer_sharedrum);
+    
+    // Notes_img.reserve(NOTE_MAX_CNT);
 
-    Notes_meta.reserve(50);
-    Notes_img.reserve(50);
+    // int height=0;
+    // height = ((Gtk::Widget *)pImage_hit[0])->get_allocation().get_y() + NOTE_IMG_SIZE;
+    // NOTE_GAP = (height / NOTE_MAX_CNT);
+    // if(height % NOTE_MAX_CNT > 0)
+    //     NOTE_GAP++;
+    // NOTE_CNT = height / NOTE_GAP;
 
-    for(int i=0; i<50; i++){
-        Notes_img[i] = new Gtk::Image("resources/circle_resized/circle_blue.png");
-        ((Gtk::Fixed*)pFixed_play)->put(*(Gtk::Widget*)Notes_img[i], -NOTE_IMG_SIZE * 2, -NOTE_IMG_SIZE * 2);
-        Notes_img[i]->hide();
-
-        Notes_meta[i] = new GAMENOTE();
-        Notes_meta[i]->gen_time = 0;
-        Notes_meta[i]->note_idx = 0;
-    }
+    // for(int i=0; i<NOTE_CNT; i++){
+    //     Notes_img[i] = new Gtk::Image("resources/circle_resized/circle_blue.png");
+    //     ((Gtk::Fixed*)pFixed_play)->put(*(Gtk::Widget*)Notes_img[i], 0, -NOTE_IMG_SIZE + i * NOTE_GAP);
+    //     Notes_img[i]->set_visible(false);
+    // }
+    // std::cout<<" > height : "<<height<<std::endl;
+    // std::cout<<" > NOTE_GAP : "<<NOTE_GAP<<std::endl;
+    // std::cout<<" > NOTE_CNT : "<<NOTE_CNT<<std::endl;
 }
 
 void update_songlist(SongList *SL, int page){
@@ -60,6 +66,11 @@ void update_songlist(SongList *SL, int page){
     for (int i = 0; i < SONGLIST_SIZE; i++)
     {
         pSD = SL->getSong(i);
+
+        if(pSD==nullptr)
+        {
+            std::cerr << " *** Fail to get song!" << std::endl;
+        }
 
         if (pSD->name[0] == 0)
         {
@@ -175,7 +186,7 @@ void timer_sharedrum(){
         if(!timer_running){
             break;
         }
-        else if(cnt>= 10){
+        else if(cnt>= 50){
             mtx_lock_update_note.lock();
             mtx_lock_update_note.unlock();
             m_signal_update_note.emit();
@@ -185,7 +196,7 @@ void timer_sharedrum(){
         }
 
         //std::this_thread::sleep_for(50ms);
-        //std::this_thread::yield();
+        std::this_thread::yield();
     }
 
     std::cout << " *** Timer thread terminating.." << std::endl;
