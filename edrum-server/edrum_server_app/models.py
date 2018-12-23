@@ -24,6 +24,7 @@ class UserManager(BaseUserManager):
     def create_user(self,user_id,password=None):
         user=self.model(user_id=user_id)
         user.set_password(password)
+	user.is_active = True
         user.save(using=self._db)
         return user
 

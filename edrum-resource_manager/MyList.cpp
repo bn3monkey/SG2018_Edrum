@@ -2,6 +2,11 @@
 
 bool MyList::initialize(const std::string& path)
 {
+	if(!pCM->isinitialized())
+	{
+		std::cerr << "ERROR : ServerList -> Communication Module not initialized!" << std::endl;
+		return false;
+	}
 	return LocalList::initialize(path);
 }
 
@@ -38,9 +43,29 @@ bool MyList::insert(int local_id, std::string name, std::string artist, std::str
 }
 bool MyList::upload(int song_num)
 {
+	if (song_num >= song_len || song_num < 0)
+	{
+		std::cerr << "ERROR : MyList upload (index error : " << song_num << ", " << page_size << ")" << std::endl;
+		return false;
+	}
+	if(!pCM->upload(path, songs[song_num]))
+	{
+		std::cerr << "ERROR : MyList upload error!" << std::endl;
+		return false;
+	}
 	return true;
 }
-bool MyList::upload_cancel(int song_num)
+bool MyList::uploadCancel(int song_num)
 {
+	if (song_num >= song_len || song_num < 0)
+	{
+		std::cerr << "ERROR : MyList upload cancel (index error : " << song_num << ", " << page_size << ")" << std::endl;
+		return false;
+	}
+	if(!pCM->uploadCancel(songs[song_num]))
+	{
+		std::cerr << "ERROR : MyList upload cancel error!" << std::endl;
+		return false;
+	}
 	return true;
 }

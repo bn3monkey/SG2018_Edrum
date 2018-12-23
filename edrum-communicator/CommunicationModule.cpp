@@ -14,8 +14,13 @@ bool CommunicationModule::initialize(std::string _server_url)
         return false;
     }
     
-    char* test = (char *)"";
-    PySys_SetArgv(1, &test);
+    PyRun_SimpleString(
+        "import sys\n" 
+        "sys.path.append('.')\n"
+        "sys.path.append('../edrum-communicator/')\n"
+        "print(sys.path)\n"
+    );
+    
     pyFile = PyImport_ImportModule("scripts.CommunicationModule");
     if(!pyFile)
     {
@@ -107,7 +112,7 @@ bool CommunicationModule::signup(const std::string& id, const std::string& passw
 
     Py_XDECREF(pyFunc);
     Py_XDECREF(py_signup);
-    return true;
+    return success;
 }
 
 int CommunicationModule::getAllpage(const int page_size)

@@ -156,12 +156,12 @@ def login_sharedrum(url, user_ID, user_pwd):
 	}
 
 	login_req = s.post(URL,data=LOGIN_INFO)
-	if login_req.status_code == 200 :
+	if login_req.status_code == 202 :
 		print('Successfully login')
-		return true
-	else
+		return True
+	else :
 		print('Login Fail! Non-valid ID or password')
-		return false
+		return False
 
 
 def signup_sharedrum(url, new_ID, new_pwd):
@@ -173,10 +173,10 @@ def signup_sharedrum(url, new_ID, new_pwd):
 		'user_id' : new_ID,
 		'password' : new_pwd
 	}
-	signup_req = s.post(URL,data=LOGIN_INFO)
-	if signup_req.status_code == 200:
+	signup_req = s.post(URL,data=SIGNUP_INFO)
+	if signup_req.status_code == 201:
 		print('Succesfully sign up')
-		return true
-	else
+		return True
+	else:
 		print('Signup fail! Maybe you enter duplicate ID')
-		return false
+		return False
