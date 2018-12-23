@@ -176,14 +176,15 @@ static void update_note(){
             int height = 0;
             //height = ((Gtk::Widget *)pImage_hit[0])->get_allocation().get_y() + NOTE_IMG_SIZE;
             height = src_y + NOTE_IMG_SIZE;
-	    NOTE_GAP = (height / NOTE_MAX_CNT);
+	        NOTE_GAP = (height / NOTE_MAX_CNT);
             if (height % NOTE_MAX_CNT > 0)
                 NOTE_GAP++;
             NOTE_CNT = height / NOTE_GAP;
 
+            Note_img.set_from_resource("resources/circle_resized/circle_blue.png");
             for (int i = 0; i <= NOTE_CNT; i++)
             {
-                Notes_img[i] = new Gtk::Image("resources/circle_resized/circle_blue.png");
+                Notes_img[i] = &Note_img;
                 ((Gtk::Fixed *)pFixed_play)->put(*(Gtk::Widget *)Notes_img[i], 0, -NOTE_IMG_SIZE + i * NOTE_GAP);
                 Notes_img[i]->set_visible(false);
             }
@@ -210,7 +211,7 @@ static void update_note(){
                 if (dest_y < -NOTE_IMG_SIZE)
                 {
                     std::cout << "delete note_" << i << std::endl;
-                    delete Notes_meta[i];
+                    //delete Notes_meta[i];
                     Notes_meta.erase(Notes_meta.begin() + i);
                     i--;
                     continue;

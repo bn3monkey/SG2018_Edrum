@@ -38,7 +38,11 @@ Gtk::Stack *pStack_main = nullptr;
 /**** Play UI ****/
 Gtk::Container *pFixed_play = nullptr;
 std::vector<GAMENOTE*> Notes_meta;//Image_notes;
-std::vector<Gtk::Image*> Notes_img;//Image_notes;
+
+std::vector<Gtk::Image*> Notes_img;
+// new
+Gtk::Image Note_img;//Image_notes;
+
 std::vector<int> Notes_visible;
 Gtk::Image *pImage_hit[4] = {nullptr};
 Gtk::Button *pButton_hit[4] = {nullptr};
