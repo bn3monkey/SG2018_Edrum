@@ -59,6 +59,7 @@ struct GAMENOTE{
 extern Gtk::Container *pFixed_play;
 extern std::vector<GAMENOTE*> Notes_meta;//Image_notes;
 extern std::vector<Gtk::Image*> Notes_img;//Image_notes;
+extern Gtk::Image Note_img;
 extern std::vector<int> Notes_visible;
 extern Gtk::Image *pImage_hit[4];
 extern Gtk::Button *pButton_hit[4];
