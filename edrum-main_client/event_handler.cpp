@@ -166,11 +166,11 @@ static void update_note(){
         delta_time = 0;
 
         if(NOTE_GAP == 0){
-	    if(src_y <= 0)
-	    {
-		 while(Gtk::Main::events_pending()) Gtk::Main::iteration(false);
-    		 mtx_lock_update_note.unlock();
-		 return;
+	        if(src_y <= 0)
+	        {
+		        while(Gtk::Main::events_pending()) Gtk::Main::iteration(false);
+    		    mtx_lock_update_note.unlock();
+		        return;
             }		
             Notes_img.reserve(NOTE_MAX_CNT);
 
@@ -182,10 +182,9 @@ static void update_note(){
                 NOTE_GAP++;
             NOTE_CNT = height / NOTE_GAP;
 
-            Note_img = new Gtk::Image("resources/circle_resized/circle_blue.png");
             for (int i = 0; i <= NOTE_CNT; i++)
             {
-                Notes_img[i] = Note_img;
+                Notes_img[i] = new Gtk::Image("resources/circle_resized/circle_blue.png");
                 ((Gtk::Fixed *)pFixed_play)->put(*(Gtk::Widget *)Notes_img[i], 0, -NOTE_IMG_SIZE + i * NOTE_GAP);
                 Notes_img[i]->set_visible(false);
             }
@@ -195,8 +194,8 @@ static void update_note(){
         }
         while(!Notes_visible.empty()){
             //std::cout<<"clean update!"<<std::endl;
-            Notes_img[Notes_visible[0]]->set_visible(false);
-            Notes_visible.erase(Notes_visible.begin());
+            Notes_img[Notes_visible.front()]->set_visible(false);
+            Notes_visible.pop_front();
         }
 
         //std::cout<<"start update!"<<std::endl;
@@ -222,6 +221,8 @@ static void update_note(){
                 //mtx_lock_fixed_play.lock();
 
             //std::cout<<"start update! - idx = "<<batch_idx<<std::endl;
+            if(batch_idx < NOTE_CNT && !Notes_img[batch_idx]->get_visible())
+            {
                 Notes_img[batch_idx]->set_visible(true);
             //std::cout<<"push back!"<<std::endl;
                 Notes_visible.push_back(batch_idx);
