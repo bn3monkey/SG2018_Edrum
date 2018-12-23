@@ -305,6 +305,31 @@ static void on_button_clicked_in_signup()
     }
 }
 
+// upload. 20181223
+
+static void on_btn_song_upload_clicked()
+{
+	int idx = get_song_selected_index();
+
+	if(idx == -1) return;
+
+	std::string str = "", title = "";
+	title = pLabel_song_title[idx]->get_text();
+	str = "UPLOAD : " + title;
+
+	if(title != ""){
+		if(pCurList == pMyList){
+			popup("Uploading data - [" + title + "]");
+			((MyList*)pCurList)->upload(idx);
+			popup("Upload Complete! - [" + title + "]",true);
+		}
+		popup(str,true);
+	}
+	else{
+		popup("Invalid song to upload.");
+	}
+}
+
 static void on_btn_song_play_clicked()
 {
     int idx = get_song_selected_index();
