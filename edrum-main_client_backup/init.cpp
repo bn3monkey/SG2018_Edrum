@@ -1,13 +1,9 @@
 #include "init.hpp"
-#include "event_handler.hpp"
+#include <stdio.h>
 
 using namespace std;
 
 void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyList **ML){
-    if(!CM.initialize())
-    {
-        std::cerr << " *** ServerConnection FAILED!!" << std::endl;
-    }
     get_widget_pointer();
 
     if(pRM){
@@ -21,9 +17,6 @@ void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyL
 
         update_songlist(*LL, 0);
     }
-
-    timer_running = true;
-    pThread_timer = new thread(&timer_sharedrum);
 }
 
 void update_songlist(SongList *SL, int page){
@@ -76,22 +69,6 @@ int get_widget_pointer(){
     refBuilder->get_widget("label_notice", pLabel_notice);
     refBuilder->get_widget("label_songlist_pagenum", pLabel_songlist_pagenum);
     refBuilder->get_widget("label_songlist_type", pLabel_songlist_type);
-    refBuilder->get_widget("fixed_play", pFixed_play);
-
-    // Get play hit image
-    refBuilder->get_widget("img_hit0", pImage_hit[0]);
-    refBuilder->get_widget("img_hit1", pImage_hit[1]);
-    refBuilder->get_widget("img_hit2", pImage_hit[2]);
-    refBuilder->get_widget("img_hit3", pImage_hit[3]);
-
-    /* Get Play hit button - remove this block after hardware input */
-    {
-        refBuilder->get_widget("btn_hit0", pButton_hit[0]);
-        refBuilder->get_widget("btn_hit1", pButton_hit[1]);
-        refBuilder->get_widget("btn_hit2", pButton_hit[2]);
-        refBuilder->get_widget("btn_hit3", pButton_hit[3]);
-    }
-    /*************************************************/
 
     char widget_name[15] = "listitem_song0";
     char label_title[27] = "label_listitem_song_title0";
@@ -132,38 +109,4 @@ int get_widget_pointer(){
     pStack_main->set_visible_child("page_login");
 
     return 0;
-}
-
-void timer_sharedrum(){
-    std::cout << " *** Timer thread launched." << std::endl;
-    uint64_t ms;
-
-    while(1){
-        ms = 
-        std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()
-        ).count();
-
-        /// Critical ///
-        mtx_lock_timer.lock();
-        cur_time = ms;
-        mtx_lock_timer.unlock();
-        ////////////////
-
-        if(!timer_running){
-            break;
-        }
-        else{
-            mtx_lock_update_note.lock();
-            mtx_lock_update_note.unlock();
-            m_signal_update_note.emit();
-            //signal_draw();
-            //update_note();
-        }
-
-        //std::this_thread::sleep_for(50ms);
-        //std::this_thread::yield();
-    }
-
-    std::cout << " *** Timer thread terminating.." << std::endl;
 }
