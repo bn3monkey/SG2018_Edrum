@@ -22,11 +22,19 @@ OBJS = main.o init.o event_handler.o popup.o global_variables.o
 
 LIB_RM_PATH = ../edrum-resource_manager
 LIB_CM_PATH = ../edrum-communicator
+LIB_HW_PATH = ../edrum-hardware/Hardware_IO
+
 
 all: $(OBJS)
 	@echo " > Try Build.."
 	@$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) `pkg-config gtkmm-3.0 --cflags --libs` -Wl,-rpath,$(LIB_RM_PATH) -L$(LIB_RM_PATH) -lResourceManager -Wl,-rpath,$(LIB_CM_PATH) -L$(LIB_CM_PATH) -lCommunicationModule -lpython2.7
 	@echo " Done."
+
+hw: $(OBJS)
+	@echo " > Try Build.."
+	@$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) `pkg-config gtkmm-3.0 --cflags --libs` -Wl,-rpath,$(LIB_RM_PATH) -L$(LIB_RM_PATH) -lResourceManager -Wl,-rpath,$(LIB_CM_PATH) -L$(LIB_CM_PATH) -lCommunicationModule -lpython2.7 -Wl,-rpath,$(LIB_HW_PATH) -L$(LIB_HW+PATH) -lHardWare_IO -lwiringPi
+	@echo " Done."
+
 
 # $(OBJS): $(CFILE) $(HEADER)
 # 	@echo " > Try Compile.."
