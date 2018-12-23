@@ -37,7 +37,8 @@ Gtk::Stack *pStack_main = nullptr;
 
 /**** Play UI ****/
 Gtk::Container *pFixed_play = nullptr;
-std::vector<GAMENOTE*> Image_notes;
+std::vector<GAMENOTE*> Notes_meta;//Image_notes;
+std::vector<Gtk::Image*> Notes_img;//Image_notes;
 Gtk::Image *pImage_hit[4] = {nullptr};
 Gtk::Button *pButton_hit[4] = {nullptr};
 
@@ -50,7 +51,7 @@ SongList *pCurList = nullptr;
 int CurPage = 0;
 
 /**** Network Manager ****/
-CommunicationModule CM;
+CommunicationModule *CM;
 
 /**** ETC ****/
 Glib::RefPtr<Gtk::Builder> refBuilder;

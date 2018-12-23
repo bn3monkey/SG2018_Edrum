@@ -152,34 +152,45 @@ static void update_note(){
     src_y = ((Gtk::Widget *)pImage_hit[0])->get_allocation().get_y();
     //mtx_lock_fixed_play.unlock();
 
-    if(delta_time > 15){
+    Gtk::Image *pImg = nullptr;
+    GAMENOTE *pGAMENOTE = nullptr;
+
+    if(delta_time > 5){
         delta_y = delta_time;
         delta_time = 0;
-        //mtx_lock_image_notes.lock();
-        for (unsigned int i = 0; i < Image_notes.size(); i++)
+        //mtx_lock_Notes_meta.lock();
+        for (unsigned int i = 0; i < Notes_meta.size(); i++)
         {
-            //dest_x = ((Gtk::Widget *)(Image_notes[i]->pImg))->get_allocation().get_x() - src_x;
-            dest_x = Image_notes[i]->note_idx * NOTE_IMG_SIZE;
-            //dest_y = ((Gtk::Widget *)(Image_notes[i]->pImg))->get_allocation().get_y() - src_y;
+            //dest_x = ((Gtk::Widget *)(Notes_meta[i]->pImg))->get_allocation().get_x() - src_x;
+            dest_x = Notes_meta[i]->note_idx * NOTE_IMG_SIZE;
+            //dest_y = ((Gtk::Widget *)(Notes_meta[i]->pImg))->get_allocation().get_y() - src_y;
             //dest_y -= delta_y;
-            dest_y = src_y - (int)(now_time - Image_notes[i]->gen_time);
+            dest_y = src_y - (int)(now_time - Notes_meta[i]->gen_time);
 
-            if (dest_y < -NOTE_IMG_SIZE)
+            if (Notes_img[i]->is_visible())
             {
-                std::cout << "delete note_" << i << std::endl;
-                Image_notes[i]->pImg->hide();
-                delete Image_notes[i]->pImg;
-                delete Image_notes[i];
-                Image_notes.erase(Image_notes.begin() + i);
-                i--;
-                continue;
-            }
+                // dead notes
+                if (dest_y < -NOTE_IMG_SIZE)
+                {
+                    std::cout << "delete note_" << i << std::endl;
+                    Notes_img[i]->hide();
+                    pImg = Notes_img[i];
+                    pGAMENOTE = Notes_meta[i];
+                    Notes_meta.erase(Notes_meta.begin() + i);
+                    Notes_img.erase(Notes_img.begin() + i);
+                    Notes_img.push_back(pImg);
+                    Notes_meta.push_back(pGAMENOTE);
+                    i--;
+                    continue;
+                }
 
-            //mtx_lock_fixed_play.lock();
-            ((Gtk::Fixed *)pFixed_play)->move(*(Gtk::Widget *)(Image_notes[i]->pImg), dest_x, dest_y);
-            //mtx_lock_fixed_play.unlock();
+                //mtx_lock_fixed_play.lock();
+                Notes_img[i]->show();
+                ((Gtk::Fixed *)pFixed_play)->move(*(Gtk::Widget *)(Notes_img[i]), dest_x, dest_y);
+                //mtx_lock_fixed_play.unlock();
+            }
         }
-        //mtx_lock_image_notes.unlock();
+        //mtx_lock_Notes_meta.unlock();
     }
     //mtx_lock_update_note.unlock();
 }
@@ -187,6 +198,7 @@ static void update_note(){
 static void on_btn_hit_clicked(int idx){
     int dest_x = 0, dest_y = 0;
     int src_x = 0, src_y = 0;
+    int notes_vector_idx = 0;
 
     std::cout << "btn_hit" << idx << " clicked." << std::endl;
 
@@ -196,7 +208,7 @@ static void on_btn_hit_clicked(int idx){
     //mtx_lock_fixed_play.unlock();
 
     Gtk::Image *pImg = nullptr;
-    switch (idx)
+    /*switch (idx)
     {
     case 0:
         pImg = new Gtk::Image("resources/circle_resized/circle_green.png");
@@ -213,34 +225,33 @@ static void on_btn_hit_clicked(int idx){
     default:
         return;
         break;
-    }
-
-    if (!pImg)
-    {
-        std::cerr << " *** Failed to generate new note!" << std::endl;
-        return;
-    }
+    }*/
+    //pImg = new Gtk::Image("resources/circle_resized/circle_blue.png");
 
     dest_x = ((Gtk::Widget *)pImage_hit[idx])->get_allocation().get_x() - src_x;
     dest_y = ((Gtk::Widget *)pImage_hit[idx])->get_allocation().get_y() - src_y;
     std::cout << " # NEW Widget : " << dest_x << ", " << dest_y << std::endl;
 
+    for(int i=0; i<50; i++){
+        if(!(Notes_img[i]->is_visible())){
+            notes_vector_idx = i;
+            pImg = Notes_img[i];
+        }
+    }
+
     //mtx_lock_fixed_play.lock();
-    ((Gtk::Fixed*)pFixed_play)->put(*(Gtk::Widget*)pImg, dest_x, dest_y);
     ((Gtk::Fixed*)pFixed_play)->move(*(Gtk::Widget*)pImg, dest_x, dest_y);
     //mtx_lock_fixed_play.unlock();
     pImg->show();
     
-    GAMENOTE *pGN = new GAMENOTE;
-    pGN->pImg = pImg;
     mtx_lock_timer.lock();
-    pGN->gen_time = cur_time;
+    Notes_meta[notes_vector_idx]->gen_time = cur_time;
     mtx_lock_timer.unlock();
-    pGN->note_idx = idx;
+    Notes_meta[notes_vector_idx]->note_idx = idx;
     
-    //mtx_lock_image_notes.lock();
-    Image_notes.push_back(pGN);
-    //mtx_lock_image_notes.unlock();
+    //mtx_lock_Notes_meta.lock();
+    //Notes_meta[notes_vector_idx]->gen_time = cur_time;
+    //mtx_lock_Notes_meta.unlock();
 
     while(Gtk::Main::events_pending()) Gtk::Main::iteration();
 }
@@ -268,9 +279,9 @@ static void on_button_clicked_in_signup()
 
     std::string str = "";
 
-    if(!CM.isinitialized()){
+    if(!CM->isinitialized()){
         for(int i=0; i<5; i++){
-            if(CM.initialize())
+            if(CM->initialize())
             {
                 std::cout << " > Server connected." << std::endl;
                 break;
@@ -279,12 +290,12 @@ static void on_button_clicked_in_signup()
                 std::cerr << " > Failed to connect server. Retrying..." << i + 1 << std::endl;
             }
         }
-        if(!CM.isinitialized()){
+        if(!CM->isinitialized()){
             popup("Failed to connect server.");
             //return;
         }
     }
-    if (CM.signup(id, pw))
+    if (CM->signup(id, pw))
     //if(id != "" && pw != "")
     { /*LOGIN_SUCCESS*/
 
@@ -350,9 +361,9 @@ static void on_btn_login_clicked()
     std::string str = "";
     str = "Welcome, " + id + "!";
 
-    if(!CM.isinitialized()){
+    if(!CM->isinitialized()){
         for(int i=0; i<5; i++){
-            if(CM.initialize())
+            if(CM->initialize())
             {
                 std::cout << " > Server connected." << std::endl;
                 break;
@@ -361,12 +372,12 @@ static void on_btn_login_clicked()
                 std::cerr << " > Failed to connect server. Retrying..." << i + 1 << std::endl;
             }
         }
-        if(!CM.isinitialized()){
-            popup("Failed to connect server.");
+        if(!CM->isinitialized()){
+            popup("Failed to connect server.", false);
             //return;
         }
     }
-    if (CM.login(id, pw))
+    if (CM->login(id, pw))
     //if(id != "" && pw != "")
     { /*LOGIN_SUCCESS*/
         pLabel_notice->set_text(str);
@@ -377,7 +388,7 @@ static void on_btn_login_clicked()
     {
         //SOMETHING
         std::cout << "Wrong Account!" << std::endl;
-        popup("Wrong Account!");
+        popup("Wrong Account!", false);
     }
 }
 

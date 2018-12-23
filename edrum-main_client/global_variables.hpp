@@ -49,12 +49,13 @@ extern Gtk::Stack *pStack_main;
 
 /**** Play UI ****/
 struct GAMENOTE{
-    Gtk::Image *pImg;
+    //Gtk::Image *pImg;
     uint64_t gen_time;
     int note_idx;
 };
 extern Gtk::Container *pFixed_play;
-extern std::vector<GAMENOTE*> Image_notes;
+extern std::vector<GAMENOTE*> Notes_meta;//Image_notes;
+extern std::vector<Gtk::Image*> Notes_img;//Image_notes;
 extern Gtk::Image *pImage_hit[4];
 extern Gtk::Button *pButton_hit[4];
 
@@ -67,7 +68,7 @@ extern SongList *pCurList;
 extern int CurPage;
 
 /**** Network Manager ****/
-extern CommunicationModule CM;
+extern CommunicationModule *CM;
 
 /**** ETC ****/
 extern Glib::RefPtr<Gtk::Builder> refBuilder;

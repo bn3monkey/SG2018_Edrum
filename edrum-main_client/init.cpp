@@ -4,10 +4,6 @@
 using namespace std;
 
 void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyList **ML){
-    if(!CM.initialize())
-    {
-        std::cerr << " *** ServerConnection FAILED!!" << std::endl;
-    }
     get_widget_pointer();
 
     if(pRM){
@@ -15,6 +11,12 @@ void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyL
             std::cerr << " *** ResourceManager INIT FAILED!!" << std::endl;
             exit(0);
         }
+        CM = pRM->getCM();
+        if (!CM->isinitialized())
+        {
+            std::cerr << " *** ServerConnection FAILED!!" << std::endl;
+        }
+
         *LL = pRM->getLocallist();
         *SL = pRM->getServerlist();
         *ML = pRM->getMylist();
@@ -24,6 +26,19 @@ void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyL
 
     timer_running = true;
     pThread_timer = new thread(&timer_sharedrum);
+
+    Notes_meta.reserve(50);
+    Notes_img.reserve(50);
+
+    for(int i=0; i<50; i++){
+        Notes_img[i] = new Gtk::Image("resources/circle_resized/circle_blue.png");
+        ((Gtk::Fixed*)pFixed_play)->put(*(Gtk::Widget*)Notes_img[i], -NOTE_IMG_SIZE * 2, -NOTE_IMG_SIZE * 2);
+        Notes_img[i]->hide();
+
+        Notes_meta[i] = new GAMENOTE();
+        Notes_meta[i]->gen_time = 0;
+        Notes_meta[i]->note_idx = 0;
+    }
 }
 
 void update_songlist(SongList *SL, int page){
@@ -141,12 +156,15 @@ int get_widget_pointer(){
 void timer_sharedrum(){
     std::cout << " *** Timer thread launched." << std::endl;
     uint64_t ms;
+    int cnt=0;
 
     while(1){
         ms = 
         std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()
         ).count();
+
+        cnt++;
 
         /// Critical ///
         mtx_lock_timer.lock();
@@ -157,10 +175,11 @@ void timer_sharedrum(){
         if(!timer_running){
             break;
         }
-        else{
+        else if(cnt>= 10){
             mtx_lock_update_note.lock();
             mtx_lock_update_note.unlock();
             m_signal_update_note.emit();
+            cnt = 0;
             //signal_draw();
             //update_note();
         }
