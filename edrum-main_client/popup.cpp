@@ -1,6 +1,6 @@
 #include "popup.hpp"
 
-void popup(std::string str, bool modal = false)
+void popup(std::string str, bool modal)
 {
     pLabel_notice->set_text(str);
 

@@ -4,10 +4,6 @@
 using namespace std;
 
 void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyList **ML){
-    if(!CM.initialize())
-    {
-        std::cerr << " *** ServerConnection FAILED!!" << std::endl;
-    }
     get_widget_pointer();
 
     if(pRM){
@@ -15,6 +11,12 @@ void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyL
             std::cerr << " *** ResourceManager INIT FAILED!!" << std::endl;
             exit(0);
         }
+        CM = pRM->getCM();
+        if (!CM->isinitialized())
+        {
+            std::cerr << " *** ServerConnection FAILED!!" << std::endl;
+        }
+
         *LL = pRM->getLocallist();
         *SL = pRM->getServerlist();
         *ML = pRM->getMylist();
@@ -22,8 +24,27 @@ void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyL
         update_songlist(*LL, 0);
     }
 
-    timer_running = true;
-    pThread_timer = new thread(&timer_sharedrum);
+    pThread_timer = nullptr;
+    // timer_running = true;
+    // pThread_timer = new thread(&timer_sharedrum);
+    
+    // Notes_img.reserve(NOTE_MAX_CNT);
+
+    // int height=0;
+    // height = ((Gtk::Widget *)pImage_hit[0])->get_allocation().get_y() + NOTE_IMG_SIZE;
+    // NOTE_GAP = (height / NOTE_MAX_CNT);
+    // if(height % NOTE_MAX_CNT > 0)
+    //     NOTE_GAP++;
+    // NOTE_CNT = height / NOTE_GAP;
+
+    // for(int i=0; i<NOTE_CNT; i++){
+    //     Notes_img[i] = new Gtk::Image("resources/circle_resized/circle_blue.png");
+    //     ((Gtk::Fixed*)pFixed_play)->put(*(Gtk::Widget*)Notes_img[i], 0, -NOTE_IMG_SIZE + i * NOTE_GAP);
+    //     Notes_img[i]->set_visible(false);
+    // }
+    // std::cout<<" > height : "<<height<<std::endl;
+    // std::cout<<" > NOTE_GAP : "<<NOTE_GAP<<std::endl;
+    // std::cout<<" > NOTE_CNT : "<<NOTE_CNT<<std::endl;
 }
 
 void update_songlist(SongList *SL, int page){
@@ -45,6 +66,11 @@ void update_songlist(SongList *SL, int page){
     for (int i = 0; i < SONGLIST_SIZE; i++)
     {
         pSD = SL->getSong(i);
+
+        if(pSD==nullptr)
+        {
+            std::cerr << " *** Fail to get song!" << std::endl;
+        }
 
         if (pSD->name[0] == 0)
         {
@@ -141,12 +167,15 @@ int get_widget_pointer(){
 void timer_sharedrum(){
     std::cout << " *** Timer thread launched." << std::endl;
     uint64_t ms;
+    int cnt=0;
 
     while(1){
         ms = 
         std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()
         ).count();
+
+        cnt++;
 
         /// Critical ///
         mtx_lock_timer.lock();
@@ -157,16 +186,17 @@ void timer_sharedrum(){
         if(!timer_running){
             break;
         }
-        else{
+        else if(cnt>= 50){
             mtx_lock_update_note.lock();
             mtx_lock_update_note.unlock();
             m_signal_update_note.emit();
+            cnt = 0;
             //signal_draw();
             //update_note();
         }
 
         //std::this_thread::sleep_for(50ms);
-        //std::this_thread::yield();
+        std::this_thread::yield();
     }
 
     std::cout << " *** Timer thread terminating.." << std::endl;
