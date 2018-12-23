@@ -28,13 +28,8 @@ public:
 
     bool initialize(const std::string& local_path = "./local/", const std::string& my_path = "./mylist/");
     void destroy();
-<<<<<<< HEAD
     inline ServerList* getServerlist() {return list_server;}
     inline LocalList* getLocallist() {return list_local;}
-=======
-    inline LocalList* getLocallist() {return list_local;}
-    inline ServerList* getServerlist() {return list_server;}
->>>>>>> 3b4bda4a21b670190fd4dc07ecd6e056e662f734
     inline MyList* getMylist() {return list_my;}
     inline CommunicationModule* getCM() {return pCM;}
 };

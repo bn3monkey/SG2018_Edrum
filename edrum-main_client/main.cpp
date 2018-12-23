@@ -60,9 +60,10 @@ int main(int argc, char *argv[])
     if (pThread_timer)  delete pThread_timer;
     if(pMainWindow)     delete pMainWindow;
     if(pDialog_notice)  delete pDialog_notice;
-
-    //RM.destroy();     // Segmentation fault !!
-    CM.destroy();
+    for(int i=0; i<Notes_img.size(); i++){
+        delete Notes_img[i];
+        delete Notes_meta[i];
+    }
 
     return 0;
 }

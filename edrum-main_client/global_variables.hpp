@@ -9,6 +9,7 @@
 
 #define SONGLIST_SIZE 5
 #define NOTE_IMG_SIZE 172
+#define NOTE_MAX_CNT 100
 
 /**** Mutex ****/
 extern std::mutex mtx_lock_timer;
@@ -23,8 +24,9 @@ extern bool timer_running;
 
 /**** Custum Signal - Timer ****/
 typedef sigc::signal<void> type_signal_update_note;
+//typedef Glib::Dispatcher type_signal_update_note;
 extern type_signal_update_note m_signal_update_note;
-type_signal_update_note signal_update_note();
+//type_signal_update_note signal_update_note();
 
 /**** Widget Pointer ****/
 extern Gtk::Dialog *pDialog_notice;
@@ -54,14 +56,18 @@ extern Gtk::Stack *pStack_main;
 
 /**** Play UI ****/
 struct GAMENOTE{
-    Gtk::Image *pImg;
+    bool active;
     uint64_t gen_time;
     int note_idx;
 };
 extern Gtk::Container *pFixed_play;
-extern std::vector<GAMENOTE*> Image_notes;
+extern std::vector<GAMENOTE*> Notes_meta;//Image_notes;
+extern std::vector<Gtk::Image*> Notes_img;//Image_notes;
+extern std::vector<int> Notes_visible;
 extern Gtk::Image *pImage_hit[4];
 extern Gtk::Button *pButton_hit[4];
+extern int NOTE_GAP;
+extern int NOTE_CNT;
 
 /**** SongList & Manager ****/
 extern ResourceManager RM;
@@ -72,7 +78,7 @@ extern SongList *pCurList;
 extern int CurPage;
 
 /**** Network Manager ****/
-extern CommunicationModule CM;
+extern CommunicationModule *CM;
 
 /**** ETC ****/
 extern Glib::RefPtr<Gtk::Builder> refBuilder;
