@@ -108,12 +108,6 @@ int get_widget_pointer(){
     refBuilder->get_widget("label_songlist_type", pLabel_songlist_type);
     refBuilder->get_widget("fixed_play", pFixed_play);
 
-    refBuilder->get_widget("btn_song_play", pButton_song_play);
-    refBuilder->get_widget("btn_song_delete", pButton_delete);
-    refBuilder->get_widget("btn_song_conversion", pButton_song_conversion);
-    refBuilder->get_widget("btn_record", pButton_record);
-    refBuilder->get_widget("btn_upload", pButton_upload);
-
     // Get play hit image
     refBuilder->get_widget("img_hit0", pImage_hit[0]);
     refBuilder->get_widget("img_hit1", pImage_hit[1]);
