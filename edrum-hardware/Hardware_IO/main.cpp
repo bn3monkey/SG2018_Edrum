@@ -13,10 +13,6 @@ int main()
 	IOTestModule pTest;
 	std::function<void()> container;
 	
-<<<<<<< HEAD
-	
-=======
->>>>>>> 3b4bda4a21b670190fd4dc07ecd6e056e662f734
 	// [&����ϴ� ��ü ������] () { ������ �������� �Լ�(); }
 	
 	container = [&pTest]() {pTest.up();};
