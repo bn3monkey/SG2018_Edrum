@@ -2,6 +2,8 @@
 #include "popup.hpp"
 
 static int get_song_selected_index();
+static void update_note();
+static void on_btn_hit_clicked(int idx);
 static void on_btn_notice_ok_clicked();
 static void on_button_clicked_in_signup();
 static void on_btn_song_play_clicked();
@@ -16,7 +18,7 @@ static void on_btn_song_delete_clicked();
 
 void register_event_handler()
 {
-    std::cout << std::endl << " *** Event Handler Register" << std::endl;
+    std::cout << std::endl << " *** Event Handler Register" << std::endl << std::endl;
 
     Gtk::Button *pButton = nullptr;
 
@@ -100,7 +102,147 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
-    std::cout << " *** All Event Handler Registered." << std::endl << std::endl;
+
+
+    /* Set event on play hit button - remove this block after hardware input */
+    {
+        std::cout << " > btn_hit..";
+        pButton_hit[0]->signal_clicked().connect(sigc::bind<int>(sigc::ptr_fun(on_btn_hit_clicked), 0));
+        pButton_hit[1]->signal_clicked().connect(sigc::bind<int>(sigc::ptr_fun(on_btn_hit_clicked), 1));
+        pButton_hit[2]->signal_clicked().connect(sigc::bind<int>(sigc::ptr_fun(on_btn_hit_clicked), 2));
+        pButton_hit[3]->signal_clicked().connect(sigc::bind<int>(sigc::ptr_fun(on_btn_hit_clicked), 3));
+        std::cout << " Done." << std::endl;
+    }
+    /*************************************************/
+
+
+    // Register custom signal - update note
+    std::cout << " > timer_update_note..";
+    signal_update_note().connect(sigc::ptr_fun(&update_note) );
+    std::cout << " Done." << std::endl;
+
+    std::cout << std::endl << " *** All Event Handler Registered." << std::endl << std::endl;
+}
+
+static void update_note(){
+    int dest_x = 0, dest_y = 0;
+    int src_x = 0, src_y = 0;
+    static uint64_t now_time = 0;
+    static uint64_t pre_time = 0;
+    static unsigned int delta_time = 0;
+    unsigned int delta_y = 0;
+
+    //mtx_lock_update_note.lock();
+
+    pre_time = now_time;
+    /// Critical ///
+    mtx_lock_timer.lock();
+    now_time = cur_time;
+    mtx_lock_timer.unlock();
+    ////////////////
+    if(pre_time == 0)
+        pre_time = now_time;
+    
+    // Get DELTA_TIME
+    delta_time += now_time - pre_time;
+
+    //mtx_lock_fixed_play.lock();
+    src_x = ((Gtk::Widget *)pFixed_play)->get_allocation().get_x();
+    //src_y = ((Gtk::Widget *)pFixed_play)->get_allocation().get_y();
+    src_y = ((Gtk::Widget *)pImage_hit[0])->get_allocation().get_y();
+    //mtx_lock_fixed_play.unlock();
+
+    if(delta_time > 15){
+        delta_y = delta_time;
+        delta_time = 0;
+        //mtx_lock_image_notes.lock();
+        for (unsigned int i = 0; i < Image_notes.size(); i++)
+        {
+            //dest_x = ((Gtk::Widget *)(Image_notes[i]->pImg))->get_allocation().get_x() - src_x;
+            dest_x = Image_notes[i]->note_idx * NOTE_IMG_SIZE;
+            //dest_y = ((Gtk::Widget *)(Image_notes[i]->pImg))->get_allocation().get_y() - src_y;
+            //dest_y -= delta_y;
+            dest_y = src_y - (int)(now_time - Image_notes[i]->gen_time);
+
+            if (dest_y < -NOTE_IMG_SIZE)
+            {
+                std::cout << "delete note_" << i << std::endl;
+                Image_notes[i]->pImg->hide();
+                delete Image_notes[i]->pImg;
+                delete Image_notes[i];
+                Image_notes.erase(Image_notes.begin() + i);
+                i--;
+                continue;
+            }
+
+            //mtx_lock_fixed_play.lock();
+            ((Gtk::Fixed *)pFixed_play)->move(*(Gtk::Widget *)(Image_notes[i]->pImg), dest_x, dest_y);
+            //mtx_lock_fixed_play.unlock();
+        }
+        //mtx_lock_image_notes.unlock();
+    }
+    //mtx_lock_update_note.unlock();
+}
+
+static void on_btn_hit_clicked(int idx){
+    int dest_x = 0, dest_y = 0;
+    int src_x = 0, src_y = 0;
+
+    std::cout << "btn_hit" << idx << " clicked." << std::endl;
+
+    //mtx_lock_fixed_play.lock();
+    src_x = ((Gtk::Widget *)pFixed_play)->get_allocation().get_x();
+    src_y = ((Gtk::Widget *)pFixed_play)->get_allocation().get_y();
+    //mtx_lock_fixed_play.unlock();
+
+    Gtk::Image *pImg = nullptr;
+    switch (idx)
+    {
+    case 0:
+        pImg = new Gtk::Image("resources/circle_resized/circle_green.png");
+        break;
+    case 1:
+        pImg = new Gtk::Image("resources/circle_resized/circle_orange.png");
+        break;
+    case 2:
+        pImg = new Gtk::Image("resources/circle_resized/circle_red.png");
+        break;
+    case 3:
+        pImg = new Gtk::Image("resources/circle_resized/circle_blue.png");
+        break;
+    default:
+        return;
+        break;
+    }
+
+    if (!pImg)
+    {
+        std::cerr << " *** Failed to generate new note!" << std::endl;
+        return;
+    }
+
+    dest_x = ((Gtk::Widget *)pImage_hit[idx])->get_allocation().get_x() - src_x;
+    dest_y = ((Gtk::Widget *)pImage_hit[idx])->get_allocation().get_y() - src_y;
+    std::cout << " # NEW Widget : " << dest_x << ", " << dest_y << std::endl;
+
+    //mtx_lock_fixed_play.lock();
+    ((Gtk::Fixed*)pFixed_play)->put(*(Gtk::Widget*)pImg, dest_x, dest_y);
+    ((Gtk::Fixed*)pFixed_play)->move(*(Gtk::Widget*)pImg, dest_x, dest_y);
+    //mtx_lock_fixed_play.unlock();
+    pImg->show();
+    
+    GAMENOTE *pGN = new GAMENOTE;
+    pGN->pImg = pImg;
+    mtx_lock_timer.lock();
+    pGN->gen_time = cur_time;
+    mtx_lock_timer.unlock();
+    pGN->note_idx = idx;
+    
+    //mtx_lock_image_notes.lock();
+    Image_notes.push_back(pGN);
+    //mtx_lock_image_notes.unlock();
+
+    while(Gtk::Main::events_pending()) Gtk::Main::iteration();
 }
 
 static void on_btn_notice_ok_clicked()
@@ -138,6 +280,7 @@ static void on_btn_song_play_clicked()
     str = "PLAY : " + pLabel_songlist_title[idx]->get_text();
 
     popup(str);
+    pStack_main->set_visible_child("page_play");
 }
 
 static void on_btn_login_clicked()
@@ -149,11 +292,29 @@ static void on_btn_login_clicked()
 
     std::cout << "ID : " << id << std::endl;
     std::cout << "PW : " << pw << std::endl;
+    std::cout << "===========================" << std::endl << std::endl;
 
     std::string str = "";
     str = "Welcome, " + id + "!";
 
-    if (id != "" && pw != "")
+    if(!CM.isinitialized()){
+        for(int i=0; i<5; i++){
+            if(CM.initialize())
+            {
+                std::cout << " > Server connected." << std::endl;
+                break;
+            }
+            else{
+                std::cerr << " > Failed to connect server. Retrying..." << i + 1 << std::endl;
+            }
+        }
+        if(!CM.isinitialized()){
+            popup("Failed to connect server.");
+            //return;
+        }
+    }
+    //if (CM.login(id, pw))
+    if(id != "" && pw != "")
     { /*LOGIN_SUCCESS*/
         pLabel_notice->set_text(str);
         std::cout << str << std::endl;
@@ -165,8 +326,6 @@ static void on_btn_login_clicked()
         std::cout << "Wrong Account!" << std::endl;
         popup("Wrong Account!");
     }
-
-    std::cout << "===========================" << std::endl << std::endl;
 }
 
 static void on_btn_songlist_page_back_clicked(){

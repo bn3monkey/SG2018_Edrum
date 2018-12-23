@@ -172,7 +172,7 @@
       <object class="GtkImage">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="pixbuf">converse-32.png</property>
+        <property name="pixbuf">resources/converse-32.png</property>
         <property name="icon_size">6</property>
       </object>
       <packing>
@@ -920,6 +920,7 @@
   </object>
   <object class="GtkWindow" id="window_main">
     <property name="visible">True</property>
+    <property name="app_paintable">True</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">ShareDrum_Client</property>
     <property name="resizable">False</property>
@@ -933,7 +934,7 @@
       <placeholder/>
     </child>
     <child>
-      <object class="GtkFixed">
+      <object class="GtkFixed" id="fixed_main">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="halign">center</property>
@@ -944,7 +945,7 @@
             <property name="height_request">1080</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="pixbuf">bg.png</property>
+            <property name="pixbuf">resources/bg.png</property>
           </object>
         </child>
         <child>
@@ -957,9 +958,195 @@
             <property name="transition_type">slide-left</property>
             <property name="interpolate_size">True</property>
             <child>
+              <object class="GtkBox" id="box_login">
+                <property name="height_request">900</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">10</property>
+                    <child>
+                      <object class="GtkImage" id="img_logo1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">100</property>
+                        <property name="margin_bottom">100</property>
+                        <property name="pixbuf">sharedrum_1024.png</property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFixed">
+                        <property name="height_request">32</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="box_login_field">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="spacing">10</property>
+                        <child>
+                          <object class="GtkFixed">
+                            <property name="width_request">32</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="box_login_textbox">
+                            <property name="width_request">300</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">5</property>
+                            <child>
+                              <object class="GtkEntry" id="entry_id">
+                                <property name="width_request">400</property>
+                                <property name="height_request">50</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="truncate_multiline">True</property>
+                                <property name="primary_icon_stock">gtk-edit</property>
+                                <property name="placeholder_text" translatable="yes">ID</property>
+                                <property name="input_purpose">alpha</property>
+                                <property name="input_hints">GTK_INPUT_HINT_NO_SPELLCHECK | GTK_INPUT_HINT_NONE</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="entry_pw">
+                                <property name="width_request">400</property>
+                                <property name="height_request">50</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="visibility">False</property>
+                                <property name="invisible_char">•</property>
+                                <property name="activates_default">True</property>
+                                <property name="truncate_multiline">True</property>
+                                <property name="primary_icon_stock">gtk-dialog-authentication</property>
+                                <property name="placeholder_text" translatable="yes">PW</property>
+                                <property name="input_purpose">password</property>
+                                <property name="input_hints">GTK_INPUT_HINT_NO_SPELLCHECK | GTK_INPUT_HINT_NONE</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="btn_login">
+                            <property name="label" translatable="yes">Login</property>
+                            <property name="width_request">100</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="can_default">True</property>
+                            <property name="has_default">True</property>
+                            <property name="receives_default">True</property>
+                            <signal name="clicked" handler="on_btn_login_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="btn_signup">
+                            <property name="label" translatable="yes">Sign _Up</property>
+                            <property name="width_request">100</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_underline">True</property>
+                            <signal name="clicked" handler="on_btn_signup_clicked" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFixed">
+                            <property name="width_request">32</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFixed">
+                        <property name="height_request">32</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="name">page_login</property>
+                <property name="title" translatable="yes">page_login</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkBox" id="box_songlist_online">
-                <property name="width_request">1920</property>
-                <property name="height_request">1080</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
@@ -1211,7 +1398,7 @@
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="pixbuf">converse-32.png</property>
+                                    <property name="pixbuf">resources/converse-32.png</property>
                                     <property name="icon_size">6</property>
                                   </object>
                                   <packing>
@@ -1265,6 +1452,7 @@
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
                     <property name="margin_right">210</property>
+                    <property name="margin_top">50</property>
                     <property name="spacing">50</property>
                     <child>
                       <object class="GtkButton" id="btn_songlist_page_back">
@@ -1335,60 +1523,34 @@
               <packing>
                 <property name="name">page_songlist_online</property>
                 <property name="title" translatable="yes">page_songlist_online</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="box_login">
-                <property name="width_request">1920</property>
-                <property name="height_request">1080</property>
+              <object class="GtkFixed" id="fixed_play">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="orientation">vertical</property>
+                <property name="valign">start</property>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkBox" id="box_play">
+                    <property name="width_request">100</property>
+                    <property name="height_request">80</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
-                    <property name="spacing">10</property>
                     <child>
-                      <object class="GtkImage" id="img_logo1">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_top">100</property>
-                        <property name="margin_bottom">100</property>
-                        <property name="pixbuf">sharedrum_1024.png</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkFixed">
-                        <property name="height_request">32</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkBox" id="box_login_field">
+                      <object class="GtkBox" id="box_lane">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">center</property>
-                        <property name="spacing">10</property>
+                        <property name="valign">start</property>
+                        <property name="margin_top">150</property>
                         <child>
-                          <object class="GtkFixed">
-                            <property name="width_request">32</property>
+                          <object class="GtkImage" id="img_play_lane">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/lane_600.png</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1397,51 +1559,10 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="box_login_textbox">
-                            <property name="width_request">300</property>
+                          <object class="GtkImage" id="img_play_lane1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="orientation">vertical</property>
-                            <property name="spacing">5</property>
-                            <child>
-                              <object class="GtkEntry" id="entry_id">
-                                <property name="width_request">400</property>
-                                <property name="height_request">50</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="truncate_multiline">True</property>
-                                <property name="primary_icon_stock">gtk-edit</property>
-                                <property name="placeholder_text" translatable="yes">ID</property>
-                                <property name="input_purpose">alpha</property>
-                                <property name="input_hints">GTK_INPUT_HINT_NO_SPELLCHECK | GTK_INPUT_HINT_NONE</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkEntry" id="entry_pw">
-                                <property name="width_request">400</property>
-                                <property name="height_request">50</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="visibility">False</property>
-                                <property name="invisible_char">•</property>
-                                <property name="activates_default">True</property>
-                                <property name="truncate_multiline">True</property>
-                                <property name="primary_icon_stock">gtk-dialog-authentication</property>
-                                <property name="placeholder_text" translatable="yes">PW</property>
-                                <property name="input_purpose">password</property>
-                                <property name="input_hints">GTK_INPUT_HINT_NO_SPELLCHECK | GTK_INPUT_HINT_NONE</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
+                            <property name="pixbuf">resources/lane_600.png</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1450,15 +1571,10 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton" id="btn_login">
-                            <property name="label" translatable="yes">Login</property>
-                            <property name="width_request">100</property>
+                          <object class="GtkImage" id="img_play_lane2">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="can_default">True</property>
-                            <property name="has_default">True</property>
-                            <property name="receives_default">True</property>
-                            <signal name="clicked" handler="on_btn_login_clicked" swapped="no"/>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/lane_600.png</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1467,14 +1583,10 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton" id="btn_signup">
-                            <property name="label" translatable="yes">Sign _Up</property>
-                            <property name="width_request">100</property>
+                          <object class="GtkImage" id="img_play_lane3">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="use_underline">True</property>
-                            <signal name="clicked" handler="on_btn_signup_clicked" swapped="no"/>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/lane_600.png</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1482,16 +1594,128 @@
                             <property name="position">3</property>
                           </packing>
                         </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="box_hit">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">center</property>
                         <child>
-                          <object class="GtkFixed">
-                            <property name="width_request">32</property>
+                          <object class="GtkImage" id="img_hit0">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/circle_resized/circle_gray.png</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
-                            <property name="position">4</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkImage" id="img_hit1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/circle_resized/circle_gray.png</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkImage" id="img_hit2">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/circle_resized/circle_gray.png</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkImage" id="img_hit3">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="pixbuf">resources/circle_resized/circle_gray.png</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="box_temp_delete_after">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <object class="GtkButton" id="btn_hit0">
+                            <property name="label" translatable="yes">button</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="btn_hit1">
+                            <property name="label" translatable="yes">button</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="btn_hit2">
+                            <property name="label" translatable="yes">button</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="btn_hit3">
+                            <property name="label" translatable="yes">button</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
                           </packing>
                         </child>
                       </object>
@@ -1501,30 +1725,13 @@
                         <property name="position">2</property>
                       </packing>
                     </child>
-                    <child>
-                      <object class="GtkFixed">
-                        <property name="height_request">32</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
               </object>
               <packing>
-                <property name="name">page_login</property>
-                <property name="title" translatable="yes">page_login</property>
-                <property name="position">1</property>
+                <property name="name">page_play</property>
+                <property name="title" translatable="yes">page_play</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
