@@ -1,6 +1,6 @@
 #include "popup.hpp"
 
-void popup(std::string str)
+void popup(std::string str, bool modal = false)
 {
     pLabel_notice->set_text(str);
 
@@ -10,12 +10,19 @@ void popup(std::string str)
 
         if (pDialog_notice)
         {
-            pDialog_notice->show();
+            if(modal)
+                pDialog_notice->run();
+            else
+                pDialog_notice->show();
         }
         else{
             std::cerr << " *** Failed to get NOTICE DIALOG!!" << std::endl;
         }
     }
-    else
-        pDialog_notice->show();
+    else{
+        if (modal)
+            pDialog_notice->run();
+        else
+            pDialog_notice->show();
+    }
 }

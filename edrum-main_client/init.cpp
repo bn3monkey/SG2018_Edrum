@@ -58,19 +58,23 @@ void update_songlist(SongList *SL, int page){
         pLabel_songlist_title[i]->set_text(std::string(pSD->name));
         pLabel_songlist_uploader[i]->set_text(std::string(pSD->ID));
         pLabel_songlist_artist[i]->set_text(std::string(pSD->artist));
-        pLabel_songlist_date[i]->set_text("2012-12-12"/*std::string(pSD->date)*/);
+        pLabel_songlist_date[i]->set_text(std::string(pSD->date));
     }
 
     pCurList = SL;
+    int mx_page = pCurList->getMaxpage();
 
-    std::string str = std::to_string(CurPage + 1) + " / " + std::to_string(pCurList->getMaxpage());
+    mx_page = mx_page < 0 ? 0 : mx_page;
+    CurPage = CurPage > mx_page - 1 ? mx_page - 1 : CurPage;
+
+    std::string str = std::to_string(CurPage + 1) + " / " + std::to_string(mx_page);
     pLabel_songlist_pagenum->set_text(str);
 }
 
 int get_widget_pointer(){
     refBuilder->get_widget("entry_pw", pEntry_pw);
     refBuilder->get_widget("entry_id", pEntry_id);
-    refBuilder->get_widget("box_login", pBox_login); 
+    refBuilder->get_widget("box_login", pBox_login);
     refBuilder->get_widget("list_song", pListBox_song);
     refBuilder->get_widget("stack_main", pStack_main);
     refBuilder->get_widget("label_notice", pLabel_notice);
