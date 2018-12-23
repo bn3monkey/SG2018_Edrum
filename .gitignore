@@ -13,3 +13,4 @@
 *.glade~
 *.o
 *.out
+*.so
