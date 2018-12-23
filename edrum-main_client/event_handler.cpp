@@ -182,7 +182,7 @@ static void update_note(){
                 NOTE_GAP++;
             NOTE_CNT = height / NOTE_GAP;
 
-            Note_img.set_from_resource("resources/circle_resized/circle_blue.png");
+            Note_img = new GTK::Image("resources/circle_resized/circle_blue.png");
             for (int i = 0; i <= NOTE_CNT; i++)
             {
                 Notes_img[i] = &Note_img;

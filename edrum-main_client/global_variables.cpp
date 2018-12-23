@@ -41,7 +41,7 @@ std::vector<GAMENOTE*> Notes_meta;//Image_notes;
 
 std::vector<Gtk::Image*> Notes_img;
 // new
-Gtk::Image Note_img;//Image_notes;
+Gtk::Image* Note_img;//Image_notes;
 
 std::vector<int> Notes_visible;
 Gtk::Image *pImage_hit[4] = {nullptr};
