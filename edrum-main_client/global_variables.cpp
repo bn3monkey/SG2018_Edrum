@@ -57,7 +57,7 @@ int CurPage = 0;
 CommunicationModule *CM;
 
 /**** Hardware IO ****/
-HardWare_IO HI;
+Hardware_IO HI;
 
 /**** ETC ****/
 Glib::RefPtr<Gtk::Builder> refBuilder;
