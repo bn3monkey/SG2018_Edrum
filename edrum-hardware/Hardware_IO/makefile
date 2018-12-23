@@ -4,7 +4,7 @@ TARGET = HardWare_IO
 LIBNAME = libHardWare_IO.so
 CFILE = main.cpp
 LIBFILE = Hardware_IO.cpp serial.cpp
-LIBPATH = /home/bn3monkey/edrum/Edrum/edrum-hardware/Hardware_IO
+LIBPATH = ../../edrum-hardware/Hardware_IO
 
 all :
 	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) $(LIBFILE) -lwiringPi

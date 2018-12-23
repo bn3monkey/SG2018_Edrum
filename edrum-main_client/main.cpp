@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    init_main_client(&RM, &pLocalList, &pServerList, &pMyList, &HI);
+    init_main_client(&RM, &pLocalList, &pServerList, &pMyList);
 
     //Get the GtkBuilder-instantiated Dialog:
     refBuilder->get_widget("window_main", pMainWindow);

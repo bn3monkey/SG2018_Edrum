@@ -1,5 +1,6 @@
 #include "event_handler.hpp"
 #include "popup.hpp"
+#include <functional>
 
 static int get_song_selected_index();
 static void update_note();
@@ -115,7 +116,7 @@ void register_event_handler()
     }
     /*************************************************/
     // Add hardWare input but not removed above paragraph
-    std::cout << " > btn_hit(hw).."
+    std::cout << " > btn_hit(hw)..";
     std::function<void()> container;
 	container = [&]() {on_btn_hit_clicked(0);};
 	Hardware_IO::registCallback(container, np_drum1);
