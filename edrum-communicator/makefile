@@ -16,4 +16,4 @@ libtest :
 	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) -Wl,-rpath,$(LIBPATH) -L$(LIBPATH) -lCommunicationModule -I/usr/include/python2.7 -lpython2.7
 	 
 clean :
-	sudo rm -f $(OBJS) $(TARGET)
+	sudo rm -f $(OBJS) $(TARGET) $(LIBNAME)
