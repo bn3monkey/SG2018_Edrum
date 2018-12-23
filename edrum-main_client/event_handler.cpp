@@ -222,6 +222,7 @@ static void update_note(){
                 //mtx_lock_fixed_play.lock();
 
             //std::cout<<"start update! - idx = "<<batch_idx<<std::endl;
+		if(batch_idx <= NOTE_CNT && Notes_img[batch_idx]->
                 Notes_img[batch_idx]->set_visible(true);
             //std::cout<<"push back!"<<std::endl;
                 Notes_visible.push_back(batch_idx);
