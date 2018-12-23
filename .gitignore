@@ -5,8 +5,15 @@
 /edrum-server/edrum_server/settings.py
 /edrum-server/edrum_server/edrum_server_app/migrations/
 /edrum-server/edrum_server/edrum_server_app/__pycache__
+/edrum-main_client/.vscode/
 *.txt
 *.json
 *.glade~
 *.o
 *.out
+*.so
+*.pyc
+*.sdd
+*.cpython-35.pyc
+sharedrum
+.gitignore

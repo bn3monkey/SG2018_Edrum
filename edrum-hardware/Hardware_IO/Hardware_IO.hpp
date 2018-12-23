@@ -8,52 +8,52 @@
 #include <iostream>
 #include "serial.hpp"
 
-//SingleTone class이다.
+// SingleTon class to hardware_io.
+// you can register callback function to hardware_IO
 class Hardware_IO
 {
-	//Callback function을 저장하고 있는 함수 포인터 배열
+	//Callback function array
 	std::function<void()> callbacks[np_num];
 	std::mutex callback_lock;
 
-	// hardware에서 받아오는 input들을 보관
+	// input queue to store hardware input
 	std::queue<NoteData> input_queue;
-	// input_queue에서 push, pop할 때 원자성을 보장해주는 동기화 객체
 	std::mutex queue_lock;
 	
-	// thread를 받는다.
-	std::thread* in_thread;
-	std::thread* out_thread;
-
 	static Hardware_IO* instance;
 
-	// queue로 입력을 받는 메소드
+	// thread to push hardware input 
+	std::thread* in_thread;
 	static void in();
 	bool in_flag;
 
-	// queue로 callback을 수행하는 메소드
+	// thread to execute callback function
+	std::thread* out_thread;
 	static void out();
 	bool out_flag;
 
+	// class instance to read serial input and output
 	Serial_io* io;
 
 public:
 	Hardware_IO() { in_flag = false; out_flag = false; }
 	~Hardware_IO() {}
 	
-	// Singletone으로 선언된 instance를 가져온다.
-	// Hardware IO를 !!!반드시!!! 초기화 후 사용한다.
+	// get singleton instance
+	// You 'must' execute initialize() function before using getInstance() function 
 	static Hardware_IO* getInstance()
 	{
 		return instance;
 	}
 
-	// Hardware_IO를 초기화한다. input을 받을 수 있도록 thread를 킥해준다.
+	// initialize hardware_io instance. kick threads
 	static bool initialize();
-	// Hardware_IO를 정리한다. thread를 join해준다.
+	// destroy hardware_io instance join threads.
 	static void destroy();
 	
-	// callback을 등록한다.
+	// register callback.
 	static bool registCallback(std::function<void()> callback, NoteProtocol np);
+	// get arduino clock and initialize arduino clock.
 	static bool get_clock();
 };
 

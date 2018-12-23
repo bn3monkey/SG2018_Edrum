@@ -14,8 +14,10 @@
 
 #include "NoteData.hpp"
 
+// flag to iterate serial flag
 extern bool continue_flag;
 
+//The buffer object
 class Serial_buffer
 {
 private:
@@ -67,54 +69,66 @@ public:
 
 class Serial_io
 {
+    // the instance of serial buffer
     Serial_buffer* buff;
+    // the file description of serial device
     int serial_fd;
 
+    // the thread to excute thread_readSerial
     std::thread pthread;
-    //Serial에서 지속적으로 문자열을 받는 Serial을 만든다.
+    // the method to read string from serial port
     static void thread_readSerial(int fd);
 
     public:
     Serial_io()
     {
     	continue_flag = true;
+        // make buffer
         buff = new Serial_buffer(100);
-        //Serial port 연다.
+        // open serial port (it can be only activated in linux OS)
         if ((serial_fd = serialOpen ("/dev/ttyACM0", 115200)) < 0)  // 두번째 인자값이 보레이트 설정
         {
             fprintf (stderr, "Unable to open serial device : %s\n",strerror(errno)) ;                   
             exit(-1);
         }
+        // activate wiring Pi library.
         if (wiringPiSetup() == -1)
         { 
             fprintf (stdout, "Unable to start wiringPi : %s\n", strerror(errno)) ;
             exit(-1);
         }
-	serialFlush(serial_fd);
+        // flush data in serial port
+	    serialFlush(serial_fd);
+        // kick thread to read serial
         pthread = std::thread(thread_readSerial, serial_fd);
     }
     ~Serial_io()
     {
-	continue_flag = false;
+        // end thread
+	    continue_flag = false;
+        // join thread
         pthread.join();
-	serialFlush(serial_fd);
-	serialClose(serial_fd);
+        // flush data in serial port
+	    serialFlush(serial_fd);
+        // close serial port
+	    serialClose(serial_fd);
+        // delete buffer
         if(buff != NULL)
             delete buff;
     }
 
 
-    //Serial에서 Protocol을 완성하는 문자열을 받을 떄까지 낱개 문자를 받는다.
+    // read string from serial port and store in serial buffer
     int readSerial();
-    //Serial에서 받은 문자열을 parameter로 넘어온 note 정보에 저장한다.
+    // make pnote from serial buffer
     int setSerial(NoteData* pnote);
-    //Send one byte character to Serial
+    // Send one byte character to Serial
     int putSerial(char buf); 
-    //Serial에서 문자열을 보낸다.
+    // send string to serial
     int writeSerial(char* buf);
-    //Serial에서 note를 보낸다.
+    // send note to serial
     int writeNote(NoteData note);
-    //Serial에서 받아온 버퍼를 비운다.
+    // clean serial buffer
     int cleanSerial();
 };
 
