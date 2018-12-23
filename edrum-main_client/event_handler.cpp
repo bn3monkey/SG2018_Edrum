@@ -114,6 +114,12 @@ void register_event_handler()
         std::cout << " Done." << std::endl;
     }
     /*************************************************/
+    // Add hardWare input but not removed above paragraph
+    std::cout << " > btn_hit(hw).."
+    std::function<void()> container;
+	container = [&]() {on_btn_hit_clicked(0);};
+	Hardware_IO::registCallback(container, np_drum1);
+    std::cout << "Done." << std::endl;
 
 
     // Register custom signal - update note

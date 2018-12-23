@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    init_main_client(&RM, &pLocalList, &pServerList, &pMyList);
+    init_main_client(&RM, &pLocalList, &pServerList, &pMyList, &HI);
 
     //Get the GtkBuilder-instantiated Dialog:
     refBuilder->get_widget("window_main", pMainWindow);
@@ -65,6 +65,7 @@ int main(int argc, char *argv[])
         delete Notes_img[i];
         delete Notes_meta[i];
     }
-
+    //Hardware Module destroy
+    Hardware_IO::destroy();
     return 0;
 }

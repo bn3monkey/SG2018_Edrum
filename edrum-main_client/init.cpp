@@ -22,6 +22,13 @@ void init_main_client(ResourceManager *pRM, LocalList **LL, ServerList **SL, MyL
         *ML = pRM->getMylist();
 
         update_songlist(*LL, 0);
+
+        //Hardware Module initialization
+        if(!Hardware_IO::initialize())
+        {
+            std::cerr << " *** Hardware IO FAILED!!" << std::endl;
+            exit(0);
+        }
     }
 
     pThread_timer = nullptr;
