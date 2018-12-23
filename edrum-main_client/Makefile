@@ -32,7 +32,7 @@ all: $(OBJS)
 
 hw: $(OBJS)
 	@echo " > Try Build.."
-	@$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) `pkg-config gtkmm-3.0 --cflags --libs` -Wl,-rpath,$(LIB_RM_PATH) -L$(LIB_RM_PATH) -lResourceManager -Wl,-rpath,$(LIB_CM_PATH) -L$(LIB_CM_PATH) -lCommunicationModule -lpython2.7 -Wl,-rpath,$(LIB_HW_PATH) -L$(LIB_HW+PATH) -lHardWare_IO -lwiringPi
+	@$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) `pkg-config gtkmm-3.0 --cflags --libs` -Wl,-rpath,$(LIB_RM_PATH) -L$(LIB_RM_PATH) -lResourceManager -Wl,-rpath,$(LIB_CM_PATH) -L$(LIB_CM_PATH) -lCommunicationModule -lpython2.7 -Wl,-rpath,$(LIB_HW_PATH) -L$(LIB_HW_PATH) -lHardWare_IO -lwiringPi
 	@echo " Done."
 
 

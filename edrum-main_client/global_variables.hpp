@@ -6,7 +6,7 @@
 #include <mutex>
 #include "../edrum-resource_manager/ResourceManager.hpp"
 #include "../edrum-communicator/CommunicationModule.hpp"
-#include "../edrum-hardwware/HardWare_IO/HardWare_IO.hpp"
+#include "../edrum-hardware/Hardware_IO/Hardware_IO.hpp"
 
 #define SONGLIST_SIZE 5
 #define NOTE_IMG_SIZE 172
@@ -77,7 +77,7 @@ extern int CurPage;
 extern CommunicationModule *CM;
 
 /**** Hardware IO ****/
-extern HardWare_IO HI;
+extern Hardware_IO HI;
 
 /**** ETC ****/
 extern Glib::RefPtr<Gtk::Builder> refBuilder;
