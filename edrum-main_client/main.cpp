@@ -41,7 +41,6 @@ int main(int argc, char *argv[])
         register_event_handler();
         //gtk_widget_set_size_request(GTK_WIDGET(pMainWindow), 1920, 1080);
         //gtk_window_fullscreen((GtkWindow*)pMainWindow);
-
         pMainWindow->fullscreen();
         pMainWindow->grab_focus();
         app->run(*pMainWindow);

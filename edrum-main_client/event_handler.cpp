@@ -2,19 +2,26 @@
 #include "popup.hpp"
 
 static int get_song_selected_index();
-static void update_note();
-static void on_btn_hit_clicked(int idx);
+
 static void on_btn_notice_ok_clicked();
-static void on_button_clicked_in_signup();
-static void on_btn_song_play_clicked();
 static void on_btn_login_clicked();
 static void on_btn_signup_clicked();
+static void on_btn_song_play_clicked();
 static void on_btn_songlist_page_back_clicked();
 static void on_btn_songlist_page_next_clicked();
-static void on_btn_home_clicked();
 static void on_btn_mypage_clicked();
+static void on_btn_home_clicked();
 static void on_btn_song_conversion_clicked();
 static void on_btn_song_delete_clicked();
+static void update_note();
+
+//my list button handler
+static void on_btn_stop_clicked();
+static void on_btn_record_clicked();
+static void on_btn_upload_clicked();
+
+static void on_btn_hit_clicked(int idx);
+static void on_button_clicked_in_signup();
 
 void register_event_handler()
 {
@@ -22,6 +29,44 @@ void register_event_handler()
 
     Gtk::Button *pButton = nullptr;
 
+    //////////////////////////////////////////
+    ///////////////* handler *////////////////
+    //////////////////////////////////////////
+    //////////////////////////
+    /*seob's additional code*/
+    //////////////////////////
+
+    //stop
+    std::cout << " > btn_stop..";
+    refBuilder->get_widget("btn_stop", pButton);
+    if (pButton)
+    {
+        pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_stop_clicked));
+    }
+    std::cout << " Done." << std::endl;
+
+    //record
+    std::cout << " > btn_record..";
+    refBuilder->get_widget("btn_record", pButton);
+    if (pButton)
+    {
+        pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_record_clicked));
+    }
+    std::cout << " Done." << std::endl;
+
+    //upload
+    std::cout << " > btn_upload..";
+    refBuilder->get_widget("btn_upload", pButton);
+    if (pButton)
+    {
+        pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_upload_clicked));
+    }
+    std::cout << " Done." << std::endl;
+    //////////////////////////////
+    /*End seob's additional code*/
+    //////////////////////////////
+
+    //notice_ok
     std::cout << " > btn_notice_ok..";
     refBuilder->get_widget("btn_notice_ok", pButton);
     if (pButton)
@@ -30,6 +75,7 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
+    //login
     std::cout << " > btn_login..";
     refBuilder->get_widget("btn_login", pButton);
     if (pButton)
@@ -38,6 +84,7 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
+    //signup
     std::cout << " > btn_signup..";
     refBuilder->get_widget("btn_signup", pButton);
     if (pButton)
@@ -46,6 +93,7 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
+    //song play
     std::cout << " > btn_song_play..";
     refBuilder->get_widget("btn_song_play", pButton);
     if (pButton)
@@ -54,6 +102,7 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
+    //page back
     std::cout << " > btn_songlist_page_back..";
     refBuilder->get_widget("btn_songlist_page_back", pButton);
     if (pButton)
@@ -62,6 +111,7 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
+    //songlist page back
     std::cout << " > btn_songlist_page_next..";
     refBuilder->get_widget("btn_songlist_page_next", pButton);
     if (pButton)
@@ -70,6 +120,7 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
+    //my page
     std::cout << " > btn_mypage..";
     refBuilder->get_widget("btn_mypage", pButton);
     if (pButton)
@@ -78,6 +129,7 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
+    //home
     std::cout << " > btn_home..";
     refBuilder->get_widget("btn_home", pButton);
     if (pButton)
@@ -86,6 +138,7 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
+    //song conversion
     std::cout << " > btn_song_conversion..";
     refBuilder->get_widget("btn_song_conversion", pButton);
     if (pButton)
@@ -94,6 +147,7 @@ void register_event_handler()
     }
     std::cout << " Done." << std::endl;
 
+    //song delete
     std::cout << " > btn_song_delete..";
     refBuilder->get_widget("btn_song_delete", pButton);
     if (pButton)
@@ -101,8 +155,6 @@ void register_event_handler()
         pButton->signal_clicked().connect(sigc::ptr_fun(on_btn_song_delete_clicked));
     }
     std::cout << " Done." << std::endl;
-
-
 
     /* Set event on play hit button - remove this block after hardware input */
     {
@@ -115,12 +167,11 @@ void register_event_handler()
     }
     /*************************************************/
 
-
     // Register custom signal - update note
     std::cout << " > timer_update_note..";
     signal_update_note().connect(sigc::ptr_fun(&update_note) );
     std::cout << " Done." << std::endl;
-
+    
     std::cout << std::endl << " *** All Event Handler Registered." << std::endl << std::endl;
 }
 
@@ -162,22 +213,22 @@ static void update_note(){
             dest_x = Image_notes[i]->note_idx * NOTE_IMG_SIZE;
             //dest_y = ((Gtk::Widget *)(Image_notes[i]->pImg))->get_allocation().get_y() - src_y;
             //dest_y -= delta_y;
-            dest_y = src_y - (int)(now_time - Image_notes[i]->gen_time);
-
-            if (dest_y < -NOTE_IMG_SIZE)
+            
+            dest_y = src_y - 1000*(int)(now_time - Image_notes[i]->gen_time);
+            //if (dest_y < -NOTE_IMG_SIZE)
+            if (dest_y < NOTE_IMG_SIZE)
             {
                 std::cout << "delete note_" << i << std::endl;
                 Image_notes[i]->pImg->hide();
-                delete Image_notes[i]->pImg;
+                delete Image_notes[i]->pImg; 
                 delete Image_notes[i];
                 Image_notes.erase(Image_notes.begin() + i);
                 i--;
                 continue;
             }
-
-            //mtx_lock_fixed_play.lock();
+            mtx_lock_fixed_play.lock();
             ((Gtk::Fixed *)pFixed_play)->move(*(Gtk::Widget *)(Image_notes[i]->pImg), dest_x, dest_y);
-            //mtx_lock_fixed_play.unlock();
+            mtx_lock_fixed_play.unlock();
         }
         //mtx_lock_image_notes.unlock();
     }
@@ -397,6 +448,16 @@ static void on_btn_login_clicked()
         pLabel_notice->set_text(str);
         std::cout << str << std::endl;
         pStack_main->set_visible_child("page_songlist_online");
+        if(pButton_delete)
+            pButton_delete->show();
+        if(pButton_record)
+            pButton_record->hide();
+        if(pButton_song_conversion)
+            pButton_song_conversion->show();
+        if(pButton_song_play)
+            pButton_song_play->show();
+        if(pButton_upload)
+            pButton_upload->hide();
     }
     else
     {
@@ -428,13 +489,34 @@ static void on_btn_songlist_page_next_clicked(){
 static void on_btn_home_clicked(){
     if(pCurList == pServerList || pCurList == pLocalList)
         return;
-    else
+    else{
         update_songlist(pServerList, 0);
+        if(pButton_delete)
+            pButton_delete->show();
+        if(pButton_record)
+            pButton_record->hide();
+        if(pButton_song_conversion)
+            pButton_song_conversion->show();
+        if(pButton_song_play)
+            pButton_song_play->show();
+        if(pButton_upload)
+            pButton_upload->hide();
+    }
 }
 
 static void on_btn_mypage_clicked(){
     if(pCurList != pMyList)
         update_songlist(pMyList, 0);
+    if(pButton_delete)
+        pButton_delete->show();
+    if(pButton_record)
+        pButton_record->show();
+    if(pButton_song_conversion)
+        pButton_song_conversion->hide();
+    if(pButton_song_play)
+        pButton_song_play->hide();
+    if(pButton_upload)
+        pButton_upload->show();
 }
 
 static void on_btn_song_conversion_clicked(){
@@ -512,4 +594,16 @@ static void on_btn_signup_clicked()
     //pBox_login->hide();
 
     std::cout << "dialog created" << std::endl;
+}
+
+static void on_btn_stop_clicked(){
+    pStack_main->set_visible_child("page_songlist_online");
+}
+static void on_btn_record_clicked(){
+    std::string str = "Record";
+    popup(str);
+    pStack_main->set_visible_child("page_play");
+}
+static void on_btn_upload_clicked(){
+
 }
