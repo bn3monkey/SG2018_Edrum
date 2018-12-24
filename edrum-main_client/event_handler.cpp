@@ -192,10 +192,11 @@ static void update_note(){
             std::cout << " > NOTE_GAP : " << NOTE_GAP << std::endl;
             std::cout << " > NOTE_CNT : " << NOTE_CNT << std::endl;
         }
-        while(!Notes_visible.empty()){
+        while(!Notes_visible.empty())
+	{
             //std::cout<<"clean update!"<<std::endl;
-            Notes_img[Notes_visible.front()]->set_visible(false);
-            Notes_visible.pop_front();
+            Notes_img[Notes_visible.back()]->set_visible(false);
+            Notes_visible.pop_back();
         }
 
         //std::cout<<"start update!"<<std::endl;
@@ -217,17 +218,18 @@ static void update_note(){
                     continue;
                 }
 
-            batch_idx = (dest_y + NOTE_IMG_SIZE) / NOTE_GAP;
+          	  batch_idx = (dest_y + NOTE_IMG_SIZE) / NOTE_GAP;
                 //mtx_lock_fixed_play.lock();
 
             //std::cout<<"start update! - idx = "<<batch_idx<<std::endl;
-            if(batch_idx < NOTE_CNT && !Notes_img[batch_idx]->get_visible())
-            {
-                Notes_img[batch_idx]->set_visible(true);
-            //std::cout<<"push back!"<<std::endl;
-                Notes_visible.push_back(batch_idx);
-                //mtx_lock_fixed_play.unlock();
-            }
+          	  if(batch_idx < NOTE_CNT && !Notes_img[batch_idx]->get_visible())
+          	  {
+          	      Notes_img[batch_idx]->set_visible(true);
+          	  //std::cout<<"push back!"<<std::endl;
+          	      Notes_visible.push_back(batch_idx);
+          	      //mtx_lock_fixed_play.unlock();
+          	  }
+	    }
         }
 
         //remove old notes
@@ -238,7 +240,8 @@ static void update_note(){
     mtx_lock_update_note.unlock();
 }
 
-static void on_btn_hit_clicked(int idx){
+static void on_btn_hit_clicked(int idx)
+{
     int dest_x = 0, dest_y = 0;
     int notes_vector_idx = 0;
 
