@@ -3,30 +3,21 @@ CFLAGS = -std=gnu++11 -pthread -W -Wall
 TARGET = Integrate
 
 LIB1NAME = libHardWare_IO.so
-LIB2NAME = libResourceManager.so
-#LIB3NAME = libIntegrate.so
+LIB2NAME = libCommunicationModule.so
+LIB3NAME = libResourceManager.so
 
 CFILE = main.cpp
 
-LIB1_PATH = /home/bn3monkey/edrum/Edrum/edrum-hardware/Hardware_IO
-<<<<<<< HEAD
-LIB2_PATH = ../edrum-resource_manager
-=======
-LIB2_PATH = /home/bn3monkey/edrum/Edrum/edrum-resource_manager
->>>>>>> 3b4bda4a21b670190fd4dc07ecd6e056e662f734
-#LIB3_PATH = /home/bn3monkey/edrum/Edrum/edrum-integrate
+LIB_HW_PATH = ../edrum-hardware/Hardware_IO
+LIB_CM_PATH = ../edrum-communicator
+LIB_RM_PATH = ../edrum-resource_manager
+
 
 all :
 	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) $(LIBFILE) -lwiringPi
 
-<<<<<<< HEAD
-rm :
-	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) -Wl,-rpath,$(LIB2_PATH) -L$(LIB2_PATH) -lResourceManager -I/usr/include/python2.7 -lpython2.7
-
-=======
->>>>>>> 3b4bda4a21b670190fd4dc07ecd6e056e662f734
 integrate :
-	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) -Wl,-rpath,$(LIB1_PATH) -Wl,-rpath,$(LIB2_PATH) -L$(LIB1_PATH) -L$(LIB2_PATH) -lHardWare_IO -lResourceManager -lwiringPi
+	$(CC) $(CFLAGS) -o $(TARGET) $(CFILE) -Wl,-rpath,$(LIB_RM_PATH) -L$(LIB_RM_PATH) -lResourceManager -Wl,-rpath,$(LIB_CM_PATH) -L$(LIB_CM_PATH) -lCommunicationModule -lpython2.7 -Wl,-rpath,$(LIB_HW_PATH) -L$(LIB_HW_PATH) -lHardWare_IO -lwiringPi
 	 
 clean :
 	sudo rm -f $(OBJS) $(TARGET)
